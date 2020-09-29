@@ -1,5 +1,5 @@
 <resources>
-    <string name="ToosaFinder">My Application</string>
+    <string name="app_name">Toosa Finder</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
