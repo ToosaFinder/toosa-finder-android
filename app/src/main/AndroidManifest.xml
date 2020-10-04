@@ -19,6 +19,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.toosafinder.emailVerification.emailVerificationActivity"
+            android:label="Toosa Finder" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            <!-- Вопрос с http ссылкой, которую кидает на почту пользователю :
+             будет ли она такой же как в задаче-->
+                <data android:scheme="http"
+                    android:host="148.156.512.1"
+                    android:pathPrefix="/user/confirmEmail" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
