@@ -9,8 +9,6 @@ class EmailConfirmationActivity : AppCompatActivity() {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-
-        //вот тут нужен какой-то фон, надо узнать у пацанов
         setContentView(R.layout.activity_login)
 
         //val action: String? = intent?.action
@@ -18,6 +16,8 @@ class EmailConfirmationActivity : AppCompatActivity() {
         //Надо придумать как обрабатывать
         val data: Uri = intent?.data!!
         val emailToken: String = parseData(data)
+
+        intent.putExtra("emailToken" , emailToken)
 
     }
 
