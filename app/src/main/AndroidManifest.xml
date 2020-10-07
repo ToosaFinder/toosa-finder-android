@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.toosafinder.emailVerification.emailVerificationActivity"
+            android:name="com.toosafinder.emailConfirmation.EmailConfirmationActivity"
             android:label="Toosa Finder" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
