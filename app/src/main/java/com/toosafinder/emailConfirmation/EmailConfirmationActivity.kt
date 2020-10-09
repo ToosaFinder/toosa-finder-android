@@ -14,8 +14,8 @@ class EmailConfirmationActivity : AppCompatActivity() {
         //val action: String? = intent?.action
 
         //Надо придумать как обрабатывать
-        val data: Uri = intent?.data!!
-        val emailToken: String = parseData(data)
+        val data: Uri? = intent?.data
+        val emailToken: String? = parseData(data)
 
         intent.putExtra("emailToken" , emailToken)
 
@@ -27,7 +27,7 @@ class EmailConfirmationActivity : AppCompatActivity() {
 //        is UuidFromUrl.ValidUuid -> uuidFromUri.data.lastPathSegment!!
 //        is UuidFromUrl.InvalidUuid -> getString(uuidFromUri.error)
 //    }
-    private fun parseData(data: Uri): String {
-            return data.lastPathSegment!!
+    private fun parseData(data: Uri?): String? {
+            return data?.lastPathSegment
     }
 }
