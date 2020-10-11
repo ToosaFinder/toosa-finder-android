@@ -4,6 +4,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
 }
+
 apply {
     plugin("kotlin-android")
 }
@@ -37,6 +38,7 @@ dependencies {
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+//    implementation("toosafinder:api-model-jvm:0.0.1")
 
     implementation("androidx.core:core-ktx:1.3.1")
     implementation("androidx.appcompat:appcompat:1.2.0")

@@ -1,15 +1,17 @@
 package com.toosafinder.restorePassword
 
+import retrofit2.Call
 import retrofit2.http.POST
 
 interface RestorePasswordDataSource {
     companion object {
-        val URL : String = "/user/resetPassword"
+        const val restoreURL : String = "/user/resetPassword"
+//        const val registerURL : String = "/user/setPassword"
     }
 
-    @POST
-    fun restorePassword(email : String)
+    @POST(restoreURL)
+    fun  restorePassword(email : String) : Call<Void>
 
-    @POST
-    fun registerPassword(emailToken : String, password : String)
+//    @POST(registerURL)
+//    fun registerPassword(emailToken : String, password : String) : Call<Void>
 }
