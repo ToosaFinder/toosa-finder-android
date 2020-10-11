@@ -28,7 +28,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: debug-apks
+          tag_name: v0.${{ github.run_number }}-debug
           release_name: Debug release v0.${{ github.run_number }}-debug
           prerelease: true
       - name: Upload APK
