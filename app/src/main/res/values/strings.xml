@@ -14,4 +14,6 @@
     <string name="placeholder_password">Type your password</string>
     <string name="placeholder_repeat_password">Repeat your password</string>
     <string name="placeholder_email">Type your email</string>
+    <string name="button_continue">Continue</string>
+    <string name="check_email_text">We send a password restoration link. Check your email</string>
 </resources>

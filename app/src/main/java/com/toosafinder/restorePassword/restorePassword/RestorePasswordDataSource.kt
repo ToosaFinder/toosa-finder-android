@@ -1,4 +1,4 @@
-package com.toosafinder.restorePassword
+package com.toosafinder.restorePassword.restorePassword
 
 import retrofit2.Call
 import retrofit2.http.POST

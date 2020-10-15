@@ -19,7 +19,7 @@ class LoginDataSource {
              * Не уверен пока в необходимости слоя DataSource в нашем случае.
              */
             delay(timeMillis = 3000)
-            val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe", "123")
+            val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
             return Result.Success(fakeUser)
         } catch (e: Throwable) {
             return Result.Error(IOException("Error logging in", e))

@@ -1,4 +1,4 @@
-package com.toosafinder.restorePassword
+package com.toosafinder.restorePassword.restorePassword
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +21,7 @@ class RestorePasswordActivity : AppCompatActivity(){
         resorePasswordViewModel = getViewModel()
 
         buttonDone.setOnClickListener { _ ->
-            re
+
         }
 
 
