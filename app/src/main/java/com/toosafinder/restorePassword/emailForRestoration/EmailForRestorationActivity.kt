@@ -3,6 +3,8 @@ package com.toosafinder.restorePassword.emailForRestoration
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.toosafinder.R
 import com.toosafinder.login.LoginViewModel
@@ -21,6 +23,9 @@ class EmailForRestorationActivity :  AppCompatActivity(){
 
         setContentView(R.layout.email_for_restoration)
 
+        val textFieldEmail = findViewById<EditText>(R.id.textFieldEmail)
+        val buttonContinue = findViewById<Button>(R.id.buttonContinue)
+
         val email = textFieldEmail.text
 
         emailForRestorationViewModel = getViewModel()
@@ -28,12 +33,11 @@ class EmailForRestorationActivity :  AppCompatActivity(){
         /*
         мб нужно добавить проверки на модел вью какие-то
          */
-        //нужно вынести эту функцию в отдельный пакет, типо утилиты
         //TODO email validation
         textFieldEmail.apply{
             afterTextChanged{ email.toString() }
 
-            buttonContinue.setOnClickListener{
+            buttonContinue.setOnClickListener{ _ ->
                 emailForRestorationViewModel.sendEmail(email.toString())
                 textFieldEmail.visibility = View.INVISIBLE
                 buttonContinue.visibility = View.INVISIBLE

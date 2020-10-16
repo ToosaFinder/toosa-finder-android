@@ -12,13 +12,13 @@ class RestorePasswordRepository {
     private val restorePasswordDataSource: RestorePasswordDataSource = retrofit.create(
         RestorePasswordDataSource::class.java)
 
-    fun restorePassword (email : String) : Unit{
-        val call : Call<Void> = restorePasswordDataSource.restorePassword(email)
-        return call.enqueue(DefaultCallBack<Void>())
-    }
-
-//    fun registerPassword(emailToken : String, password : String) : Unit {
-//        val call : Call<Void> =  restorePasswordDataSource.registerPassword(emailToken, password)
+//    fun restorePassword (email : String) : Unit{
+//        val call : Call<Void> = restorePasswordDataSource.restorePassword(email)
 //        return call.enqueue(DefaultCallBack<Void>())
 //    }
+
+    fun registerPassword(emailToken : String, password : String) : Unit {
+        val call : Call<Void> =  restorePasswordDataSource.registerPassword(emailToken, password)
+        return call.enqueue(DefaultCallBack<Void>())
+    }
 }
