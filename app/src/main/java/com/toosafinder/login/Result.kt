@@ -1,4 +1,4 @@
-package com.toosafinder.data
+package com.toosafinder.login
 
 /**
  * A generic class that holds a value with its loading status.
