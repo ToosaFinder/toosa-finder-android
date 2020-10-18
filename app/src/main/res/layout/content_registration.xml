@@ -133,15 +133,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/promptPasswordConfirmation" />
 
-    <CheckBox
-        android:id="@+id/checkBoxAgree"
+    <TextView
+        android:id="@+id/textErrorMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:checked="false"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorError"
+        android:textSize="@dimen/font_size_normal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textFieldPasswordConfirmation" />
 
@@ -159,25 +159,21 @@
         android:textColorLink="@color/colorAccent"
         android:textSize="@dimen/font_size_normal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/checkBoxAgree"
-        app:layout_constraintTop_toBottomOf="@+id/textFieldPasswordConfirmation" />
+        app:layout_constraintTop_toBottomOf="@+id/textErrorMessage" />
 
-    <Button
-        android:id="@+id/buttonContinue"
-        android:layout_width="0dp"
+    <CheckBox
+        android:id="@+id/checkBoxAgree"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:background="@color/colorAccent"
-        android:text="@string/prompt_continue"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/font_size_normal"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:checked="false"
+        android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/promptAgreement" />
+        app:layout_constraintTop_toBottomOf="@+id/textErrorMessage" />
 
     <TextView
         android:id="@+id/promptAccountQuestion"
@@ -193,7 +189,27 @@
         android:textSize="@dimen/font_size_normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.518"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonContinue" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonContinue"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/buttonContinue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:text="@string/prompt_continue"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/font_size_normal"
+        android:theme="@style/AccentButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/promptAgreement" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

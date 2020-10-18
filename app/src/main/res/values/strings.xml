@@ -21,7 +21,10 @@
     <string name="account_question">Have an Account? <a href="vk.com">&action_sign_in_short;</a></string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="invalid_password_short">Password must be >5 characters</string>
+    <string name="invalid_password_unequal">Passwords must be equal</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="all_valid"></string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_registration">Registration</string>
 </resources>
