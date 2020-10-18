@@ -9,5 +9,5 @@ interface EmailConfirmationDataSource {
     }
 
     @GET(URL)
-    fun checkEmailToken(emailToken : String) : Call<Boolean>
+    fun checkEmailToken(emailToken : String) : Call<String>
 }

@@ -1,6 +1,7 @@
 package com.toosafinder.emailConfirmation
 
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -11,8 +12,8 @@ class EmailConfirmationRepository {
     private val emailConfirmationDataSource: EmailConfirmationDataSource = retrofit.create(
         EmailConfirmationDataSource::class.java)
 
-    suspend fun checkEmailToken(emailToken : String) : Boolean {
-        val call : Call<Boolean> = emailConfirmationDataSource.checkEmailToken(emailToken)
-        return call.
+    suspend fun checkEmailToken(emailToken : String) : Response<String> {
+        val call : Call<String> = emailConfirmationDataSource.checkEmailToken(emailToken)
+        return call.execute()
     }
 }
