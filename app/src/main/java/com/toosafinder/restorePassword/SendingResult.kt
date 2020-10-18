@@ -1,7 +1,5 @@
 package com.toosafinder.restorePassword
 
-import com.toosafinder.login.LoggedInUserView
-import com.toosafinder.login.LoginResult
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationView
 
 sealed class SendingResult {

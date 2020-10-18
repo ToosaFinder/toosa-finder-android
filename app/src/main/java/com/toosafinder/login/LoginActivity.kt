@@ -40,13 +40,11 @@ class LoginActivity : AppCompatActivity() {
         }
 
         loginViewModel.loginResult.observe(this@LoginActivity) { loginResult ->
+            loading.visibility = View.INVISIBLE
             when(loginResult){
                 is LoginResult.Success -> updateUiWithUser(loginResult.loggedInUserView)
                 is LoginResult.Error -> showLoginFailed(loginResult.error)
             }
-            setResult(Activity.RESULT_OK)
-            //Complete and destroy login activity once successful
-            finish()
         }
 
         val onDataChanged = {
@@ -82,7 +80,6 @@ class LoginActivity : AppCompatActivity() {
     private fun updateUiWithUser(model: LoggedInUserView) {
         val welcome = getString(R.string.welcome)
         val displayName = model.displayName
-        // TODO : действия после успешного логина
         Toast.makeText(
                 applicationContext,
                 "$welcome $displayName",
