@@ -1,6 +1,8 @@
 package com.toosafinder.emailConfirmation
 
+import kotlinx.coroutines.Deferred
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 
 interface EmailConfirmationDataSource {
@@ -9,5 +11,5 @@ interface EmailConfirmationDataSource {
     }
 
     @GET(URL)
-    fun checkEmailToken(emailToken : String) : Call<String>
+    fun checkEmailToken(emailToken : String) : Deferred<Response<String>>
 }

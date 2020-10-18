@@ -5,15 +5,16 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import retrofit2.Response
 
 class EmailConfirmationViewModel (private val emailConfirmationRepository: EmailConfirmationRepository) : ViewModel() {
 
     private var loginActivityStart : String = "com.toosafinder.login.LoginActivity"
 
     fun checkEmailToken(emailToken : String, nextActivity : () -> Unit) = viewModelScope.launch{
-        val returndToken : String = emailConfirmationRepository.checkEmailToken(emailToken)
-        if(returndToken.equals(emailToken))
-            val intent : Intent = Intent(loginActivityStart)
-            startActivity(intent)
+        val responseAnswer : Response<String> = emailConfirmationRepository.checkEmailToken(emailToken)
+        val returnedToken : String = responseAnswer.message()
+        if(returnedToken.equals(emailToken))
+            nextActivity()
     }
 }

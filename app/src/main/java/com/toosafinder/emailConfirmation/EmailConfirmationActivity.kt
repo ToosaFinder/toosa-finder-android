@@ -1,11 +1,15 @@
 package com.toosafinder.emailConfirmation
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.toosafinder.R
 
 class EmailConfirmationActivity : AppCompatActivity() {
+
+    private lateinit var emailConfirmationViewModel : EmailConfirmationViewModel
+    private var loginActivityStart : String = "com.toosafinder.login.LoginActivity"
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -15,9 +19,12 @@ class EmailConfirmationActivity : AppCompatActivity() {
 
         //Надо придумать как обрабатывать
         val data: Uri? = intent?.data
-        val emailToken: String? = parseData(data)
+        val emailToken: String = parseData(data) ?: throw NullPointerException()
 
-        intent.putExtra("emailToken" , emailToken)
+        emailConfirmationViewModel.checkEmailToken(emailToken) {
+            val intent: Intent = Intent(loginActivityStart)
+            startActivity(intent)
+        }
 
     }
 

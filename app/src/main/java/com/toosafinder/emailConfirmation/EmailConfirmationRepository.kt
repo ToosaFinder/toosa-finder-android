@@ -13,7 +13,7 @@ class EmailConfirmationRepository {
         EmailConfirmationDataSource::class.java)
 
     suspend fun checkEmailToken(emailToken : String) : Response<String> {
-        val call : Call<String> = emailConfirmationDataSource.checkEmailToken(emailToken)
-        return call.execute()
+        val response = emailConfirmationDataSource.checkEmailToken(emailToken).await()
+        return response
     }
 }
