@@ -1,6 +1,7 @@
 package com.toosafinder.login
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,9 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.toosafinder.R
+import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationActivity
+import com.toosafinder.restorePassword.restorePassword.RestorePasswordActivity
+import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 
 
@@ -29,6 +33,7 @@ class LoginActivity : AppCompatActivity() {
         val password = findViewById<EditText>(R.id.password)
         val login = findViewById<Button>(R.id.login)
         val loading = findViewById<ProgressBar>(R.id.loading)
+        val signUp = findViewById<Button>(R.id.signUpButton)
 
         loginViewModel = getViewModel()
 
@@ -74,6 +79,13 @@ class LoginActivity : AppCompatActivity() {
                 loading.visibility = View.VISIBLE
                 loginViewModel.login(username.text.toString(), password.text.toString())
             }
+        }
+
+        forgotPasswordButton.setOnClickListener {
+//            val intent : Intent = Intent(RestorePasswordActivity::class.qualifiedName)
+            val intent = Intent(this@LoginActivity, EmailForRestorationActivity::class.java)
+//            val intent = Intent(this@LoginActivity, RestorePasswordActivity::class.qualifiedName)
+            startActivity(intent)
         }
     }
 
