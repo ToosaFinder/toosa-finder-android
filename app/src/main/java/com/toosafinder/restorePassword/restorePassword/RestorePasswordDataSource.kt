@@ -1,6 +1,8 @@
 package com.toosafinder.restorePassword.restorePassword
 
+import kotlinx.coroutines.Deferred
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.POST
 
 interface RestorePasswordDataSource {
@@ -13,5 +15,5 @@ interface RestorePasswordDataSource {
 //    fun  restorePassword(email : String) : Call<Void>
 
     @POST(registerURL)
-    fun registerPassword(emailToken : String, password : String) : Call<Void>
+    fun registerPassword(emailToken : String, password : String) : Deferred<Response<Void>>
 }

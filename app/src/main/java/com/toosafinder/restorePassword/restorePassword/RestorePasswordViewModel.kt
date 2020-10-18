@@ -16,10 +16,13 @@ class RestorePasswordViewModel (val restorePasswordRepository: RestorePasswordRe
 //    val loginResult: LiveData<LoginResult> = _loginResult
 
     fun registerPassword (emailToken : String, password : String) = viewModelScope.launch{
-        restorePasswordRepository.registerPassword(emailToken, password)
+        val response = restorePasswordRepository.registerPassword(emailToken, password)
+        when(response.code()){
+            409 -> throw Exception("EMAIL_TOKEN_NOT_VALID")
+        }
     }
 
     fun passwordMatching(password : String, repeat : String) : Boolean =
-        password.equals(repeat)
+        password == repeat
 
 }
