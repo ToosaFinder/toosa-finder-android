@@ -9,7 +9,7 @@ class EmailConfirmationActivity : AppCompatActivity() {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.email_confirmation)
 
         //val action: String? = intent?.action
 
