@@ -8,7 +8,11 @@ import com.toosafinder.network.ErrorHandlingInterceptor
 import com.toosafinder.network.provideOkHttpClient
 import com.toosafinder.network.provideRetrofit
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationDataSource
+import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationRepository
+import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationViewModel
 import com.toosafinder.restorePassword.restorePassword.RestorePasswordDataSource
+import com.toosafinder.restorePassword.restorePassword.RestorePasswordRepository
+import com.toosafinder.restorePassword.restorePassword.RestorePasswordViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
@@ -36,6 +40,10 @@ val networkModule = module {
 val loginModule = module {
     single { LoginRepository(get()) }
     single { LoginViewModel(get()) }
+    single { RestorePasswordRepository(get()) }
+    single { RestorePasswordViewModel(get()) }
+    single { EmailForRestorationRepository(get()) }
+    single { EmailForRestorationViewModel(get()) }
 }
 
 /**
