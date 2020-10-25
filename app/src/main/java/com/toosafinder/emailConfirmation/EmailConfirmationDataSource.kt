@@ -1,15 +1,15 @@
 package com.toosafinder.emailConfirmation
 
+import com.toosafinder.network.HTTPRes
 import kotlinx.coroutines.Deferred
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
+import java.util.*
 
+private const val checkURL : String = "kakoi-to URL"
 interface EmailConfirmationDataSource {
-    companion object {
-        const val URL : String = "kakoi-to URL"
-    }
 
-    @GET(URL)
-    fun checkEmailToken(emailToken : String) : Deferred<Response<String>>
+    @GET(checkURL)
+    suspend fun checkEmailToken(emailToken : UUID) : HTTPRes<Unit>
 }

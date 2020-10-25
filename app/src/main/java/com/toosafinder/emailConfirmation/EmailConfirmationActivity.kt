@@ -5,6 +5,8 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.toosafinder.R
+import com.toosafinder.login.LoginActivity
+import java.util.*
 
 class EmailConfirmationActivity : AppCompatActivity() {
 
@@ -19,10 +21,10 @@ class EmailConfirmationActivity : AppCompatActivity() {
 
         //Надо придумать как обрабатывать
         val data: Uri? = intent?.data
-        val emailToken: String = parseData(data) ?: throw NullPointerException()
+        val emailToken: UUID = UUID.fromString(parseData(data)) ?: throw NullPointerException()
 
         emailConfirmationViewModel.checkEmailToken(emailToken) {
-            val intent: Intent = Intent(loginActivityStart)
+            val intent: Intent = Intent(this@EmailConfirmationActivity, LoginActivity::class.java)
             startActivity(intent)
         }
 

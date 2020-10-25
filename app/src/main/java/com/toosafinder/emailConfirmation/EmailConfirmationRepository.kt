@@ -1,19 +1,19 @@
 package com.toosafinder.emailConfirmation
 
+import com.toosafinder.network.HTTPRes
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
 
-class EmailConfirmationRepository {
+class EmailConfirmationRepository(
+    private val emailConfirmationDataSource: EmailConfirmationDataSource) {
 
-    private val retrofit: Retrofit = Retrofit.Builder().baseUrl("https://vk.com/").addConverterFactory(
-        GsonConverterFactory.create()).build()
-    private val emailConfirmationDataSource: EmailConfirmationDataSource = retrofit.create(
-        EmailConfirmationDataSource::class.java)
+    suspend fun checkEmailToken(emailToken : UUID) : Boolean =
+        when(emailConfirmationDataSource.checkEmailToken(emailToken)){
+            is HTTPRes.Success -> true
+            is HTTPRes.Conflict -> false
+        }
 
-    suspend fun checkEmailToken(emailToken : String) : Response<String> {
-        val response = emailConfirmationDataSource.checkEmailToken(emailToken).await()
-        return response
-    }
+
 }
