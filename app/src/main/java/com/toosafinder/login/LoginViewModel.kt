@@ -20,16 +20,10 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
-    /**
-     * Внимание, к репозиторию обращаемся асинхронно
-     */
     fun login(username: String, password: String) = viewModelScope.launch {
-        _loginResult.value = when(val result = loginRepository.login(username, password)){
-            is Result.Success ->
-                LoginResult.Success(loggedInUserView = LoggedInUserView(displayName = result.data.displayName))
-            is Result.Error ->
-                LoginResult.Error(error = R.string.login_failed)
-        }
+        _loginResult.value = loginRepository.login(username, password)
+            ?. let { LoginResult.Success(loggedInUserView = LoggedInUserView(displayName = it.name)) }
+            ?: LoginResult.Error(error = R.string.login_failed)
     }
 
     fun loginDataChanged(username: String, password: String) {
