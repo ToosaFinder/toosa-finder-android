@@ -12,6 +12,7 @@ class EmailForRestorationRepository {
         EmailForRestorationDataSource::class.java)
 
     suspend fun restorePassword (email : String) : Response<Void>{
-        return emailForRestorationDataSource.resetPassword(email).await()
+        val response =  emailForRestorationDataSource.resetPassword(email).await()
+        return response
     }
 }
