@@ -14,7 +14,7 @@ import org.koin.android.viewmodel.ext.android.getViewModel
 
 class RestorePasswordActivity : AppCompatActivity(){
 
-    private lateinit var resorePasswordViewModel : RestorePasswordViewModel
+    private lateinit var restorePasswordViewModel : RestorePasswordViewModel
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -28,7 +28,7 @@ class RestorePasswordActivity : AppCompatActivity(){
         val password = textFieldPassword.text
         val repeatPassword = textFieldRepeatPassword.text
 
-        resorePasswordViewModel = getViewModel()
+        restorePasswordViewModel = getViewModel()
 
         //тут надо решить, что делать если ничего не пришло
         val emailToken : String = intent.data?.lastPathSegment ?: throw NullPointerException("Ничего не прислали")
@@ -40,8 +40,8 @@ class RestorePasswordActivity : AppCompatActivity(){
         textFieldPassword.afterTextChanged { password.toString() }
 
         buttonDone.setOnClickListener { _ ->
-            if(resorePasswordViewModel.passwordMatching(password.toString(),repeatPassword.toString()))
-                resorePasswordViewModel.registerPassword(emailToken, password.toString())
+            if(restorePasswordViewModel.passwordMatching(password.toString(),repeatPassword.toString()))
+                restorePasswordViewModel.registerPassword(emailToken, password.toString())
         }
 
 

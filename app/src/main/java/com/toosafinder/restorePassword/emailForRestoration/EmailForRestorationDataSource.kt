@@ -1,15 +1,13 @@
 package com.toosafinder.restorePassword.emailForRestoration
 
-import kotlinx.coroutines.Deferred
-import retrofit2.Call
-import retrofit2.Response
+import com.toosafinder.api.login.PasswordRestoreReq
+import com.toosafinder.network.HTTPRes
 import retrofit2.http.POST
 
+private const val restoreURL : String = "/user/restore-password/{emailToken}"
+
 interface EmailForRestorationDataSource {
-    companion object {
-        const val restoreURL : String = "/user/resetPassword"
-    }
 
     @POST(restoreURL)
-    fun resetPassword(emailToken : String) : Deferred<Response<Void>>
+    suspend fun restorePassword(req: PasswordRestoreReq) : HTTPRes<Unit>
 }

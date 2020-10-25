@@ -15,11 +15,11 @@ android {
 
     defaultConfig {
         applicationId = "com.toosafinder"
-        minSdkVersion(16)
+        minSdkVersion(24)
         targetSdkVersion(30)
         versionCode = 1
         versionName = "1.0"
-
+        multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -29,16 +29,23 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
-//    implementation(fileTree(dir = "libs/", include = ["*.jar"])
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${System.getProperty("kotlinVersion")}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-//    implementation("toosafinder:api-model-jvm:0.0.1")
+    implementation ("com.squareup.retrofit2:converter-jackson:2.9.0")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.10.1")
+    implementation("com.android.support:multidex:2.0.1")
+    //TODO: брать из мевен репо
+    implementation(files("../libs/api-model-jvm-0.0.1.jar"))
 
     implementation("androidx.core:core-ktx:1.3.1")
     implementation("androidx.appcompat:appcompat:1.2.0")
