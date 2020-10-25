@@ -17,6 +17,7 @@ class RestorePasswordRepository {
 //    }
 
     suspend fun registerPassword(emailToken : String, password : String) : Response<Void> {
-        return restorePasswordDataSource.registerPassword(emailToken, password).await()
+        val response = restorePasswordDataSource.registerPassword(emailToken, password).await()
+        return response
     }
 }
