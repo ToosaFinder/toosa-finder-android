@@ -20,6 +20,25 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".restorePassword.emailForRestoration.EmailForRestorationActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".restorePassword.restorePassword.RestorePasswordActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http"
+                    android:host="148.156.512.1"
+                    android:pathPrefix="/user/restorePassword" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name="com.toosafinder.emailConfirmation.EmailConfirmationActivity"
             android:label="Toosa Finder" >
             <intent-filter>
