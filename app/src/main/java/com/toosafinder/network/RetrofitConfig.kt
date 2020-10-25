@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 
 fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
     return Retrofit.Builder()
-        .baseUrl("http://192.168.0.152:8081")
+        .baseUrl("http://34.67.129.19:8081")
         .client(okHttpClient)
         .addConverterFactory(CustomConverterFactory(jacksonObjectMapper()))
             .build()

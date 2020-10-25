@@ -1,12 +1,17 @@
 package com.toosafinder.registration
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.toosafinder.R
+import com.toosafinder.login.LoginActivity
 import com.toosafinder.login.afterTextChanged
+import com.toosafinder.network.HTTPRes
+import com.toosafinder.registrationModule
 import kotlinx.android.synthetic.main.content_registration.*
 import org.koin.android.viewmodel.ext.android.getViewModel
+import org.koin.core.context.loadKoinModules
 
 class RegistrationActivity : AppCompatActivity() {
     private lateinit var registrationViewModel: RegistrationViewModel
@@ -15,10 +20,12 @@ class RegistrationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
 
+        loadKoinModules(registrationModule)
+
         registrationViewModel = getViewModel()
 
-        registrationViewModel.registrationFormState.observe(this@RegistrationActivity) { registrationState ->
-            when(registrationState) {
+        registrationViewModel.registrationFormState.observe(this@RegistrationActivity) {
+            when(it) {
                 is RegistrationFormState.InvalidEmail ->
                     textErrorMessage.text = getString(R.string.invalid_email)
                 is RegistrationFormState.InvalidLogin ->
@@ -30,7 +37,15 @@ class RegistrationActivity : AppCompatActivity() {
                 is RegistrationFormState.Valid ->
                     textErrorMessage.text = getString(R.string.all_valid)
             }
-            buttonContinue.isEnabled = registrationState == RegistrationFormState.Valid
+            buttonContinue.isEnabled = it == RegistrationFormState.Valid
+        }
+
+        registrationViewModel.registrationResult.observe(this@RegistrationActivity) {
+            progressBarSending.visibility = View.INVISIBLE
+            when(it) {
+                is HTTPRes.Success -> startActivity(Intent(this@RegistrationActivity, LoginActivity::class.java))
+                is HTTPRes.Conflict -> textErrorMessage.text = getString(R.string.error_registration)
+            }
         }
 
         val onDataChanged = {
@@ -50,8 +65,9 @@ class RegistrationActivity : AppCompatActivity() {
         textFieldPasswordConfirmation.afterTextChanged { onDataChanged() }
 
         buttonContinue.setOnClickListener{
-            registrationViewModel.registerUser(DTOUser(textFieldEmail.toString(),
-                textFieldLogin.toString(), textFieldPassword.toString()))
+            progressBarSending.visibility = View.VISIBLE
+            registrationViewModel.registerUser(textFieldEmail.toString(),
+                textFieldLogin.toString(), textFieldPassword.toString())
         }
     }
 }

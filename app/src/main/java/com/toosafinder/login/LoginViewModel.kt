@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.toosafinder.data.LoginRepository
-import com.toosafinder.data.Result
 
 import com.toosafinder.R
 import com.toosafinder.utils.isPasswordValid

@@ -1,17 +1,11 @@
 package com.toosafinder.registration
 
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.toosafinder.api.registration.UserRegistrationReq
+import com.toosafinder.network.HTTPRes
 
-class RegistrationRepository {
-    private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl("https://vk.com/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-    private val registrationDataSource: RegistrationDataSource = retrofit.create(RegistrationDataSource::class.java)
+class RegistrationRepository(private val api: RegistrationAPI) {
 
-    suspend fun registerUser(user: DTOUser) : Response<Void> {
-        return registrationDataSource.registerUser(user).await()
+    suspend fun registerUser(email: String, login: String, password: String) : HTTPRes<Void> {
+        return api.registerUser(UserRegistrationReq(email, login, password))
     }
 }
