@@ -3,12 +3,11 @@ package com.toosafinder.restorePassword.emailForRestoration
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.toosafinder.R
-import com.toosafinder.login.LoginViewModel
+import com.toosafinder.login.LoginActivity
 import com.toosafinder.login.afterTextChanged
+import com.toosafinder.network.HTTPRes
 import kotlinx.android.synthetic.main.email_for_restoration.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 
@@ -23,35 +22,40 @@ class EmailForRestorationActivity :  AppCompatActivity(){
 
         setContentView(R.layout.email_for_restoration)
 
-        val textFieldEmail = findViewById<EditText>(R.id.textFieldEmail)
-        val buttonContinue = findViewById<Button>(R.id.buttonContinue)
-
-        val email = textFieldEmail.text
-
         emailForRestorationViewModel = getViewModel()
 
-        /*
-        мб нужно добавить проверки на модел вью какие-то
-         */
-        //TODO email validation
-        textFieldEmail.apply{
-            afterTextChanged{ email.toString() }
-
-            buttonContinue.setOnClickListener{ _ ->
-                emailForRestorationViewModel.sendEmail(email.toString())
-                textFieldEmail.visibility = View.INVISIBLE
-                buttonContinue.visibility = View.INVISIBLE
-                textAfterClick.visibility = View.VISIBLE
-                buttonAfterClick.visibility = View.VISIBLE
-            }
-
-            buttonAfterClick.setOnClickListener{
-                val intent : Intent = Intent(nextActivity)
-                startActivity(intent)
+        emailForRestorationViewModel.emailConfirmationState.observe(this@EmailForRestorationActivity){
+            when(it){
+                is EmailConfirmationState.InvalidEmail -> textErrorMessage.text = getString(R.string.invalid_email)
+                is EmailConfirmationState.Valid -> textErrorMessage.text = getString(R.string.all_valid)
             }
         }
 
+        emailForRestorationViewModel.emailConfirmationResult.observe(this@EmailForRestorationActivity){
+            when(it){
+                is HTTPRes.Conflict -> textErrorMessage.text = getString(R.string.email_not_found)
+                is HTTPRes.Success -> {
+                    textFieldEmail.visibility = View.INVISIBLE
+                    buttonContinue.visibility = View.INVISIBLE
+                    textAfterClick.visibility = View.VISIBLE
+                    buttonAfterClick.visibility = View.VISIBLE
+                }
+            }
+        }
 
+        val onDataChanged = {
+            emailForRestorationViewModel.emailDataChanged(textFieldEmail.text.toString())
+        }
+
+        textFieldEmail.afterTextChanged { onDataChanged() }
+
+        buttonContinue.setOnClickListener{ _ ->
+            emailForRestorationViewModel.sendEmail(textFieldEmail.text.toString())
+        }
+
+        buttonAfterClick.setOnClickListener{
+            startActivity(Intent(this@EmailForRestorationActivity, LoginActivity::class.java))
+        }
 
     }
 }

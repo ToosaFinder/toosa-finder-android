@@ -1,14 +1,12 @@
 package com.toosafinder.restorePassword.restorePassword
 
-import android.net.Uri
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.util.Log.ASSERT
-import android.widget.Button
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.toosafinder.R
+import com.toosafinder.login.LoginActivity
 import com.toosafinder.login.afterTextChanged
+import com.toosafinder.network.HTTPRes
 import kotlinx.android.synthetic.main.restore_password.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 
@@ -21,27 +19,41 @@ class RestorePasswordActivity : AppCompatActivity(){
 
         setContentView(R.layout.restore_password)
 
-        val textFieldPassword = findViewById<EditText>(R.id.textFieldPassword)
-        val textFieldRepeatPassword = findViewById<EditText>(R.id.textFieldRepeatPassword)
-        val buttonDone = findViewById<Button>(R.id.buttonDone)
-
-        val password = textFieldPassword.text
-        val repeatPassword = textFieldRepeatPassword.text
-
         restorePasswordViewModel = getViewModel()
 
-        //тут надо решить, что делать если ничего не пришло
         val emailToken : String = intent.data?.lastPathSegment ?: throw NullPointerException("Ничего не прислали")
 
-        /*
-        * проверки хуерки стейтов
-        */
+        restorePasswordViewModel.restorePasswordState.observe(this@RestorePasswordActivity){
+            when(it){
+                is RestorePasswordState.UnequalPasswords ->
+                    textErrorMessage.text = getString(R.string.invalid_password_unequal)
+                is RestorePasswordState.InvalidPassword ->
+                    textErrorMessage.text = getString(R.string.invalid_password)
+                is RestorePasswordState.Valid ->
+                    textErrorMessage.text = getString(R.string.all_valid)
+            }
+        }
 
-        textFieldPassword.afterTextChanged { password.toString() }
+        restorePasswordViewModel.restorePasswordResult.observe(this@RestorePasswordActivity) {
+            when (it) {
+                is HTTPRes.Conflict -> textErrorMessage.text = getString(R.string.invalid_email_token)
+                is HTTPRes.Success -> startActivity(Intent(this@RestorePasswordActivity, LoginActivity::class.java))
+            }
+        }
 
-        buttonDone.setOnClickListener { _ ->
-            if(restorePasswordViewModel.passwordMatching(password.toString(),repeatPassword.toString()))
-                restorePasswordViewModel.registerPassword(emailToken, password.toString())
+        val onDataChange = {
+            restorePasswordViewModel.prestorePasswordDataChanged(
+                emailToken,
+                textFieldPassword.text.toString(),
+                textFieldRepeatPassword.text.toString()
+            )
+        }
+
+        textFieldPassword.afterTextChanged { onDataChange() }
+
+
+        buttonDone.setOnClickListener {
+                restorePasswordViewModel.registerPassword(emailToken, textFieldPassword.text.toString())
         }
 
 
