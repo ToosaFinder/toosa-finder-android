@@ -4,22 +4,28 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.toosafinder.restorePassword.FormState
+import com.toosafinder.network.HTTPRes
+import com.toosafinder.utils.isPasswordValid
 import kotlinx.coroutines.launch
 
 class RestorePasswordViewModel (val restorePasswordRepository: RestorePasswordRepository) : ViewModel() {
 
-    private val _restorePasswordForm = MutableLiveData<FormState>()
-    val loginFormState: LiveData<FormState> = _restorePasswordForm
+    private val _restorePasswordState = MutableLiveData<RestorePasswordState>()
+    val restorePasswordState: LiveData<RestorePasswordState> = _restorePasswordState
 
-//    private val _loginResult = MutableLiveData<LoginResult>()
-//    val loginResult: LiveData<LoginResult> = _loginResult
+    private val _restorePasswordResult = MutableLiveData<HTTPRes<Unit>>()
+    val restorePasswordResult: LiveData<HTTPRes<Unit>> = _restorePasswordResult
 
     fun registerPassword (emailToken : String, password : String) = viewModelScope.launch{
-        restorePasswordRepository.registerPassword(emailToken, password)
+        _restorePasswordResult.value = restorePasswordRepository.registerPassword(emailToken, password)
     }
 
-    fun passwordMatching(password : String, repeat : String) : Boolean =
-        password.equals(repeat)
+    fun prestorePasswordDataChanged(emailToken : String, password : String, passwordConfirmation: String){
+        _restorePasswordState.value = when{
+            !isPasswordValid(password) -> RestorePasswordState.InvalidPassword
+            password!=passwordConfirmation -> RestorePasswordState.UnequalPasswords
+            else -> RestorePasswordState.Valid
+        }
+    }
 
 }
