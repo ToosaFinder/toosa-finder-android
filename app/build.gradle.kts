@@ -65,6 +65,9 @@ dependencies {
     implementation("androidx.core:core-ktx:+")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
 
+    implementation("com.google.android.gms:play-services-maps:17.0.0")
+
+
 }
 repositories {
     mavenCentral()

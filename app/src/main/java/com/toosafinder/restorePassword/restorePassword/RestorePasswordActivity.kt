@@ -9,6 +9,7 @@ import com.toosafinder.login.afterTextChanged
 import com.toosafinder.network.HTTPRes
 import kotlinx.android.synthetic.main.restore_password.*
 import org.koin.android.viewmodel.ext.android.getViewModel
+import java.io.IOException
 
 class RestorePasswordActivity : AppCompatActivity(){
 
@@ -21,7 +22,7 @@ class RestorePasswordActivity : AppCompatActivity(){
 
         restorePasswordViewModel = getViewModel()
 
-        val emailToken : String = intent.data?.lastPathSegment ?: throw NullPointerException("Ничего не прислали")
+        val emailToken : String = intent.data?.lastPathSegment ?: throw IOException("Ничего не прислали")
 
         restorePasswordViewModel.restorePasswordState.observe(this@RestorePasswordActivity){
             when(it){
