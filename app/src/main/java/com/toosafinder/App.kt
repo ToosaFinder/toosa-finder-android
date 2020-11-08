@@ -1,8 +1,6 @@
 package com.toosafinder
 
 import android.app.Application
-import com.toosafinder.data.LoginDataSource
-import com.toosafinder.data.LoginRepository
 import com.toosafinder.emailConfirmation.EmailConfirmationDataSource
 import com.toosafinder.emailConfirmation.EmailConfirmationRepository
 import com.toosafinder.emailConfirmation.EmailConfirmationViewModel
