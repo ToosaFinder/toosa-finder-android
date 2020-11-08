@@ -12,6 +12,9 @@ import com.toosafinder.network.provideOkHttpClient
 import com.toosafinder.network.provideRetrofit
 import com.toosafinder.registration.RegistrationRepository
 import com.toosafinder.registration.RegistrationViewModel
+import com.toosafinder.registration.RegistrationAPI
+import com.toosafinder.registration.RegistrationRepository
+import com.toosafinder.registration.RegistrationViewModel
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationDataSource
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationRepository
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationViewModel
@@ -28,6 +31,9 @@ val networkModule = module {
     factory { provideOkHttpClient(get()) }
     single { provideRetrofit(get()) }
 
+    single {
+        get<Retrofit>().create(RegistrationAPI::class.java)
+    }
     single {
         get<Retrofit>().create(LoginApi::class.java)
     }
@@ -48,12 +54,15 @@ val networkModule = module {
 val loginModule = module {
     single { LoginRepository(get()) }
     single { LoginViewModel(get()) }
-    single { RegistrationRepository() }
-    single { RegistrationViewModel(get()) }
     single { RestorePasswordRepository(get()) }
     single { RestorePasswordViewModel(get()) }
     single { EmailForRestorationRepository(get()) }
     single { EmailForRestorationViewModel(get()) }
+}
+
+val registrationModule = module {
+    single { RegistrationRepository(get()) }
+    single { RegistrationViewModel(get()) }
 }
 
 val emailConfirmationModule = module {
@@ -70,8 +79,10 @@ class App: Application() {
         super.onCreate()
         startKoin {
             androidContext(this@App)
-            // modules
-            modules(loginModule)
+            modules(
+                networkModule,
+                loginModule
+            )
         }
     }
 }
