@@ -44,7 +44,7 @@ class RegistrationActivity : AppCompatActivity() {
             progressBarSending.visibility = View.INVISIBLE
             when(it) {
                 is HTTPRes.Success -> startActivity(Intent(this@RegistrationActivity, LoginActivity::class.java))
-                is HTTPRes.Conflict -> textErrorMessage.text = getString(R.string.error_registration)
+                is HTTPRes.Conflict -> textErrorMessage.text = getString(R.string.error_registration) + it.message
             }
         }
 
@@ -66,8 +66,8 @@ class RegistrationActivity : AppCompatActivity() {
 
         buttonContinue.setOnClickListener{
             progressBarSending.visibility = View.VISIBLE
-            registrationViewModel.registerUser(textFieldEmail.toString(),
-                textFieldLogin.toString(), textFieldPassword.toString())
+            registrationViewModel.registerUser(textFieldEmail.text.toString(),
+                textFieldLogin.text.toString(), textFieldPassword.text.toString())
         }
     }
 }

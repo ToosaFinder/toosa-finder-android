@@ -14,8 +14,8 @@ class RegistrationViewModel(private val registrationRepository: RegistrationRepo
     private val _registrationState = MutableLiveData<RegistrationFormState>()
     val registrationFormState: LiveData<RegistrationFormState> = _registrationState
 
-    private val _registrationResult = MutableLiveData<HTTPRes<Void>>()
-    val registrationResult: LiveData<HTTPRes<Void>> = _registrationResult
+    private val _registrationResult = MutableLiveData<HTTPRes<Unit>>()
+    val registrationResult: LiveData<HTTPRes<Unit>> = _registrationResult
 
     fun registerUser(email: String, login: String, password: String) = viewModelScope.launch {
         _registrationResult.value = registrationRepository.registerUser(email, login, password)

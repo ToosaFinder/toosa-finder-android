@@ -3,6 +3,7 @@ package com.toosafinder.network
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
+import okio.Buffer
 import java.io.IOException
 
 class ErrorHandlingInterceptor: Interceptor {
@@ -11,7 +12,11 @@ class ErrorHandlingInterceptor: Interceptor {
         val request: Request = chain.request()
         val response: Response = chain.proceed(request)
 
-        if(response.code() == 409){
+        var buffer: Buffer = Buffer()
+        request.body()?.writeTo(buffer)
+        println(buffer.readUtf8())
+
+        if(response.code() == 409) {
             return Response.Builder()
                 .request(request)
                 .receivedResponseAtMillis(response.receivedResponseAtMillis())

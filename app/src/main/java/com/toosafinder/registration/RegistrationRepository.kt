@@ -5,7 +5,7 @@ import com.toosafinder.network.HTTPRes
 
 class RegistrationRepository(private val api: RegistrationAPI) {
 
-    suspend fun registerUser(email: String, login: String, password: String) : HTTPRes<Void> {
+    suspend fun registerUser(email: String, login: String, password: String) : HTTPRes<Unit> {
         return api.registerUser(UserRegistrationReq(email, login, password))
     }
 }
