@@ -1,22 +1,14 @@
 package com.toosafinder.restorePassword.restorePassword
 
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.toosafinder.api.login.PasswordSetReq
+import com.toosafinder.network.HTTPRes
 
-class RestorePasswordRepository {
+class RestorePasswordRepository(
+    private val dataSource: RestorePasswordDataSource
+) {
 
-    private val retrofit: Retrofit = Retrofit.Builder().baseUrl("https://vk.com/").addConverterFactory(
-        GsonConverterFactory.create()).build()
-    private val restorePasswordDataSource: RestorePasswordDataSource = retrofit.create(
-        RestorePasswordDataSource::class.java)
 
-//    fun restorePassword (email : String) : Unit{
-//        val call : Call<Void> = restorePasswordDataSource.restorePassword(email)
-//        return call.enqueue(DefaultCallBack<Void>())
-//    }
-
-    suspend fun registerPassword(emailToken : String, password : String) : Response<Void> {
-        return restorePasswordDataSource.registerPassword(emailToken, password).await()
+    suspend fun registerPassword(emailToken : String, password : String) : HTTPRes<Unit>{
+        return dataSource.registerPassword(PasswordSetReq(emailToken, password))
     }
 }
