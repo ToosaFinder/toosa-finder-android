@@ -42,8 +42,7 @@ class RestorePasswordActivity : AppCompatActivity(){
         }
 
         val onDataChange = {
-            restorePasswordViewModel.prestorePasswordDataChanged(
-                emailToken,
+            restorePasswordViewModel.restorePasswordDataChanged(
                 textFieldPassword.text.toString(),
                 textFieldRepeatPassword.text.toString()
             )
