@@ -19,7 +19,10 @@ class EmailForRestorationViewModel (private val emailForRestorationRepository: E
     val loginResult: LiveData<SendingResult> = _sendingResult
 
     fun sendEmail (email : String) = viewModelScope.launch {
-        emailForRestorationRepository.restorePassword(email)
+        val response = emailForRestorationRepository.restorePassword(email)
+        when(response.code()){
+            409 -> throw Exception("User not found")
+        }
     }
 
 
