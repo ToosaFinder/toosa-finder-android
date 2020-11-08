@@ -3,10 +3,13 @@ package com.toosafinder.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import android.util.Patterns
 import androidx.lifecycle.viewModelScope
+import com.toosafinder.data.LoginRepository
+import com.toosafinder.data.Result
 
 import com.toosafinder.R
+import com.toosafinder.utils.isPasswordValid
+import com.toosafinder.utils.isUserNameValid
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
@@ -17,10 +20,16 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
+    /**
+     * Внимание, к репозиторию обращаемся асинхронно
+     */
     fun login(username: String, password: String) = viewModelScope.launch {
-        _loginResult.value = loginRepository.login(username, password)
-            ?. let { LoginResult.Success(loggedInUserView = LoggedInUserView(displayName = it.name)) }
-            ?: LoginResult.Error(error = R.string.login_failed)
+        _loginResult.value = when(val result = loginRepository.login(username, password)){
+            is Result.Success ->
+                LoginResult.Success(loggedInUserView = LoggedInUserView(displayName = result.data.displayName))
+            is Result.Error ->
+                LoginResult.Error(error = R.string.login_failed)
+        }
     }
 
     fun loginDataChanged(username: String, password: String) {
@@ -30,14 +39,4 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
             else -> LoginFormState.Valid
         }
     }
-
-    private fun isUserNameValid(username: String): Boolean =
-        if (username.contains('@')) {
-            Patterns.EMAIL_ADDRESS.matcher(username).matches()
-        } else {
-            username.isNotBlank()
-        }
-
-    private fun isPasswordValid(password: String): Boolean =
-        password.length > 5
 }

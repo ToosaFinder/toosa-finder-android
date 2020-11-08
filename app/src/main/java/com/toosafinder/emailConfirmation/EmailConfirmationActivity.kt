@@ -5,7 +5,11 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.toosafinder.R
+import com.toosafinder.emailConfirmationModule
 import com.toosafinder.login.LoginActivity
+import org.koin.android.viewmodel.ext.android.getViewModel
+import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
 import java.util.*
 
 class EmailConfirmationActivity : AppCompatActivity() {
@@ -18,6 +22,8 @@ class EmailConfirmationActivity : AppCompatActivity() {
         setContentView(R.layout.email_confirmation)
 
         //val action: String? = intent?.action
+        loadKoinModules(emailConfirmationModule)
+        emailConfirmationViewModel = getViewModel()
 
         //Надо придумать как обрабатывать
         val data: Uri? = intent?.data
@@ -27,6 +33,7 @@ class EmailConfirmationActivity : AppCompatActivity() {
             val intent: Intent = Intent(this@EmailConfirmationActivity, LoginActivity::class.java)
             startActivity(intent)
         }
+        unloadKoinModules(emailConfirmationModule)
 
     }
 
