@@ -3,6 +3,7 @@ package com.toosafinder.emailConfirmation
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.toosafinder.R
 import com.toosafinder.emailConfirmationModule
@@ -28,8 +29,9 @@ class EmailConfirmationActivity : AppCompatActivity() {
         //Надо придумать как обрабатывать
         val data: Uri? = intent?.data
         val emailToken: UUID = UUID.fromString(parseData(data)) ?: throw NullPointerException()
+        Log.d("ConfirmationToken",emailToken.toString())
 
-        emailConfirmationViewModel.checkEmailToken(emailToken) {
+        emailConfirmationViewModel.checkEmailToken(emailToken){
             val intent: Intent = Intent(this@EmailConfirmationActivity, LoginActivity::class.java)
             startActivity(intent)
         }

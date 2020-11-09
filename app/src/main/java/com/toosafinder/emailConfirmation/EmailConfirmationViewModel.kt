@@ -13,7 +13,8 @@ class EmailConfirmationViewModel (private val emailConfirmationRepository: Email
     private var loginActivityStart : String = "com.toosafinder.login.LoginActivity"
 
     fun checkEmailToken(emailToken : UUID, nextActivity : () -> Unit) = viewModelScope.launch{
-        if(emailConfirmationRepository.checkEmailToken(emailToken))
-            nextActivity()
+        emailConfirmationRepository.checkEmailToken(emailToken)
+        nextActivity()
+
     }
 }

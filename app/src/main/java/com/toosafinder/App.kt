@@ -13,8 +13,6 @@ import com.toosafinder.network.provideRetrofit
 import com.toosafinder.registration.RegistrationRepository
 import com.toosafinder.registration.RegistrationViewModel
 import com.toosafinder.registration.RegistrationAPI
-import com.toosafinder.registration.RegistrationRepository
-import com.toosafinder.registration.RegistrationViewModel
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationDataSource
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationRepository
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationViewModel
