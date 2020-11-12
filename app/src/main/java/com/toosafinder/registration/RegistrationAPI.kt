@@ -2,6 +2,7 @@ package com.toosafinder.registration
 
 import com.toosafinder.api.registration.UserRegistrationReq
 import com.toosafinder.network.HTTPRes
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
@@ -11,5 +12,5 @@ interface RegistrationAPI {
     }
 
     @POST(URL)
-    suspend fun registerUser(@Body user: UserRegistrationReq) : HTTPRes<Unit>
+    suspend fun registerUser(@Body user: UserRegistrationReq) : Response<Unit>
 }

@@ -12,6 +12,7 @@ import com.toosafinder.registrationModule
 import kotlinx.android.synthetic.main.content_registration.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
 
 class RegistrationActivity : AppCompatActivity() {
     private lateinit var registrationViewModel: RegistrationViewModel
@@ -25,7 +26,7 @@ class RegistrationActivity : AppCompatActivity() {
         registrationViewModel = getViewModel()
 
         registrationViewModel.registrationFormState.observe(this@RegistrationActivity) {
-            when(it) {
+            when (it) {
                 is RegistrationFormState.InvalidEmail ->
                     textErrorMessage.text = getString(R.string.invalid_email)
                 is RegistrationFormState.InvalidLogin ->
@@ -42,9 +43,15 @@ class RegistrationActivity : AppCompatActivity() {
 
         registrationViewModel.registrationResult.observe(this@RegistrationActivity) {
             progressBarSending.visibility = View.INVISIBLE
-            when(it) {
-                is HTTPRes.Success -> startActivity(Intent(this@RegistrationActivity, LoginActivity::class.java))
-                is HTTPRes.Conflict -> textErrorMessage.text = getString(R.string.error_registration) + it.message
+            when (it) {
+                is HTTPRes.Success -> startActivity(
+                    Intent(
+                        this@RegistrationActivity,
+                        LoginActivity::class.java
+                    )
+                )
+                is HTTPRes.Conflict -> textErrorMessage.text =
+                    getString(R.string.error_registration) + it.message
             }
         }
 
@@ -64,10 +71,14 @@ class RegistrationActivity : AppCompatActivity() {
         textFieldPassword.afterTextChanged { onDataChanged() }
         textFieldPasswordConfirmation.afterTextChanged { onDataChanged() }
 
-        buttonContinue.setOnClickListener{
+        buttonContinue.setOnClickListener {
             progressBarSending.visibility = View.VISIBLE
-            registrationViewModel.registerUser(textFieldEmail.text.toString(),
-                textFieldLogin.text.toString(), textFieldPassword.text.toString())
+            registrationViewModel.registerUser(
+                textFieldEmail.text.toString(),
+                textFieldLogin.text.toString(), textFieldPassword.text.toString()
+            )
         }
+
+        unloadKoinModules(registrationModule)
     }
 }
