@@ -1,6 +1,5 @@
 package com.toosafinder.network
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -9,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
     return Retrofit.Builder()
         .baseUrl("http://34.67.129.19:8081")
-        //.client(okHttpClient)
+        .client(okHttpClient)
         //.addConverterFactory(CustomConverterFactory(jacksonObjectMapper()))
         .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -18,6 +17,6 @@ fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
 fun provideOkHttpClient(interceptor: ErrorHandlingInterceptor): OkHttpClient {
     return OkHttpClient()
         .newBuilder()
-        .addInterceptor(ErrorHandlingInterceptor())
+        .addInterceptor(interceptor)
         .build()
 }
