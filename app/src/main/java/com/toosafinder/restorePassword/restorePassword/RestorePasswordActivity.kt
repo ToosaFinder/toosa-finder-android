@@ -28,7 +28,7 @@ class RestorePasswordActivity : AppCompatActivity(){
                 is RestorePasswordState.UnequalPasswords ->
                     textErrorMessage.text = getString(R.string.invalid_password_unequal)
                 is RestorePasswordState.InvalidPassword ->
-                    textErrorMessage.text = getString(R.string.invalid_password)
+                    textErrorMessage.text = getString(R.string.invalid_password_short)
                 is RestorePasswordState.Valid ->
                     textErrorMessage.text = getString(R.string.all_valid)
             }
@@ -52,7 +52,7 @@ class RestorePasswordActivity : AppCompatActivity(){
 
 
         buttonDone.setOnClickListener {
-                restorePasswordViewModel.registerPassword(emailToken, textFieldPassword.text.toString())
+            restorePasswordViewModel.registerPassword(emailToken, textFieldPassword.text.toString())
         }
 
 

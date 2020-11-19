@@ -11,7 +11,7 @@ class ErrorHandlingInterceptor: Interceptor {
         val request: Request = chain.request()
         val response: Response = chain.proceed(request)
 
-        if(response.code() == 409){
+        if(response.code() == 409) {
             return Response.Builder()
                 .request(request)
                 .receivedResponseAtMillis(response.receivedResponseAtMillis())

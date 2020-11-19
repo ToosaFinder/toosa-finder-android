@@ -23,7 +23,7 @@ class RestorePasswordViewModel (val restorePasswordRepository: RestorePasswordRe
     fun restorePasswordDataChanged(password : String, passwordConfirmation: String){
         _restorePasswordState.value = when{
             !isPasswordValid(password) -> RestorePasswordState.InvalidPassword
-            password!=passwordConfirmation -> RestorePasswordState.UnequalPasswords
+            password != passwordConfirmation -> RestorePasswordState.UnequalPasswords
             else -> RestorePasswordState.Valid
         }
     }
