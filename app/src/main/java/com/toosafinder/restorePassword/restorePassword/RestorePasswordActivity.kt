@@ -53,7 +53,7 @@ class RestorePasswordActivity : AppCompatActivity(){
 
 
         buttonDone.setOnClickListener {
-                restorePasswordViewModel.registerPassword(emailToken, textFieldPassword.text.toString())
+            restorePasswordViewModel.registerPassword(emailToken, textFieldPassword.text.toString())
         }
 
 

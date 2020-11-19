@@ -24,7 +24,6 @@
     <string name="invalid_password_short">Password must be >5 characters</string>
     <string name="invalid_password_unequal">Passwords must be equal</string>
     <string name="invalid_email">Invalid email</string>
-    <string name="all_valid"></string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_registration">Registration</string>
     <string name="prompt_confirmation_password">Password confirmation</string>
@@ -36,5 +35,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="email_not_found">User not found</string>
     <string name="invalid_email_token">Email token not valid</string>
+    <string name="all_valid"></string>
     <string name="error_registration">Error during registration. </string>
+>>>>>>>>> Temporary merge branch 2
 </resources>
