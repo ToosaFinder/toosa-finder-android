@@ -37,5 +37,5 @@
     <string name="invalid_email_token">Email token not valid</string>
     <string name="all_valid"></string>
     <string name="error_registration">Error during registration. </string>
->>>>>>>>> Temporary merge branch 2
+    <string name="deepLinkIP">localhost:3000</string>
 </resources>

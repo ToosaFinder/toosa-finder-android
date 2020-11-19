@@ -10,7 +10,6 @@ import java.util.*
 
 class EmailConfirmationViewModel (private val emailConfirmationRepository: EmailConfirmationRepository) : ViewModel() {
 
-    private var loginActivityStart : String = "com.toosafinder.login.LoginActivity"
 
     fun checkEmailToken(emailToken : UUID, nextActivity : () -> Unit) = viewModelScope.launch{
         emailConfirmationRepository.checkEmailToken(emailToken)

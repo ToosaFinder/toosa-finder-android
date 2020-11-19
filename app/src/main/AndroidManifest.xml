@@ -26,12 +26,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".login.LoginActivity" android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.ASSIST" />
-                <category android:name="android.intent.category.MONKEY" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".restorePassword.emailForRestoration.EmailForRestorationActivity"
             android:label="@string/app_name">
@@ -53,19 +47,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.toosafinder.emailConfirmation.EmailConfirmationActivity"
-            android:label="Toosa Finder" >
+            android:name=".emailConfirmation.EmailConfirmationActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-            <!-- Вопрос с http ссылкой, которую кидает на почту пользователю :
-             будет ли она такой же как в задаче-->
                 <data android:scheme="http"
-                    android:host="example.org"
-                    android:pathPrefix="/"/>
-                    <!--android:host="148.156.512.1"
-                    android:pathPrefix="/user/confirmEmail" />-->
+                    android:host="@string/deepLinkIP"
+                    android:pathPrefix="/user/confirm-email/"/>
             </intent-filter>
         </activity>
     </application>

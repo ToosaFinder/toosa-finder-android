@@ -1,7 +1,7 @@
 package com.toosafinder
 
 import android.app.Application
-import com.toosafinder.emailConfirmation.EmailConfirmationDataSource
+import com.toosafinder.emailConfirmation.EmailConfirmationAPI
 import com.toosafinder.emailConfirmation.EmailConfirmationRepository
 import com.toosafinder.emailConfirmation.EmailConfirmationViewModel
 import com.toosafinder.login.LoginApi
@@ -42,7 +42,7 @@ val networkModule = module {
         get<Retrofit>().create(RestorePasswordDataSource::class.java)
     }
     single {
-        get<Retrofit>().create(EmailConfirmationDataSource::class.java)
+        get<Retrofit>().create(EmailConfirmationAPI::class.java)
     }
 }
 

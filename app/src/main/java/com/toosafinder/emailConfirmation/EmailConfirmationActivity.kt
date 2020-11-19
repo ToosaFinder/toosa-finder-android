@@ -22,13 +22,11 @@ class EmailConfirmationActivity : AppCompatActivity() {
         super.onPostCreate(savedInstanceState)
         setContentView(R.layout.email_confirmation)
 
-        //val action: String? = intent?.action
         loadKoinModules(emailConfirmationModule)
         emailConfirmationViewModel = getViewModel()
 
-        //Надо придумать как обрабатывать
         val data: Uri? = intent?.data
-        val emailToken: UUID = UUID.fromString(parseData(data)) ?: throw NullPointerException()
+        val emailToken: UUID = UUID.fromString(parseData(data)) ?: throw Exception("No uuid was found")
         Log.d("ConfirmationToken",emailToken.toString())
 
         emailConfirmationViewModel.checkEmailToken(emailToken){
