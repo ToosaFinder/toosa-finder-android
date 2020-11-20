@@ -13,7 +13,7 @@ import com.toosafinder.registration.RegistrationViewModel
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationAPI
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationRepository
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationViewModel
-import com.toosafinder.restorePassword.restorePassword.RestorePasswordDataSource
+import com.toosafinder.restorePassword.restorePassword.RestorePasswordAPI
 import com.toosafinder.restorePassword.restorePassword.RestorePasswordRepository
 import com.toosafinder.restorePassword.restorePassword.RestorePasswordViewModel
 import org.koin.android.ext.koin.androidContext
@@ -36,7 +36,7 @@ val networkModule = module {
         get<Retrofit>().create(EmailForRestorationAPI::class.java)
     }
     single {
-        get<Retrofit>().create(RestorePasswordDataSource::class.java)
+        get<Retrofit>().create(RestorePasswordAPI::class.java)
     }
 }
 
@@ -46,10 +46,16 @@ val networkModule = module {
 val loginModule = module {
     single { LoginRepository(get()) }
     single { LoginViewModel(get()) }
-    single { RestorePasswordRepository(get()) }
-    single { RestorePasswordViewModel(get()) }
+}
+
+val emailForRestorationModule = module {
     single { EmailForRestorationRepository(get()) }
     single { EmailForRestorationViewModel(get()) }
+}
+
+val restorePasswordModule = module {
+    single { RestorePasswordRepository(get()) }
+    single { RestorePasswordViewModel(get()) }
 }
 
 val registrationModule = module {
