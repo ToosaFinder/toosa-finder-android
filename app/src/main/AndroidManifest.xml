@@ -42,8 +42,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="http"
-                    android:host="148.156.512.1"
-                    android:pathPrefix="/user/restorePassword" />
+                    android:host="@string/deepLinkIP"
+                    android:pathPrefix="/user/restore-password/" />
             </intent-filter>
         </activity>
         <activity
