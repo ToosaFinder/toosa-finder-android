@@ -17,16 +17,11 @@
         <activity
             android:name=".registration.RegistrationActivity"
             android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".login.LoginActivity" android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.ASSIST" />
-                <category android:name="android.intent.category.MONKEY" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -44,8 +39,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="http"
-                    android:host="148.156.512.1"
-                    android:pathPrefix="/user/restorePassword" />
+                    android:host="@string/deepLinkIP"
+                    android:pathPrefix="/user/restore-password/" />
             </intent-filter>
         </activity>
     </application>
