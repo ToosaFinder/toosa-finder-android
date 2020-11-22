@@ -23,4 +23,5 @@
     <string name="invalid_email_token">Email token not valid</string>
     <string name="all_valid"></string>
     <string name="invalid_password_unequal">Passwords must be equal</string>
+    <string name="google_maps_key">AIzaSyCmCqa6kM9MtaVWFU0GVBWAdoxJfG24Nfg</string>
 </resources>
