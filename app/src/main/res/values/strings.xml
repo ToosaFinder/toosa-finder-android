@@ -25,6 +25,7 @@
     <string name="invalid_password_unequal">Passwords must be equal</string>
     <string name="invalid_email">Invalid email</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="title_activity_registration">Registration</string>
     <string name="prompt_confirmation_password">Password confirmation</string>
     <string name="button_done">Done!</string>
     <string name="placeholder_repeat_password">Repeat your password</string>
