@@ -10,6 +10,7 @@ import com.toosafinder.login.LoginViewModel
 import com.toosafinder.network.ErrorHandlingInterceptor
 import com.toosafinder.network.provideOkHttpClient
 import com.toosafinder.network.provideRetrofit
+import com.toosafinder.registration.RegistrationAPI
 import com.toosafinder.registration.RegistrationRepository
 import com.toosafinder.registration.RegistrationViewModel
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationAPI
