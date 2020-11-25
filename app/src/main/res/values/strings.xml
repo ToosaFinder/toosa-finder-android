@@ -1,7 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE resources [
-    <!ENTITY action_sign_in_short "Sign in">
-]>
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE resources [<!ENTITY action_sign_in_short "Sign in">]>
 
 <resources>
     <string name="app_name">Toosa Finder</string>
@@ -36,4 +33,22 @@
     <string name="invalid_email_token">Email token not valid</string>
     <string name="all_valid"></string>
     <string name="error_registration">Error during registration. </string>
+    <string name="title_activity_event_creation">EventCreation</string>
+    <!-- event creation -->
+    <string name="prompt_event_name">Name</string>
+    <string name="prompt_description">Description</string>
+    <string name="prompt_tags">Tags</string>
+    <string name="prompt_publicity">Public</string>
+    <string name="prompt_size_s">S</string>
+    <string name="prompt_size_m">M</string>
+    <string name="prompt_size_l">L</string>
+    <string name="prompt_size_xl">XL+</string>
+    <string name="placeholder_event_name">Your event name</string>
+    <string name="placeholder_description">Description about your event</string>
+    <string name="placeholder_location">Where?</string>
+    <string name="placeholder_date">Date</string>
+    <string name="placeholder_time">Time</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_create">Create</string>
+    <string name="button_add_tag">Add tag</string>
 </resources>
