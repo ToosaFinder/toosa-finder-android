@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.toosafinder.R
+import com.toosafinder.registration.RegistrationActivity
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationActivity
 import com.toosafinder.restorePassword.restorePassword.RestorePasswordActivity
 import kotlinx.android.synthetic.main.activity_login.*
@@ -79,6 +80,15 @@ class LoginActivity : AppCompatActivity() {
                 loading.visibility = View.VISIBLE
                 loginViewModel.login(username.text.toString(), password.text.toString())
             }
+        }
+
+        signUp.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@LoginActivity,
+                    RegistrationActivity::class.java
+                )
+            )
         }
 
         forgotPasswordButton.setOnClickListener {

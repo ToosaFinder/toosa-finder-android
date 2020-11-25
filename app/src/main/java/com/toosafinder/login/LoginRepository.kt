@@ -2,6 +2,7 @@ package com.toosafinder.login
 
 import com.toosafinder.api.login.LoginReq
 import com.toosafinder.network.HTTPRes
+import com.toosafinder.network.convertAnswer
 
 
 class LoginRepository(private val api: LoginApi) {
@@ -20,10 +21,11 @@ class LoginRepository(private val api: LoginApi) {
     }
 
     suspend fun login(username: String, password: String): LoggedInUser? {
-        return when(val res = api.login(LoginReq(username, password))){
+        val res = api.login(LoginReq(username, password))
+        return when(val httpRes = convertAnswer(res)){
             is HTTPRes.Success -> {
                 user = LoggedInUser(username)
-                accessToken = res.data.accessToken
+                accessToken = httpRes.data.accessToken
                 user
             }
             is HTTPRes.Conflict -> null
