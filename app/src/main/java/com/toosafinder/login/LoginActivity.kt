@@ -37,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
                 is LoginFormState.InvalidPassword -> getString(R.string.error_invalid_password_short)
                 is LoginFormState.Valid -> getString(R.string.all_valid)
             }
-            login.isEnabled = it == LoginFormState.Valid
+            login.isEnabled = it is LoginFormState.Valid
         }
 
         loginViewModel.loginResult.observe(this@LoginActivity) { loginResult ->
@@ -62,17 +62,6 @@ class LoginActivity : AppCompatActivity() {
 
         password.apply {
             afterTextChanged { onDataChanged() }
-
-            setOnEditorActionListener { _, actionId, _ ->
-                when (actionId) {
-                    EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
-                                username.text.toString(),
-                                password.text.toString()
-                        )
-                }
-                false
-            }
 
             login.setOnClickListener {
                 progressBarSending.visibility = View.VISIBLE

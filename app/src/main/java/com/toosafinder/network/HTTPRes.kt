@@ -18,12 +18,12 @@ sealed class HTTPRes<T> {
 }
 
 fun<T> convertAnswer(result : Response<T>) : HTTPRes<T> {
-    val error: String? = result.errorBody()?.string()
+    val error = result.errorBody()?.string()
     Log.d("BEK", "" + result.code() + " " + error)
     val conflictConverter = { json: String? ->
         try {
             if(json != null) {
-                jacksonObjectMapper().readValue<ErrorRes>(json)
+                jacksonObjectMapper().readValue(json)
             } else {
                 ErrorRes(result.code().toString(), null, null)
             }
@@ -31,8 +31,10 @@ fun<T> convertAnswer(result : Response<T>) : HTTPRes<T> {
             ErrorRes(result.code().toString(), null, null)
         }
     }
+    val errorRes = conflictConverter(error)
     return when {
-        !result.isSuccessful -> HTTPRes.Conflict(result.code(), conflictConverter(error).message, result.errorBody())
+        !result.isSuccessful -> HTTPRes.Conflict(result.code(),
+            if(errorRes.message == null) errorRes.code else errorRes.message, result.errorBody())
         else -> HTTPRes.Success(result.body() as T)
     }
 }

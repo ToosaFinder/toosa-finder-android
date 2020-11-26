@@ -36,7 +36,7 @@ class EmailForRestorationActivity :  AppCompatActivity(){
                 is EmailConfirmationState.InvalidEmail -> textErrorMessage.text = getString(R.string.error_invalid_email)
                 is EmailConfirmationState.Valid -> textErrorMessage.text = getString(R.string.all_valid)
             }
-            buttonContinue.isEnabled = it == EmailConfirmationState.Valid
+            buttonContinue.isEnabled = it is EmailConfirmationState.Valid
         }
 
         emailForRestorationViewModel.emailConfirmationResult.observe(this@EmailForRestorationActivity){

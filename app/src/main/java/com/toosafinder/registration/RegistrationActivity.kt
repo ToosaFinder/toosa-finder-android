@@ -35,7 +35,7 @@ class RegistrationActivity : AppCompatActivity() {
                 is RegistrationFormState.NoAgreement -> getString(R.string.error_no_agreement)
                 is RegistrationFormState.Valid -> getString(R.string.all_valid)
             }
-            buttonContinue.isEnabled = it == RegistrationFormState.Valid
+            buttonContinue.isEnabled = it is RegistrationFormState.Valid
         }
 
         registrationViewModel.registrationResult.observe(this@RegistrationActivity) {
