@@ -1,6 +1,9 @@
 package com.toosafinder
 
 import android.app.Application
+import com.toosafinder.emailConfirmation.EmailConfirmationAPI
+import com.toosafinder.emailConfirmation.EmailConfirmationRepository
+import com.toosafinder.emailConfirmation.EmailConfirmationViewModel
 import com.toosafinder.login.LoginApi
 import com.toosafinder.login.LoginRepository
 import com.toosafinder.login.LoginViewModel
@@ -38,6 +41,9 @@ val networkModule = module {
     single {
         get<Retrofit>().create(RestorePasswordAPI::class.java)
     }
+    single {
+        get<Retrofit>().create(EmailConfirmationAPI::class.java)
+    }
 }
 
 /**
@@ -63,9 +69,15 @@ val registrationModule = module {
     single { RegistrationViewModel(get()) }
 }
 
+val emailConfirmationModule = module {
+    single { EmailConfirmationRepository(get()) }
+    single { EmailConfirmationViewModel(get()) }
+}
+
 /**
  * Кастомный Application класс нужен чтобы Koin запустить
  */
+
 class App: Application() {
     override fun onCreate(){
         super.onCreate()

@@ -76,4 +76,7 @@ dependencies {
 }
 repositories {
     mavenCentral()
+    maven("https://maven.pkg.github.com/toosafinder/api-model-jvm") {
+
+    }
 }
