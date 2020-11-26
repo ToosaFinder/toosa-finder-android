@@ -1,4 +1,6 @@
 package com.toosafinder.MainScreen.MapMainScreen
 
-class MapMainScreenView {
+import androidx.lifecycle.ViewModel
+
+class MapMainScreenView : ViewModel(){
 }

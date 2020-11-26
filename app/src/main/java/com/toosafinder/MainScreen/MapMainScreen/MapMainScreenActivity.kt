@@ -4,6 +4,7 @@ import android.os.Bundle
 
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -12,7 +13,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.toosafinder.R
 
-class MapMainScreenActivity :  AppCompatActivity(), OnMapReadyCallback {
+class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
 
