@@ -46,10 +46,16 @@ val networkModule = module {
 val loginModule = module {
     single { LoginRepository(get()) }
     single { LoginViewModel(get()) }
-    single { RestorePasswordRepository(get()) }
-    single { RestorePasswordViewModel(get()) }
+}
+
+val emailForRestorationModule = module {
     single { EmailForRestorationRepository(get()) }
     single { EmailForRestorationViewModel(get()) }
+}
+
+val restorePasswordModule = module {
+    single { RestorePasswordRepository(get()) }
+    single { RestorePasswordViewModel(get()) }
 }
 
 val registrationModule = module {
