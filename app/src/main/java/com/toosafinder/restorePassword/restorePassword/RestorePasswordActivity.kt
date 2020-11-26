@@ -29,6 +29,7 @@ class RestorePasswordActivity : AppCompatActivity(){
                 is RestorePasswordState.InvalidPassword -> getString(R.string.error_invalid_password_short)
                 is RestorePasswordState.Valid -> getString(R.string.all_valid)
             }
+            buttonDone.isEnabled = it == RestorePasswordState.Valid
         }
 
         restorePasswordViewModel.restorePasswordResult.observe(this@RestorePasswordActivity) {
@@ -45,14 +46,13 @@ class RestorePasswordActivity : AppCompatActivity(){
             )
         }
 
-        textFieldPassword.afterTextChanged { onDataChange() }
+        onDataChange()
 
+        textFieldPassword.afterTextChanged { onDataChange() }
 
         buttonDone.setOnClickListener {
             restorePasswordViewModel.registerPassword(emailToken, textFieldPassword.text.toString())
         }
-
-
     }
 
 }

@@ -1,6 +1,7 @@
 package com.toosafinder.registration
 
 import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -40,12 +41,7 @@ class RegistrationActivity : AppCompatActivity() {
         registrationViewModel.registrationResult.observe(this@RegistrationActivity) {
             progressBarSending.visibility = View.INVISIBLE
             when (it) {
-                is HTTPRes.Success -> startActivity(
-                    Intent(
-                        this@RegistrationActivity,
-                        LoginActivity::class.java
-                    )
-                )
+                is HTTPRes.Success -> startLoginActivity()
                 is HTTPRes.Conflict -> textErrorMessage.text =
                     getString(R.string.error_registration) + it.message
             }
@@ -63,6 +59,9 @@ class RegistrationActivity : AppCompatActivity() {
 
         onDataChanged()
 
+        promptAccountQuestion.setOnClickListener { startLoginActivity() }
+        promptAccountQuestion.paintFlags = promptAccountQuestion.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+
         textFieldEmail.afterTextChanged { onDataChanged() }
         textFieldLogin.afterTextChanged { onDataChanged() }
         textFieldPassword.afterTextChanged { onDataChanged() }
@@ -78,5 +77,14 @@ class RegistrationActivity : AppCompatActivity() {
         }
 
         unloadKoinModules(registrationModule)
+    }
+
+    private fun startLoginActivity() {
+        startActivity(
+            Intent(
+                this@RegistrationActivity,
+                LoginActivity::class.java
+            )
+        )
     }
 }

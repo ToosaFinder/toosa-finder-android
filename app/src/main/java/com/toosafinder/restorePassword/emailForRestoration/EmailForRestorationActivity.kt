@@ -29,6 +29,7 @@ class EmailForRestorationActivity :  AppCompatActivity(){
                 is EmailConfirmationState.InvalidEmail -> textErrorMessage.text = getString(R.string.error_invalid_email)
                 is EmailConfirmationState.Valid -> textErrorMessage.text = getString(R.string.all_valid)
             }
+            buttonContinue.isEnabled = it == EmailConfirmationState.Valid
         }
 
         emailForRestorationViewModel.emailConfirmationResult.observe(this@EmailForRestorationActivity){
@@ -46,6 +47,8 @@ class EmailForRestorationActivity :  AppCompatActivity(){
         val onDataChanged = {
             emailForRestorationViewModel.emailDataChanged(textFieldEmail.text.toString())
         }
+
+        onDataChanged()
 
         textFieldEmail.afterTextChanged { onDataChanged() }
 

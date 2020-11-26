@@ -1,5 +1,6 @@
 package com.toosafinder.network
 
+import android.util.Log
 import retrofit2.Response
 
 sealed class HTTPRes<T> {
@@ -12,8 +13,9 @@ sealed class HTTPRes<T> {
 }
 
 fun<T> convertAnswer(result : Response<T>) : HTTPRes<T> {
+    Log.d("BEK", "" + result.code() + " " + result.message())
     return when {
-        !result.isSuccessful -> HTTPRes.Conflict(result.code(), result.message(), result.errorBody())
+        result.code() != 200 -> HTTPRes.Conflict(result.code(), result.message(), result.errorBody())
         else -> HTTPRes.Success(result.body() as T)
     }
 }

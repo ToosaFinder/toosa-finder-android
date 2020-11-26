@@ -2,13 +2,16 @@ package com.toosafinder.restorePassword.restorePassword
 
 import com.toosafinder.api.login.PasswordSetReq
 import com.toosafinder.network.HTTPRes
+import com.toosafinder.network.convertAnswer
+import retrofit2.Response
 
 class RestorePasswordRepository(
-    private val dataSource: RestorePasswordDataSource
+    private val dataSource: RestorePasswordAPI
 ) {
 
 
     suspend fun registerPassword(emailToken : String, password : String) : HTTPRes<Unit>{
-        return dataSource.registerPassword(PasswordSetReq(emailToken, password))
+        val res = dataSource.registerPassword(PasswordSetReq(emailToken, password))
+        return convertAnswer(res)
     }
 }
