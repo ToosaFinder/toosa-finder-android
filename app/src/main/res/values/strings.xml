@@ -30,14 +30,14 @@
     <string name="sign_up">Sign Up</string>
     <string name="email_not_found">User not found</string>
     <string name="invalid_email_token">Email token not valid</string>
-    <string name="error_login">Error during login. </string>
+    <string name="error_login">Error during login: </string>
     <!-- registration -->
     <string name="prompt_agreement">I agree to the <a href="&tos_url;">Terms of Services</a> and <a href="&pp_url;">Privacy Policy</a></string>
     <string name="account_question">Have an Account? &action_sign_in_short;</string>
     <string name="error_invalid_password_unequal">Passwords must be equal</string>
     <string name="error_invalid_email">Invalid email</string>
     <string name="error_no_agreement">Please agree to Terms of Services and Privacy Policy</string>
-    <string name="error_registration">Error during registration. </string>
+    <string name="error_registration">Error during registration: </string>
     <!-- event creation -->
     <string name="title_activity_event_creation">EventCreation</string>
     <string name="prompt_event_name">Name</string>

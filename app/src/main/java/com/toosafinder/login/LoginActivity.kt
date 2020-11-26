@@ -45,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
             when(loginResult) {
                 is LoginResult.Success -> updateUiWithUser(loginResult.loggedInUserView)
                 is LoginResult.Error ->
-                    textErrorMessage.text = getString(R.string.error_login) + loginResult.error
+                    textErrorMessage.text = getString(R.string.error_login) + " " + loginResult.error
             }
         }
 

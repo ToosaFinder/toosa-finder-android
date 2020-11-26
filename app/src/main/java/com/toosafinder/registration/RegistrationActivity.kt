@@ -43,7 +43,7 @@ class RegistrationActivity : AppCompatActivity() {
             when (it) {
                 is HTTPRes.Success -> startLoginActivity()
                 is HTTPRes.Conflict -> textErrorMessage.text =
-                    getString(R.string.error_registration) + it.message
+                    getString(R.string.error_registration) + " " + it.message
             }
         }
 
