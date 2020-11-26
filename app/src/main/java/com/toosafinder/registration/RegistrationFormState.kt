@@ -6,4 +6,5 @@ sealed class RegistrationFormState {
     object InvalidLogin : RegistrationFormState()
     object UnequalPasswords : RegistrationFormState()
     object InvalidPassword : RegistrationFormState()
+    object NoAgreement : RegistrationFormState()
 }

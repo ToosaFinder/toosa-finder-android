@@ -21,12 +21,14 @@ class RegistrationViewModel(private val registrationRepository: RegistrationRepo
         _registrationResult.value = registrationRepository.registerUser(email, login, password)
     }
 
-    fun registrationDataChange(email: String, login: String, password: String, passwordConfirmation: String) {
+    fun registrationDataChange(email: String, login: String, password: String,
+                               passwordConfirmation: String, agreement: Boolean) {
         _registrationState.value = when {
             !isEmailValid(email) -> RegistrationFormState.InvalidEmail
             !isUserNameValid(login) -> RegistrationFormState.InvalidLogin
             !isPasswordValid(password) -> RegistrationFormState.InvalidPassword
             password != passwordConfirmation -> RegistrationFormState.UnequalPasswords
+            !agreement -> RegistrationFormState.NoAgreement
             else -> RegistrationFormState.Valid
         }
     }

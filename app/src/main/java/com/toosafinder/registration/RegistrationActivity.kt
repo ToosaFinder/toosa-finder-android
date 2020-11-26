@@ -26,17 +26,13 @@ class RegistrationActivity : AppCompatActivity() {
         registrationViewModel = getViewModel()
 
         registrationViewModel.registrationFormState.observe(this@RegistrationActivity) {
-            when (it) {
-                is RegistrationFormState.InvalidEmail ->
-                    textErrorMessage.text = getString(R.string.invalid_email)
-                is RegistrationFormState.InvalidLogin ->
-                    textErrorMessage.text = getString(R.string.invalid_username)
-                is RegistrationFormState.UnequalPasswords ->
-                    textErrorMessage.text = getString(R.string.invalid_password_unequal)
-                is RegistrationFormState.InvalidPassword ->
-                    textErrorMessage.text = getString(R.string.invalid_password_short)
-                is RegistrationFormState.Valid ->
-                    textErrorMessage.text = getString(R.string.all_valid)
+            textErrorMessage.text = when (it) {
+                is RegistrationFormState.InvalidEmail -> getString(R.string.error_invalid_email)
+                is RegistrationFormState.InvalidLogin -> getString(R.string.error_invalid_username)
+                is RegistrationFormState.UnequalPasswords -> getString(R.string.error_invalid_password_unequal)
+                is RegistrationFormState.InvalidPassword -> getString(R.string.error_invalid_password_short)
+                is RegistrationFormState.NoAgreement -> getString(R.string.error_no_agreement)
+                is RegistrationFormState.Valid -> getString(R.string.all_valid)
             }
             buttonContinue.isEnabled = it == RegistrationFormState.Valid
         }
@@ -60,7 +56,8 @@ class RegistrationActivity : AppCompatActivity() {
                 textFieldEmail.text.toString(),
                 textFieldLogin.text.toString(),
                 textFieldPassword.text.toString(),
-                textFieldPasswordConfirmation.text.toString()
+                textFieldPasswordConfirmation.text.toString(),
+                checkBoxAgree.isChecked
             )
         }
 
@@ -70,6 +67,7 @@ class RegistrationActivity : AppCompatActivity() {
         textFieldLogin.afterTextChanged { onDataChanged() }
         textFieldPassword.afterTextChanged { onDataChanged() }
         textFieldPasswordConfirmation.afterTextChanged { onDataChanged() }
+        checkBoxAgree.setOnClickListener { onDataChanged() }
 
         buttonContinue.setOnClickListener {
             progressBarSending.visibility = View.VISIBLE

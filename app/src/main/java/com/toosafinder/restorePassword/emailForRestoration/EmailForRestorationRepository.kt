@@ -7,7 +7,7 @@ class EmailForRestorationRepository(
     private val dataSource: EmailForRestorationDataSource
 ) {
 
-    suspend fun restorePassword (email : String): HTTPRes<Unit>{
+    suspend fun restorePassword (email : String): HTTPRes<Unit> {
         return dataSource.restorePassword(PasswordRestoreReq(email))
     }
 }

@@ -1,40 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?><!DOCTYPE resources [<!ENTITY action_sign_in_short "Sign in">]>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [
+    <!ENTITY action_sign_in_short "Sign in">
+    <!ENTITY tos_url "http://google.com">
+    <!ENTITY pp_url "http://youtube.com">
+]>
 
 <resources>
+    <!-- Common strings -->
     <string name="app_name">Toosa Finder</string>
-    <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_login">Login</string>
     <string name="prompt_password_confirmation">Password confirmation</string>
-    <string name="prompt_agreement">I agree to the <a href="http://google.com">Terms of Services</a> and <a href="http://youtube.com">Privacy Policy</a></string>
     <string name="placeholder_email">Your email address</string>
     <string name="placeholder_login">Your login (optional)</string>
     <string name="placeholder_password">Your password</string>
-    <string name="placeholder_password_confirmation">Your password again</string>
-    <string name="prompt_continue">Continue</string>
+    <string name="placeholder_password_confirmation">Repeat your password</string>
+    <string name="button_done">Done!</string>
+    <string name="button_continue">Continue</string>
+    <string name="all_valid"></string>
+    <string name="error_invalid_username">Not a valid username</string>
+    <string name="error_invalid_password_short">Password must have at least 8 characters</string>
+    <!-- Strings related to login -->
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">&action_sign_in_short;</string>
-    <string name="account_question">Have an Account? <a href="vk.com">&action_sign_in_short;</a></string>
     <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password_short">Password must be >5 characters</string>
-    <string name="invalid_password_unequal">Passwords must be equal</string>
-    <string name="invalid_email">Invalid email</string>
-    <string name="login_failed">"Login failed"</string>
-    <string name="prompt_confirmation_password">Password confirmation</string>
-    <string name="button_done">Done!</string>
-    <string name="placeholder_repeat_password">Repeat your password</string>
-    <string name="button_continue">Continue</string>
     <string name="check_email_text">We send a password restoration link. Check your email</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="sign_up">Sign Up</string>
     <string name="email_not_found">User not found</string>
     <string name="invalid_email_token">Email token not valid</string>
-    <string name="all_valid"></string>
+    <string name="error_login">Error during login. </string>
+    <!-- registration -->
+    <string name="prompt_agreement">I agree to the <a href="&tos_url;">Terms of Services</a> and <a href="&pp_url;">Privacy Policy</a></string>
+    <string name="account_question">Have an Account? &action_sign_in_short;</string>
+    <string name="error_invalid_password_unequal">Passwords must be equal</string>
+    <string name="error_invalid_email">Invalid email</string>
+    <string name="error_no_agreement">Please agree to Terms of Services and Privacy Policy</string>
     <string name="error_registration">Error during registration. </string>
-    <string name="title_activity_event_creation">EventCreation</string>
     <!-- event creation -->
+    <string name="title_activity_event_creation">EventCreation</string>
     <string name="prompt_event_name">Name</string>
     <string name="prompt_description">Description</string>
     <string name="prompt_tags">Tags</string>

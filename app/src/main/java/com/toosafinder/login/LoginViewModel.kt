@@ -1,11 +1,12 @@
 package com.toosafinder.login
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.toosafinder.network.HTTPRes
 
-import com.toosafinder.R
 import com.toosafinder.utils.isPasswordValid
 import com.toosafinder.utils.isUserNameValid
 import kotlinx.coroutines.launch
@@ -19,15 +20,17 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     val loginResult: LiveData<LoginResult> = _loginResult
 
     fun login(username: String, password: String) = viewModelScope.launch {
-        _loginResult.value = loginRepository.login(username, password)
-            ?. let { LoginResult.Success(loggedInUserView = LoggedInUserView(displayName = it.name)) }
-            ?: LoginResult.Error(error = R.string.login_failed)
+        val res = loginRepository.login(username, password)
+        _loginResult.value = when(res) {
+            is HTTPRes.Success -> LoginResult.Success(LoggedInUserView(username))
+            is HTTPRes.Conflict -> LoginResult.Error(res.code, res.message)
+        }
     }
 
     fun loginDataChanged(username: String, password: String) {
         _loginForm.value = when {
-            !isUserNameValid(username) -> LoginFormState.Valid
-            !isPasswordValid(password) -> LoginFormState.Invalid(error = R.string.action_sign_in)
+            !isUserNameValid(username) -> LoginFormState.InvalidLogin
+            !isPasswordValid(password) -> LoginFormState.InvalidPassword
             else -> LoginFormState.Valid
         }
     }
