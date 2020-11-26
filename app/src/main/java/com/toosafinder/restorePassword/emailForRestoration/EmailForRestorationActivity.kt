@@ -26,7 +26,7 @@ class EmailForRestorationActivity :  AppCompatActivity(){
 
         emailForRestorationViewModel.emailConfirmationState.observe(this@EmailForRestorationActivity){
             when(it){
-                is EmailConfirmationState.InvalidEmail -> textErrorMessage.text = getString(R.string.invalid_email)
+                is EmailConfirmationState.InvalidEmail -> textErrorMessage.text = getString(R.string.error_invalid_email)
                 is EmailConfirmationState.Valid -> textErrorMessage.text = getString(R.string.all_valid)
             }
         }
@@ -35,8 +35,8 @@ class EmailForRestorationActivity :  AppCompatActivity(){
             when(it){
                 is HTTPRes.Conflict -> textErrorMessage.text = getString(R.string.email_not_found)
                 is HTTPRes.Success -> {
-                    textFieldEmail.visibility = View.INVISIBLE
-                    buttonContinue.visibility = View.INVISIBLE
+                    textFieldEmail.visibility = View.GONE
+                    buttonContinue.visibility = View.GONE
                     textAfterClick.visibility = View.VISIBLE
                     buttonAfterClick.visibility = View.VISIBLE
                 }

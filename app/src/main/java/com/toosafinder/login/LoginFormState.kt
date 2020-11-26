@@ -5,5 +5,6 @@ package com.toosafinder.login
  */
 sealed class LoginFormState {
         object Valid : LoginFormState()
-        class Invalid(val error: Int) : LoginFormState()
+        object InvalidLogin : LoginFormState()
+        object InvalidPassword : LoginFormState()
 }

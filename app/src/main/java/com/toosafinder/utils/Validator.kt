@@ -12,5 +12,5 @@ fun isUserNameValid(username: String): Boolean =
 fun isEmailValid(email: String): Boolean =
     email.contains(Regex(".*@.*"))
 
-// A placeholder password validation check
-fun isPasswordValid(password: String): Boolean = password.length > 5
+    // A placeholder password validation check
+fun isPasswordValid(password: String): Boolean = password.length > 7

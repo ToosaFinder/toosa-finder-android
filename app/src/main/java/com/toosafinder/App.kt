@@ -7,6 +7,9 @@ import com.toosafinder.login.LoginViewModel
 import com.toosafinder.network.ErrorHandlingInterceptor
 import com.toosafinder.network.provideOkHttpClient
 import com.toosafinder.network.provideRetrofit
+import com.toosafinder.registration.RegistrationAPI
+import com.toosafinder.registration.RegistrationRepository
+import com.toosafinder.registration.RegistrationViewModel
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationDataSource
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationRepository
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationViewModel
@@ -23,6 +26,9 @@ val networkModule = module {
     factory { provideOkHttpClient(get()) }
     single { provideRetrofit(get()) }
 
+    single {
+        get<Retrofit>().create(RegistrationAPI::class.java)
+    }
     single {
         get<Retrofit>().create(LoginApi::class.java)
     }
@@ -44,6 +50,11 @@ val loginModule = module {
     single { RestorePasswordViewModel(get()) }
     single { EmailForRestorationRepository(get()) }
     single { EmailForRestorationViewModel(get()) }
+}
+
+val registrationModule = module {
+    single { RegistrationRepository(get()) }
+    single { RegistrationViewModel(get()) }
 }
 
 /**

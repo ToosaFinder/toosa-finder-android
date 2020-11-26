@@ -24,13 +24,10 @@ class RestorePasswordActivity : AppCompatActivity(){
         val emailToken : String = intent.data?.lastPathSegment ?: throw NullPointerException("Ничего не прислали")
 
         restorePasswordViewModel.restorePasswordState.observe(this@RestorePasswordActivity){
-            when(it){
-                is RestorePasswordState.UnequalPasswords ->
-                    textErrorMessage.text = getString(R.string.invalid_password_unequal)
-                is RestorePasswordState.InvalidPassword ->
-                    textErrorMessage.text = getString(R.string.invalid_password)
-                is RestorePasswordState.Valid ->
-                    textErrorMessage.text = getString(R.string.all_valid)
+            textErrorMessage.text = when(it){
+                is RestorePasswordState.UnequalPasswords -> getString(R.string.error_invalid_password_unequal)
+                is RestorePasswordState.InvalidPassword -> getString(R.string.error_invalid_password_short)
+                is RestorePasswordState.Valid -> getString(R.string.all_valid)
             }
         }
 
@@ -52,7 +49,7 @@ class RestorePasswordActivity : AppCompatActivity(){
 
 
         buttonDone.setOnClickListener {
-                restorePasswordViewModel.registerPassword(emailToken, textFieldPassword.text.toString())
+            restorePasswordViewModel.registerPassword(emailToken, textFieldPassword.text.toString())
         }
 
 
