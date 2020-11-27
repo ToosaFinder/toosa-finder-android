@@ -1,6 +1,7 @@
 package com.toosafinder.registration
 
 import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -26,32 +27,23 @@ class RegistrationActivity : AppCompatActivity() {
         registrationViewModel = getViewModel()
 
         registrationViewModel.registrationFormState.observe(this@RegistrationActivity) {
-            when (it) {
-                is RegistrationFormState.InvalidEmail ->
-                    textErrorMessage.text = getString(R.string.invalid_email)
-                is RegistrationFormState.InvalidLogin ->
-                    textErrorMessage.text = getString(R.string.invalid_username)
-                is RegistrationFormState.UnequalPasswords ->
-                    textErrorMessage.text = getString(R.string.invalid_password_unequal)
-                is RegistrationFormState.InvalidPassword ->
-                    textErrorMessage.text = getString(R.string.invalid_password_short)
-                is RegistrationFormState.Valid ->
-                    textErrorMessage.text = getString(R.string.all_valid)
+            textErrorMessage.text = when (it) {
+                is RegistrationFormState.InvalidEmail -> getString(R.string.error_invalid_email)
+                is RegistrationFormState.InvalidLogin -> getString(R.string.error_invalid_username)
+                is RegistrationFormState.UnequalPasswords -> getString(R.string.error_invalid_password_unequal)
+                is RegistrationFormState.InvalidPassword -> getString(R.string.error_invalid_password_short)
+                is RegistrationFormState.NoAgreement -> getString(R.string.error_no_agreement)
+                is RegistrationFormState.Valid -> getString(R.string.all_valid)
             }
-            buttonContinue.isEnabled = it == RegistrationFormState.Valid
+            buttonContinue.isEnabled = it is RegistrationFormState.Valid
         }
 
         registrationViewModel.registrationResult.observe(this@RegistrationActivity) {
             progressBarSending.visibility = View.INVISIBLE
             when (it) {
-                is HTTPRes.Success -> startActivity(
-                    Intent(
-                        this@RegistrationActivity,
-                        LoginActivity::class.java
-                    )
-                )
+                is HTTPRes.Success -> startLoginActivity()
                 is HTTPRes.Conflict -> textErrorMessage.text =
-                    getString(R.string.error_registration) + it.message
+                    getString(R.string.error_registration) + " " + it.message
             }
         }
 
@@ -60,16 +52,21 @@ class RegistrationActivity : AppCompatActivity() {
                 textFieldEmail.text.toString(),
                 textFieldLogin.text.toString(),
                 textFieldPassword.text.toString(),
-                textFieldPasswordConfirmation.text.toString()
+                textFieldPasswordConfirmation.text.toString(),
+                checkBoxAgree.isChecked
             )
         }
 
         onDataChanged()
 
+        promptAccountQuestion.setOnClickListener { startLoginActivity() }
+        promptAccountQuestion.paintFlags = promptAccountQuestion.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+
         textFieldEmail.afterTextChanged { onDataChanged() }
         textFieldLogin.afterTextChanged { onDataChanged() }
         textFieldPassword.afterTextChanged { onDataChanged() }
         textFieldPasswordConfirmation.afterTextChanged { onDataChanged() }
+        checkBoxAgree.setOnClickListener { onDataChanged() }
 
         buttonContinue.setOnClickListener {
             progressBarSending.visibility = View.VISIBLE
@@ -80,5 +77,14 @@ class RegistrationActivity : AppCompatActivity() {
         }
 
         unloadKoinModules(registrationModule)
+    }
+
+    private fun startLoginActivity() {
+        startActivity(
+            Intent(
+                this@RegistrationActivity,
+                LoginActivity::class.java
+            )
+        )
     }
 }

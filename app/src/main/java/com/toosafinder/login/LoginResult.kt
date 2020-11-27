@@ -5,5 +5,5 @@ package com.toosafinder.login
  */
 sealed class LoginResult {
         data class Success(val loggedInUserView: LoggedInUserView): LoginResult()
-        data class Error(var error: Int): LoginResult()
+        data class Error(var code: Int, val error: String?): LoginResult()
 }

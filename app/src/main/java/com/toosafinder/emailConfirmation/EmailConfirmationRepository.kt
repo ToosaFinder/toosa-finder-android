@@ -12,9 +12,7 @@ class EmailConfirmationRepository(
         val result = api.checkEmailToken(emailToken)
         when (val mes: HTTPRes<Unit> = convertAnswer(result)) {
             is HTTPRes.Success -> Log.d("SuccessfulConfirmation", "Success")
-            is HTTPRes.Conflict -> Log.d("ConfirmationError", mes.code)
+            is HTTPRes.Conflict -> Log.d("ConfirmationError", "" + mes.message)
         }
     }
-
-
 }

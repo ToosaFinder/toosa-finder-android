@@ -61,7 +61,7 @@ private class ResponseBodyConverter<T>(
             conflictConverter.invoke(jsonString)
         }.fold(
             onSuccess = {
-                HTTPRes.Conflict(it.code, it.message, it.payload)
+                HTTPRes.Conflict(Integer.parseInt(it.code), it.message!!, it.payload)
             },
             onFailure = {
                 HTTPRes.Success(defaultConverter.invoke(jsonString))

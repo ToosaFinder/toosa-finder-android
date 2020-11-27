@@ -1,5 +1,6 @@
 package com.toosafinder.registration
 
+import android.util.Log
 import com.toosafinder.api.registration.UserRegistrationReq
 import com.toosafinder.network.HTTPRes
 import com.toosafinder.network.convertAnswer

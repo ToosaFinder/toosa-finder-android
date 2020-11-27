@@ -14,8 +14,8 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.toosafinder.R
+import com.toosafinder.registration.RegistrationActivity
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationActivity
-import com.toosafinder.restorePassword.restorePassword.RestorePasswordActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 
@@ -29,26 +29,23 @@ class LoginActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_login)
 
-        val username = findViewById<EditText>(R.id.username)
-        val password = findViewById<EditText>(R.id.password)
-        val login = findViewById<Button>(R.id.login)
-        val loading = findViewById<ProgressBar>(R.id.loading)
-        val signUp = findViewById<Button>(R.id.signUpButton)
-
         loginViewModel = getViewModel()
 
-        loginViewModel.loginFormState.observe(this@LoginActivity) { loginState ->
-            when(loginState){
-                is LoginFormState.Valid -> login.isEnabled = true
-                is LoginFormState.Invalid -> getString(loginState.error)
+        loginViewModel.loginFormState.observe(this@LoginActivity) {
+            textErrorMessage.text = when(it) {
+                is LoginFormState.InvalidLogin -> getString(R.string.error_invalid_username)
+                is LoginFormState.InvalidPassword -> getString(R.string.error_invalid_password_short)
+                is LoginFormState.Valid -> getString(R.string.all_valid)
             }
+            login.isEnabled = it is LoginFormState.Valid
         }
 
         loginViewModel.loginResult.observe(this@LoginActivity) { loginResult ->
-            loading.visibility = View.INVISIBLE
-            when(loginResult){
+            progressBarSending.visibility = View.INVISIBLE
+            when(loginResult) {
                 is LoginResult.Success -> updateUiWithUser(loginResult.loggedInUserView)
-                is LoginResult.Error -> showLoginFailed(loginResult.error)
+                is LoginResult.Error ->
+                    textErrorMessage.text = getString(R.string.error_login) + " " + loginResult.error
             }
         }
 
@@ -59,26 +56,26 @@ class LoginActivity : AppCompatActivity() {
             )
         }
 
+        onDataChanged()
+
         username.afterTextChanged { onDataChanged() }
 
         password.apply {
             afterTextChanged { onDataChanged() }
 
-            setOnEditorActionListener { _, actionId, _ ->
-                when (actionId) {
-                    EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
-                                username.text.toString(),
-                                password.text.toString()
-                        )
-                }
-                false
-            }
-
             login.setOnClickListener {
-                loading.visibility = View.VISIBLE
+                progressBarSending.visibility = View.VISIBLE
                 loginViewModel.login(username.text.toString(), password.text.toString())
             }
+        }
+
+        signUpButton.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@LoginActivity,
+                    RegistrationActivity::class.java
+                )
+            )
         }
 
         forgotPasswordButton.setOnClickListener {
@@ -98,9 +95,6 @@ class LoginActivity : AppCompatActivity() {
                 Toast.LENGTH_LONG
         ).show()
     }
-
-    private fun showLoginFailed(@StringRes errorString: Int) =
-        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
 }
 
 /**
