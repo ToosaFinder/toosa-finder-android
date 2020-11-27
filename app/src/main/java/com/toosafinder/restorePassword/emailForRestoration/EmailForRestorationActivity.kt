@@ -9,6 +9,7 @@ import com.toosafinder.emailForRestorationModule
 import com.toosafinder.login.LoginActivity
 import com.toosafinder.login.afterTextChanged
 import com.toosafinder.network.HTTPRes
+import com.toosafinder.utils.ErrorObserver
 import kotlinx.android.synthetic.main.email_for_restoration.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 import org.koin.core.context.loadKoinModules
@@ -29,15 +30,15 @@ class EmailForRestorationActivity :  AppCompatActivity(){
 
         emailForRestorationViewModel = getViewModel()
 
+        val emailForRestorationErrorObserver = ErrorObserver<EmailConfirmationState>(textErrorMessage,
+            buttonContinue, EmailConfirmationState.Valid, {
+                when(it) {
+                    is EmailConfirmationState.InvalidEmail -> getString(R.string.error_invalid_email)
+                    is EmailConfirmationState.Valid -> getString(R.string.all_valid)
+                }
+            })
 
-
-        emailForRestorationViewModel.emailConfirmationState.observe(this@EmailForRestorationActivity){
-            when(it){
-                is EmailConfirmationState.InvalidEmail -> textErrorMessage.text = getString(R.string.error_invalid_email)
-                is EmailConfirmationState.Valid -> textErrorMessage.text = getString(R.string.all_valid)
-            }
-            buttonContinue.isEnabled = it is EmailConfirmationState.Valid
-        }
+        emailForRestorationViewModel.emailConfirmationState.observe(this@EmailForRestorationActivity, emailForRestorationErrorObserver)
 
         emailForRestorationViewModel.emailConfirmationResult.observe(this@EmailForRestorationActivity){
             when(it){

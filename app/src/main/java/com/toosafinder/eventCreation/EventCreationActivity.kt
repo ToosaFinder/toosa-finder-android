@@ -2,11 +2,14 @@ package com.toosafinder.eventCreation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
 import co.lujun.androidtagview.TagView.OnTagClickListener
+import com.google.android.gms.maps.model.LatLng
 import com.toosafinder.R
 import kotlinx.android.synthetic.main.content_event_creation.*
 
 class EventCreationActivity : AppCompatActivity() {
+    private val location: MutableLiveData<LatLng> = MutableLiveData()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,9 +33,14 @@ class EventCreationActivity : AppCompatActivity() {
                 tagView.removeTag(position)
             }
         })
+
         tagView.addTag("Bek")
         tagView.addTag("Nek")
         tagView.addTag("Serezha")
         tagView.addTag("Motya")
+
+        buttonFindLocation.setOnClickListener {
+            EventCreationLocationMap(location).show(supportFragmentManager, "Location Map")
+        }
     }
 }

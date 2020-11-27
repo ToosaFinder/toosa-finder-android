@@ -7,6 +7,7 @@ import com.toosafinder.R
 import com.toosafinder.login.LoginActivity
 import com.toosafinder.login.afterTextChanged
 import com.toosafinder.network.HTTPRes
+import com.toosafinder.utils.ErrorObserver
 import kotlinx.android.synthetic.main.restore_password.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 
@@ -23,14 +24,16 @@ class RestorePasswordActivity : AppCompatActivity(){
 
         val emailToken : String = intent.data?.lastPathSegment ?: throw NullPointerException("Ничего не прислали")
 
-        restorePasswordViewModel.restorePasswordState.observe(this@RestorePasswordActivity){
-            textErrorMessage.text = when(it) {
-                is RestorePasswordState.UnequalPasswords -> getString(R.string.error_invalid_password_unequal)
-                is RestorePasswordState.InvalidPassword -> getString(R.string.error_invalid_password_short)
-                is RestorePasswordState.Valid -> getString(R.string.all_valid)
-            }
-            buttonDone.isEnabled = it is RestorePasswordState.Valid
-        }
+        val restorePasswordErrorObserver = ErrorObserver<RestorePasswordState>(textErrorMessage,
+            buttonDone, RestorePasswordState.Valid, {
+                when(it) {
+                    is RestorePasswordState.UnequalPasswords -> getString(R.string.error_invalid_password_unequal)
+                    is RestorePasswordState.InvalidPassword -> getString(R.string.error_invalid_password_short)
+                    is RestorePasswordState.Valid -> getString(R.string.all_valid)
+                }
+            })
+
+        restorePasswordViewModel.restorePasswordState.observe(this@RestorePasswordActivity, restorePasswordErrorObserver)
 
         restorePasswordViewModel.restorePasswordResult.observe(this@RestorePasswordActivity) {
             when (it) {

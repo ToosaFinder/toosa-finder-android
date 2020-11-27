@@ -15,7 +15,9 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import com.toosafinder.R
 import com.toosafinder.registration.RegistrationActivity
+import com.toosafinder.registration.RegistrationFormState
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationActivity
+import com.toosafinder.utils.ErrorObserver
 import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 
@@ -31,14 +33,15 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel = getViewModel()
 
-        loginViewModel.loginFormState.observe(this@LoginActivity) {
-            textErrorMessage.text = when(it) {
+        val loginErrorObserver = ErrorObserver<LoginFormState>(textErrorMessage, login, LoginFormState.Valid, {
+            when(it) {
                 is LoginFormState.InvalidLogin -> getString(R.string.error_invalid_username)
                 is LoginFormState.InvalidPassword -> getString(R.string.error_invalid_password_short)
                 is LoginFormState.Valid -> getString(R.string.all_valid)
             }
-            login.isEnabled = it is LoginFormState.Valid
-        }
+        })
+
+        loginViewModel.loginFormState.observe(this@LoginActivity, loginErrorObserver)
 
         loginViewModel.loginResult.observe(this@LoginActivity) { loginResult ->
             progressBarSending.visibility = View.INVISIBLE

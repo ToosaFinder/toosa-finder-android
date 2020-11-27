@@ -40,7 +40,7 @@
     <string name="error_no_agreement">Please agree to Terms of Services and Privacy Policy</string>
     <string name="error_registration">Error during registration: </string>
     <!-- event creation -->
-    <string name="title_activity_event_creation">EventCreation</string>
+    <string name="title_activity_event_creation">Event Creation</string>
     <string name="prompt_event_name">Name</string>
     <string name="prompt_description">Description</string>
     <string name="prompt_tags">Tags</string>

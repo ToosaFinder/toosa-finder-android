@@ -2,6 +2,7 @@ package com.toosafinder.registration
 
 import android.content.Intent
 import android.graphics.Paint
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import com.toosafinder.login.LoginActivity
 import com.toosafinder.login.afterTextChanged
 import com.toosafinder.network.HTTPRes
 import com.toosafinder.registrationModule
+import com.toosafinder.utils.ErrorObserver
 import kotlinx.android.synthetic.main.content_registration.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 import org.koin.core.context.loadKoinModules
@@ -26,8 +28,9 @@ class RegistrationActivity : AppCompatActivity() {
 
         registrationViewModel = getViewModel()
 
-        registrationViewModel.registrationFormState.observe(this@RegistrationActivity) {
-            textErrorMessage.text = when (it) {
+        val registrationErrorObserver = ErrorObserver<RegistrationFormState>(textErrorMessage, buttonContinue,
+            RegistrationFormState.Valid, {
+            when (it) {
                 is RegistrationFormState.InvalidEmail -> getString(R.string.error_invalid_email)
                 is RegistrationFormState.InvalidLogin -> getString(R.string.error_invalid_username)
                 is RegistrationFormState.UnequalPasswords -> getString(R.string.error_invalid_password_unequal)
@@ -35,8 +38,9 @@ class RegistrationActivity : AppCompatActivity() {
                 is RegistrationFormState.NoAgreement -> getString(R.string.error_no_agreement)
                 is RegistrationFormState.Valid -> getString(R.string.all_valid)
             }
-            buttonContinue.isEnabled = it is RegistrationFormState.Valid
-        }
+        })
+
+        registrationViewModel.registrationFormState.observe(this@RegistrationActivity, registrationErrorObserver)
 
         registrationViewModel.registrationResult.observe(this@RegistrationActivity) {
             progressBarSending.visibility = View.INVISIBLE
