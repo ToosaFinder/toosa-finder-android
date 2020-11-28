@@ -29,7 +29,6 @@ class RegistrationActivity : AppCompatActivity() {
         registrationViewModel.registrationFormState.observe(this@RegistrationActivity) {
             textErrorMessage.text = when (it) {
                 is RegistrationFormState.InvalidEmail -> getString(R.string.error_invalid_email)
-                is RegistrationFormState.InvalidLogin -> getString(R.string.error_invalid_username)
                 is RegistrationFormState.UnequalPasswords -> getString(R.string.error_invalid_password_unequal)
                 is RegistrationFormState.InvalidPassword -> getString(R.string.error_invalid_password_short)
                 is RegistrationFormState.NoAgreement -> getString(R.string.error_no_agreement)
@@ -50,7 +49,6 @@ class RegistrationActivity : AppCompatActivity() {
         val onDataChanged = {
             registrationViewModel.registrationDataChange(
                 textFieldEmail.text.toString(),
-                textFieldLogin.text.toString(),
                 textFieldPassword.text.toString(),
                 textFieldPasswordConfirmation.text.toString(),
                 checkBoxAgree.isChecked
