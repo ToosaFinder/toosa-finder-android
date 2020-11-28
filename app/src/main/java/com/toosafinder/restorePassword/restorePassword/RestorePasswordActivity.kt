@@ -7,10 +7,7 @@ import com.toosafinder.R
 import com.toosafinder.login.LoginActivity
 import com.toosafinder.login.afterTextChanged
 import com.toosafinder.network.HTTPRes
-import kotlinx.android.synthetic.main.content_registration.*
 import kotlinx.android.synthetic.main.restore_password.*
-import kotlinx.android.synthetic.main.restore_password.textErrorMessage
-import kotlinx.android.synthetic.main.restore_password.textFieldPassword
 import org.koin.android.viewmodel.ext.android.getViewModel
 
 class RestorePasswordActivity : AppCompatActivity(){
@@ -19,6 +16,8 @@ class RestorePasswordActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
+
+        loadKoinModules(restorePasswordModule)
 
         setContentView(R.layout.restore_password)
 
@@ -38,11 +37,15 @@ class RestorePasswordActivity : AppCompatActivity(){
         restorePasswordViewModel.restorePasswordResult.observe(this@RestorePasswordActivity) {
             when (it) {
                 is HTTPRes.Conflict -> textErrorMessage.text = getString(R.string.invalid_email_token)
-                is HTTPRes.Success -> startActivity(Intent(this@RestorePasswordActivity, LoginActivity::class.java))
+                is HTTPRes.Success -> {
+                    unloadKoinModules(restorePasswordModule)
+                    startActivity(Intent(this@RestorePasswordActivity, LoginActivity::class.java))
+                }
             }
         }
 
         val onDataChange = {
+            Log.d(textFieldPassword.text.toString(),textFieldRepeatPassword.text.toString())
             restorePasswordViewModel.restorePasswordDataChanged(
                 textFieldPassword.text.toString(),
                 textFieldRepeatPassword.text.toString()
@@ -52,6 +55,7 @@ class RestorePasswordActivity : AppCompatActivity(){
         onDataChange()
 
         textFieldPassword.afterTextChanged { onDataChange() }
+        textFieldRepeatPassword.afterTextChanged { onDataChange() }
 
         buttonDone.setOnClickListener {
             textErrorMessage.text = getString(R.string.all_valid)
