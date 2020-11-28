@@ -2,13 +2,17 @@ package com.toosafinder.restorePassword.restorePassword
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.toosafinder.R
 import com.toosafinder.login.LoginActivity
 import com.toosafinder.login.afterTextChanged
 import com.toosafinder.network.HTTPRes
+import com.toosafinder.restorePasswordModule
 import kotlinx.android.synthetic.main.restore_password.*
 import org.koin.android.viewmodel.ext.android.getViewModel
+import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
 
 class RestorePasswordActivity : AppCompatActivity(){
 
