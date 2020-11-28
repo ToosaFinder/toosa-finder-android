@@ -68,6 +68,7 @@ class RegistrationActivity : AppCompatActivity() {
 
         buttonContinue.setOnClickListener {
             progressBarSending.visibility = View.VISIBLE
+            textErrorMessage.text = getString(R.string.all_valid)
             registrationViewModel.registerUser(
                 textFieldEmail.text.toString(),
                 textFieldLogin.text.toString(), textFieldPassword.text.toString()

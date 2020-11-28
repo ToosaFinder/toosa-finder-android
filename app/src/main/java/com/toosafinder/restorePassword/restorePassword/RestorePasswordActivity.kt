@@ -7,7 +7,10 @@ import com.toosafinder.R
 import com.toosafinder.login.LoginActivity
 import com.toosafinder.login.afterTextChanged
 import com.toosafinder.network.HTTPRes
+import kotlinx.android.synthetic.main.content_registration.*
 import kotlinx.android.synthetic.main.restore_password.*
+import kotlinx.android.synthetic.main.restore_password.textErrorMessage
+import kotlinx.android.synthetic.main.restore_password.textFieldPassword
 import org.koin.android.viewmodel.ext.android.getViewModel
 
 class RestorePasswordActivity : AppCompatActivity(){
@@ -51,6 +54,7 @@ class RestorePasswordActivity : AppCompatActivity(){
         textFieldPassword.afterTextChanged { onDataChange() }
 
         buttonDone.setOnClickListener {
+            textErrorMessage.text = getString(R.string.all_valid)
             restorePasswordViewModel.registerPassword(emailToken, textFieldPassword.text.toString())
         }
     }
