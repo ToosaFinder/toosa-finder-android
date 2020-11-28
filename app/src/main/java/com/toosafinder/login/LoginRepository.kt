@@ -11,7 +11,8 @@ class LoginRepository(private val api: LoginApi) {
     var user: LoggedInUser? = null
         private set
 
-    private var accessToken: String? = null
+    var accessToken: String? = null
+        private set
 
     val isLoggedIn: Boolean
         get() = user != null && accessToken != null

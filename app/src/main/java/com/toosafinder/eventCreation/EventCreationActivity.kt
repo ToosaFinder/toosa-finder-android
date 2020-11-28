@@ -42,5 +42,9 @@ class EventCreationActivity : AppCompatActivity() {
         buttonFindLocation.setOnClickListener {
             EventCreationLocationMap(location).show(supportFragmentManager, "Location Map")
         }
+
+        buttonAddTag.setOnClickListener {
+            supportFragmentManager.beginTransaction().add(AddTagFragment(), "Add Tag").commit()
+        }
     }
 }

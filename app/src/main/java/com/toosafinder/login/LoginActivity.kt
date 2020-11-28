@@ -1,26 +1,19 @@
 package com.toosafinder.login
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.Button
 import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.toosafinder.R
 import com.toosafinder.registration.RegistrationActivity
-import com.toosafinder.registration.RegistrationFormState
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationActivity
 import com.toosafinder.utils.ErrorObserver
 import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.viewmodel.ext.android.getViewModel
-
 
 class LoginActivity : AppCompatActivity() {
 

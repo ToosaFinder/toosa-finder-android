@@ -4,6 +4,7 @@ import android.app.Application
 import com.toosafinder.emailConfirmation.EmailConfirmationAPI
 import com.toosafinder.emailConfirmation.EmailConfirmationRepository
 import com.toosafinder.emailConfirmation.EmailConfirmationViewModel
+import com.toosafinder.eventCreation.EventAPI
 import com.toosafinder.login.LoginApi
 import com.toosafinder.login.LoginRepository
 import com.toosafinder.login.LoginViewModel
@@ -43,6 +44,9 @@ val networkModule = module {
     }
     single {
         get<Retrofit>().create(EmailConfirmationAPI::class.java)
+    }
+    single {
+        get<Retrofit>().create(EventAPI::class.java)
     }
 }
 

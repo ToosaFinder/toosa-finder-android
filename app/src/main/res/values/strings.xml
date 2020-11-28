@@ -1,9 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE resources [
-    <!ENTITY action_sign_in_short "Sign in">
-    <!ENTITY tos_url "http://google.com">
-    <!ENTITY pp_url "http://youtube.com">
-]>
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE resources [<!ENTITY action_sign_in_short "Sign in"><!ENTITY tos_url "http://google.com"><!ENTITY pp_url "http://youtube.com">]>
 
 <resources>
     <!-- Common strings -->
@@ -54,6 +49,7 @@
     <string name="placeholder_location">Where?</string>
     <string name="placeholder_date">Date</string>
     <string name="placeholder_time">Time</string>
+    <string name="placeholder_add_tag">Tag name</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_create">Create</string>
     <string name="button_add_tag">Add tag</string>
