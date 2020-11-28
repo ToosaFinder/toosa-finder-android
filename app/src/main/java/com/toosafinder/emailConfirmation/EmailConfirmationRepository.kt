@@ -1,18 +1,20 @@
 package com.toosafinder.emailConfirmation
 
-import android.util.Log
-import com.toosafinder.network.HTTPRes
-import com.toosafinder.network.convertAnswer
-import java.util.*
+import com.toosafinder.api.ApiClient
+import com.toosafinder.api.ErrorCode
+import com.toosafinder.api.put
+import com.toosafinder.utils.UnitOption
+import java.util.UUID
 
 class EmailConfirmationRepository(
-    private val api: EmailConfirmationAPI) {
+    private val api: ApiClient
+) {
 
-    suspend fun checkEmailToken(emailToken : UUID) {
-        val result = api.checkEmailToken(emailToken)
-        when (val mes: HTTPRes<Unit> = convertAnswer(result)) {
-            is HTTPRes.Success -> Log.d("SuccessfulConfirmation", "Success")
-            is HTTPRes.Conflict -> Log.d("ConfirmationError", "" + mes.message)
-        }
+    suspend fun checkEmailToken(emailToken : UUID): UnitOption<ErrorCode?> {
+        return api.put<Unit>("/user/email-confirmed/$emailToken")
+            .transform(
+                onSuccess = { UnitOption.success() },
+                onConflict = { UnitOption.error(ErrorCode.fromString(it.code)) }
+            )
     }
 }

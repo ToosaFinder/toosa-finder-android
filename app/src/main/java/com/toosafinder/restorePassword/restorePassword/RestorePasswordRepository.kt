@@ -1,23 +1,18 @@
 package com.toosafinder.restorePassword.restorePassword
 
-import android.util.Log
-import com.toosafinder.api.login.PasswordRestoreReq
+import com.toosafinder.api.*
 import com.toosafinder.api.login.PasswordSetReq
-import com.toosafinder.network.HTTPRes
-import com.toosafinder.network.convertAnswer
-import java.util.*
+import com.toosafinder.utils.UnitOption
 
 class RestorePasswordRepository(
-    private val api: RestorePasswordAPI
+    private val api: ApiClient
 ) {
 
+    suspend fun registerPassword(emailToken : String, password : String) : UnitOption<ErrorCode?> =
+        api.post<Unit>("/user/set-password", PasswordSetReq(emailToken, password))
+            .transform(
+                onSuccess = { UnitOption.success() },
+                onConflict = { UnitOption.error(ErrorCode.fromString(it.code)) }
+            )
 
-    suspend fun registerPassword(emailToken : String, password : String) : HTTPRes<Unit>{
-        val result =  convertAnswer(api.registerPassword(PasswordSetReq(emailToken, password)))
-        when(result){
-            is HTTPRes.Success -> Log.d("SuccessfulRegistry", "Success")
-            is HTTPRes.Conflict -> Log.d("RegistryError", result.code.toString() +" "+ result.message)
-        }
-        return result
-    }
 }

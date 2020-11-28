@@ -1,20 +1,18 @@
 package com.toosafinder.restorePassword.emailForRestoration
 
-import android.util.Log
+import com.toosafinder.api.*
 import com.toosafinder.api.login.PasswordRestoreReq
-import com.toosafinder.network.HTTPRes
-import com.toosafinder.network.convertAnswer
+import com.toosafinder.utils.UnitOption
 
 class EmailForRestorationRepository(
-    private val api: EmailForRestorationAPI
+    private val api: ApiClient
 ) {
 
-    suspend fun restorePassword (email : String): HTTPRes<Unit>{
-        val result = convertAnswer(api.restorePassword(PasswordRestoreReq(email)))
-        when(result){
-            is HTTPRes.Success -> Log.d("SuccessfulConfirmation", "Success")
-            is HTTPRes.Conflict -> Log.d("ConfirmationError", result.code.toString())
-        }
-        return result
-    }
+    suspend fun restorePassword (email : String): UnitOption<ErrorCode?> =
+        api.post<Unit>("/user/restore-password", PasswordRestoreReq(email), withAuth = false)
+            .transform(
+                onSuccess = { UnitOption.success() },
+                onConflict = { UnitOption.error(ErrorCode.fromString(it.code)) }
+            )
+
 }
