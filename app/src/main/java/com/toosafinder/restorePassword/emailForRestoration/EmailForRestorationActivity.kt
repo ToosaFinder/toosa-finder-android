@@ -9,7 +9,11 @@ import com.toosafinder.emailForRestorationModule
 import com.toosafinder.login.LoginActivity
 import com.toosafinder.login.afterTextChanged
 import com.toosafinder.network.HTTPRes
+import kotlinx.android.synthetic.main.content_registration.*
 import kotlinx.android.synthetic.main.email_for_restoration.*
+import kotlinx.android.synthetic.main.email_for_restoration.buttonContinue
+import kotlinx.android.synthetic.main.email_for_restoration.textErrorMessage
+import kotlinx.android.synthetic.main.email_for_restoration.textFieldEmail
 import org.koin.android.viewmodel.ext.android.getViewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
@@ -60,6 +64,7 @@ class EmailForRestorationActivity :  AppCompatActivity(){
         textFieldEmail.afterTextChanged { onDataChanged() }
 
         buttonContinue.setOnClickListener{ _ ->
+            textErrorMessage.text = getString(R.string.all_valid)
             emailForRestorationViewModel.sendEmail(textFieldEmail.text.toString())
         }
 
