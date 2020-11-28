@@ -54,6 +54,7 @@ class RestorePasswordActivity : AppCompatActivity(){
         textFieldPassword.afterTextChanged { onDataChange() }
 
         buttonDone.setOnClickListener {
+            textErrorMessage.text = getString(R.string.all_valid)
             restorePasswordViewModel.registerPassword(emailToken, textFieldPassword.text.toString())
         }
     }

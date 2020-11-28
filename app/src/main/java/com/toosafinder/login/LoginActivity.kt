@@ -13,6 +13,9 @@ import com.toosafinder.registration.RegistrationActivity
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationActivity
 import com.toosafinder.utils.ErrorObserver
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.progressBarSending
+import kotlinx.android.synthetic.main.activity_login.textErrorMessage
+import kotlinx.android.synthetic.main.content_registration.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 
 class LoginActivity : AppCompatActivity() {
@@ -61,6 +64,7 @@ class LoginActivity : AppCompatActivity() {
 
             login.setOnClickListener {
                 progressBarSending.visibility = View.VISIBLE
+                textErrorMessage.text = getString(R.string.all_valid)
                 loginViewModel.login(username.text.toString(), password.text.toString())
             }
         }
