@@ -19,7 +19,7 @@ class LoginViewModel(
 
     fun login(username: String, password: String) = viewModelScope.launchWithErrorLogging {
         _loginResult.value = loginRepository.login(username, password)
-            .mapSuccess {LoggedInUserView(it.name)}
+            .mapSuccess { LoggedInUserView(it.name) }
     }
 
     fun loginDataChanged(username: String, password: String) {
