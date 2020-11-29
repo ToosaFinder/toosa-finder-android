@@ -6,11 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.toosafinder.R
-import com.toosafinder.emailConfirmationModule
 import com.toosafinder.login.LoginActivity
 import org.koin.android.viewmodel.ext.android.getViewModel
-import org.koin.core.context.loadKoinModules
-import org.koin.core.context.unloadKoinModules
 import java.util.*
 
 class EmailConfirmationActivity : AppCompatActivity() {
@@ -22,19 +19,21 @@ class EmailConfirmationActivity : AppCompatActivity() {
         super.onPostCreate(savedInstanceState)
         setContentView(R.layout.email_confirmation)
 
-        loadKoinModules(emailConfirmationModule)
         emailConfirmationViewModel = getViewModel()
 
+        //TODO: Переменным не обязательно указывать тип. Котлин сам выведет. Гораздо читабельнее будет,
+        // если написать "val uri = intent?.data"
         val data: Uri? = intent?.data
+
+        //TODO: Может сообщить пользователю о том что ссылка некорректная? Кому и чем поможет этот ексепшн.
+        // По-моему приложение просто вылетит
         val emailToken: UUID = UUID.fromString(parseData(data)) ?: throw Exception("No uuid was found")
-        Log.d("ConfirmationToken",emailToken.toString())
+        Log.d("ConfirmationToken", emailToken.toString())
 
         emailConfirmationViewModel.checkEmailToken(emailToken){
-            val intent: Intent = Intent(this@EmailConfirmationActivity, LoginActivity::class.java)
+            val intent = Intent(this@EmailConfirmationActivity, LoginActivity::class.java)
             startActivity(intent)
         }
-        unloadKoinModules(emailConfirmationModule)
-
     }
 
 //     Попытка переделать с Sealed class, но не понял зачем он тут, у нас же просто вытаскивается значение uuid,

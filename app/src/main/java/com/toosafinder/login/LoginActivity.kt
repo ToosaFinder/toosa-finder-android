@@ -1,17 +1,13 @@
 package com.toosafinder.login
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.Button
 import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.Toast
 import com.toosafinder.R
 import com.toosafinder.registration.RegistrationActivity
@@ -31,7 +27,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_login)
-
         loginViewModel = getViewModel()
 
         loginViewModel.loginFormState.observe(this@LoginActivity) {
@@ -45,12 +40,15 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel.loginResult.observe(this@LoginActivity) { loginResult ->
             progressBarSending.visibility = View.INVISIBLE
-            when(loginResult) {
-                is LoginResult.Success -> updateUiWithUser(loginResult.loggedInUserView)
-                is LoginResult.Error ->
-                    textErrorMessage.text = getString(R.string.error_login) + " " + loginResult.error
+            Log.e("LoginActivity", "login error received4")
+            loginResult.finalize(
+                    onSuccess = ::updateUiWithUser,
+                    onError = {
+                        Log.i("LoginActivity", "login error received")
+                        textErrorMessage.text = getString(R.string.error_login) + " " + it
+                    }
+                )
             }
-        }
 
         val onDataChanged = {
             loginViewModel.loginDataChanged(
@@ -83,9 +81,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         forgotPasswordButton.setOnClickListener {
-//            val intent : Intent = Intent(RestorePasswordActivity::class.qualifiedName)
             val intent = Intent(this@LoginActivity, EmailForRestorationActivity::class.java)
-//            val intent = Intent(this@LoginActivity, RestorePasswordActivity::class.qualifiedName)
             startActivity(intent)
         }
     }
@@ -104,6 +100,7 @@ class LoginActivity : AppCompatActivity() {
 /**
  * Extension function to simplify setting an afterTextChanged action to EditText components.
  */
+//TODO: Можно вынести в utils
 fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
     this.addTextChangedListener(object : TextWatcher {
         override fun afterTextChanged(editable: Editable?) {

@@ -1,19 +1,19 @@
 package com.toosafinder.emailConfirmation
 
-import android.content.Intent
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
-import retrofit2.Response
+import com.toosafinder.utils.launchWithErrorLogging
 import java.util.*
 
-class EmailConfirmationViewModel (private val emailConfirmationRepository: EmailConfirmationRepository) : ViewModel() {
 
+//TODO: обработать ошибку от сервера
+// что произойдет в приложении если сервер ответит что токен невалиден?
+class EmailConfirmationViewModel(
+    private val emailConfirmationRepository: EmailConfirmationRepository
+): ViewModel() {
 
-    fun checkEmailToken(emailToken : UUID, nextActivity : () -> Unit) = viewModelScope.launch{
+    fun checkEmailToken(emailToken : UUID, nextActivity : () -> Unit) = viewModelScope.launchWithErrorLogging {
         emailConfirmationRepository.checkEmailToken(emailToken)
         nextActivity()
-
     }
 }

@@ -7,12 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.toosafinder.R
 import com.toosafinder.login.LoginActivity
 import com.toosafinder.login.afterTextChanged
-import com.toosafinder.network.HTTPRes
-import com.toosafinder.restorePasswordModule
 import kotlinx.android.synthetic.main.restore_password.*
 import org.koin.android.viewmodel.ext.android.getViewModel
-import org.koin.core.context.loadKoinModules
-import org.koin.core.context.unloadKoinModules
 
 class RestorePasswordActivity : AppCompatActivity(){
 
@@ -21,12 +17,11 @@ class RestorePasswordActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
 
-        loadKoinModules(restorePasswordModule)
-
         setContentView(R.layout.restore_password)
 
         restorePasswordViewModel = getViewModel()
 
+        //TODO: Кто обработает это исключение? приложение не упадет?
         val emailToken : String = intent.data?.lastPathSegment ?: throw NullPointerException("Ничего не прислали")
 
         restorePasswordViewModel.restorePasswordState.observe(this@RestorePasswordActivity){
@@ -38,14 +33,15 @@ class RestorePasswordActivity : AppCompatActivity(){
             buttonDone.isEnabled = it is RestorePasswordState.Valid
         }
 
-        restorePasswordViewModel.restorePasswordResult.observe(this@RestorePasswordActivity) {
-            when (it) {
-                is HTTPRes.Conflict -> textErrorMessage.text = getString(R.string.invalid_email_token)
-                is HTTPRes.Success -> {
-                    unloadKoinModules(restorePasswordModule)
+        restorePasswordViewModel.restorePasswordResult.observe(this@RestorePasswordActivity) { restorePasswordResult ->
+            restorePasswordResult.finalize(
+                onSuccess = {
+                    textErrorMessage.text = getString(R.string.invalid_email_token)
+                },
+                onError = {
                     startActivity(Intent(this@RestorePasswordActivity, LoginActivity::class.java))
                 }
-            }
+            )
         }
 
         val onDataChange = {

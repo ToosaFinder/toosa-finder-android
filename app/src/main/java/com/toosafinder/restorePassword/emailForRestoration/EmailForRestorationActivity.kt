@@ -5,18 +5,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.toosafinder.R
-import com.toosafinder.emailForRestorationModule
 import com.toosafinder.login.LoginActivity
 import com.toosafinder.login.afterTextChanged
-import com.toosafinder.network.HTTPRes
-import kotlinx.android.synthetic.main.content_registration.*
-import kotlinx.android.synthetic.main.email_for_restoration.*
 import kotlinx.android.synthetic.main.email_for_restoration.buttonContinue
 import kotlinx.android.synthetic.main.email_for_restoration.textErrorMessage
 import kotlinx.android.synthetic.main.email_for_restoration.textFieldEmail
+import kotlinx.android.synthetic.main.content_registration.*
+import kotlinx.android.synthetic.main.email_for_restoration.*
 import org.koin.android.viewmodel.ext.android.getViewModel
-import org.koin.core.context.loadKoinModules
-import org.koin.core.context.unloadKoinModules
 
 class EmailForRestorationActivity :  AppCompatActivity(){
 
@@ -29,11 +25,7 @@ class EmailForRestorationActivity :  AppCompatActivity(){
 
         setContentView(R.layout.email_for_restoration)
 
-        loadKoinModules(emailForRestorationModule)
-
         emailForRestorationViewModel = getViewModel()
-
-
 
         emailForRestorationViewModel.emailConfirmationState.observe(this@EmailForRestorationActivity){
             when(it){
@@ -44,15 +36,17 @@ class EmailForRestorationActivity :  AppCompatActivity(){
         }
 
         emailForRestorationViewModel.emailConfirmationResult.observe(this@EmailForRestorationActivity){
-            when(it){
-                is HTTPRes.Conflict -> textErrorMessage.text = getString(R.string.email_not_found)
-                is HTTPRes.Success -> {
+            it.finalize(
+                onSuccess = {
                     textFieldEmail.visibility = View.GONE
                     buttonContinue.visibility = View.GONE
                     textAfterClick.visibility = View.VISIBLE
                     buttonAfterClick.visibility = View.VISIBLE
+                },
+                onError = {
+                    textErrorMessage.text = getString(R.string.email_not_found)
                 }
-            }
+            )
         }
 
         val onDataChanged = {
@@ -69,11 +63,7 @@ class EmailForRestorationActivity :  AppCompatActivity(){
         }
 
         buttonAfterClick.setOnClickListener{
-            unloadKoinModules(emailForRestorationModule)
             startActivity(Intent(this@EmailForRestorationActivity, LoginActivity::class.java))
         }
-
-
-
     }
 }
