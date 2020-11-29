@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.toosafinder.R
 import com.toosafinder.login.LoginActivity
 import com.toosafinder.login.afterTextChanged
-import com.toosafinder.api.HTTPRes
 import kotlinx.android.synthetic.main.restore_password.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 

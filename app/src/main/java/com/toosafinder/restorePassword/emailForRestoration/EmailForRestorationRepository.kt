@@ -9,7 +9,7 @@ class EmailForRestorationRepository(
 ) {
 
     suspend fun restorePassword (email : String): UnitOption<ErrorCode?> =
-        api.post<Unit>("/user/restore-password", PasswordRestoreReq(email), withAuth = false)
+        api.postUnit("/user/restore-password", PasswordRestoreReq(email), withAuth = false)
             .transform(
                 onSuccess = { UnitOption.success() },
                 onConflict = { UnitOption.error(ErrorCode.fromString(it.code)) }
