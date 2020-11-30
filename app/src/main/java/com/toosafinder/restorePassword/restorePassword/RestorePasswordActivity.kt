@@ -36,10 +36,10 @@ class RestorePasswordActivity : AppCompatActivity(){
         restorePasswordViewModel.restorePasswordResult.observe(this@RestorePasswordActivity) { restorePasswordResult ->
             restorePasswordResult.finalize(
                 onSuccess = {
-                    textErrorMessage.text = getString(R.string.invalid_email_token)
+                    startActivity(Intent(this@RestorePasswordActivity, LoginActivity::class.java))
                 },
                 onError = {
-                    startActivity(Intent(this@RestorePasswordActivity, LoginActivity::class.java))
+                    textErrorMessage.text = getString(R.string.invalid_email_token)
                 }
             )
         }
