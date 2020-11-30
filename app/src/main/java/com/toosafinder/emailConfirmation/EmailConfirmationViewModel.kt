@@ -1,7 +1,11 @@
 package com.toosafinder.emailConfirmation
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.toosafinder.api.ErrorCode
+import com.toosafinder.utils.UnitOption
 import com.toosafinder.utils.launchWithErrorLogging
 import java.util.*
 
@@ -12,8 +16,11 @@ class EmailConfirmationViewModel(
     private val emailConfirmationRepository: EmailConfirmationRepository
 ): ViewModel() {
 
-    fun checkEmailToken(emailToken : UUID, nextActivity : () -> Unit) = viewModelScope.launchWithErrorLogging {
-        emailConfirmationRepository.checkEmailToken(emailToken)
-        nextActivity()
+    private val _emailConfirmationResult = MutableLiveData<UnitOption<ErrorCode?>>()
+    val emailConfirmationResult: LiveData<UnitOption<ErrorCode?>> = _emailConfirmationResult
+
+
+    fun checkEmailToken(emailToken : UUID) = viewModelScope.launchWithErrorLogging {
+        _emailConfirmationResult.value = emailConfirmationRepository.checkEmailToken(emailToken)
     }
 }
