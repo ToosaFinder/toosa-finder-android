@@ -13,20 +13,20 @@ class EmailForRestorationViewModel(
     private val emailForRestorationRepository: EmailForRestorationRepository
 ): ViewModel() {
 
-    private val _emailConfirmationState = MutableLiveData<EmailConfirmationState>()
-    val emailConfirmationState: LiveData<EmailConfirmationState> = _emailConfirmationState
+    private val _emailForRestorationState = MutableLiveData<EmailForRestorationState>()
+    val emailCForRestorationState: LiveData<EmailForRestorationState> = _emailForRestorationState
 
-    private val _emailConfirmationResult = MutableLiveData<UnitOption<ErrorCode?>>()
-    val emailConfirmationResult: LiveData<UnitOption<ErrorCode?>> = _emailConfirmationResult
+    private val _emailForRestorationResult = MutableLiveData<UnitOption<ErrorCode?>>()
+    val emailForRestorationResult: LiveData<UnitOption<ErrorCode?>> = _emailForRestorationResult
 
     fun sendEmail (email : String) = viewModelScope.launchWithErrorLogging {
-        _emailConfirmationResult.value = emailForRestorationRepository.restorePassword(email)
+        _emailForRestorationResult.value = emailForRestorationRepository.restorePassword(email)
     }
 
     fun emailDataChanged(email: String){
-        _emailConfirmationState.value = when {
-            !isEmailValid(email) -> EmailConfirmationState.InvalidEmail
-            else -> EmailConfirmationState.Valid
+        _emailForRestorationState.value = when {
+            !isEmailValid(email) -> EmailForRestorationState.InvalidEmail
+            else -> EmailForRestorationState.Valid
         }
     }
 }

@@ -10,7 +10,6 @@ import com.toosafinder.login.afterTextChanged
 import kotlinx.android.synthetic.main.email_for_restoration.buttonContinue
 import kotlinx.android.synthetic.main.email_for_restoration.textErrorMessage
 import kotlinx.android.synthetic.main.email_for_restoration.textFieldEmail
-import kotlinx.android.synthetic.main.content_registration.*
 import kotlinx.android.synthetic.main.email_for_restoration.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 
@@ -27,15 +26,15 @@ class EmailForRestorationActivity :  AppCompatActivity(){
 
         emailForRestorationViewModel = getViewModel()
 
-        emailForRestorationViewModel.emailConfirmationState.observe(this@EmailForRestorationActivity){
+        emailForRestorationViewModel.emailCForRestorationState.observe(this@EmailForRestorationActivity){
             when(it){
-                is EmailConfirmationState.InvalidEmail -> textErrorMessage.text = getString(R.string.error_invalid_email)
-                is EmailConfirmationState.Valid -> textErrorMessage.text = getString(R.string.all_valid)
+                is EmailForRestorationState.InvalidEmail -> textErrorMessage.text = getString(R.string.error_invalid_email)
+                is EmailForRestorationState.Valid -> textErrorMessage.text = getString(R.string.all_valid)
             }
-            buttonContinue.isEnabled = it is EmailConfirmationState.Valid
+            buttonContinue.isEnabled = it is EmailForRestorationState.Valid
         }
 
-        emailForRestorationViewModel.emailConfirmationResult.observe(this@EmailForRestorationActivity){
+        emailForRestorationViewModel.emailForRestorationResult.observe(this@EmailForRestorationActivity){
             it.finalize(
                 onSuccess = {
                     textFieldEmail.visibility = View.GONE

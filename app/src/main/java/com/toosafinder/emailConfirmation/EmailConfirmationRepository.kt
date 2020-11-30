@@ -11,7 +11,7 @@ class EmailConfirmationRepository(
 ) {
 
     suspend fun checkEmailToken(emailToken : UUID): UnitOption<ErrorCode?> {
-        return api.putUnit("/user/email-confirmed/$emailToken")
+        return api.putUnit("/user/email-confirmed/$emailToken", withAuth = false)
             .transform(
                 onSuccess = { UnitOption.success() },
                 onConflict = { UnitOption.error(ErrorCode.fromString(it.code)) }
