@@ -60,7 +60,8 @@ class EmailForRestorationActivity :  AppCompatActivity(){
 
         textFieldEmail.afterTextChanged { onDataChanged() }
 
-        buttonContinue.setOnClickListener{ _ ->
+        buttonContinue.setOnClickListener{
+            textErrorMessage.text = getString(R.string.all_valid)
             emailForRestorationViewModel.sendEmail(textFieldEmail.text.toString())
         }
 

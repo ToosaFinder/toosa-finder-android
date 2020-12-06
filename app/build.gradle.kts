@@ -49,7 +49,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.10.1")
     implementation("com.android.support:multidex:2.0.1")
     //TODO: брать из мевен репо
-    implementation(files("../libs/api-model-jvm-0.0.1.jar"))
+    implementation(files("../libs/api-model-0_0_1.jar"))
 
     implementation("androidx.core:core-ktx:1.3.1")
     implementation("androidx.appcompat:appcompat:1.2.0")
