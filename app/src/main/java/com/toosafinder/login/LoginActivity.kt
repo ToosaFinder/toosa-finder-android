@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -18,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_login.textErrorMessage
 import kotlinx.android.synthetic.main.content_registration.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 
+
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
@@ -26,7 +28,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_login)
-
         loginViewModel = getViewModel()
 
         val loginErrorObserver = ErrorObserver<LoginFormState>(textErrorMessage, login, LoginFormState.Valid, {
@@ -41,12 +42,15 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel.loginResult.observe(this@LoginActivity) { loginResult ->
             progressBarSending.visibility = View.INVISIBLE
-            when(loginResult) {
-                is LoginResult.Success -> updateUiWithUser(loginResult.loggedInUserView)
-                is LoginResult.Error ->
-                    textErrorMessage.text = getString(R.string.error_login) + " " + loginResult.error
+            Log.e("LoginActivity", "login error received4")
+            loginResult.finalize(
+                    onSuccess = ::updateUiWithUser,
+                    onError = {
+                        Log.i("LoginActivity", "login error received")
+                        textErrorMessage.text = getString(R.string.error_login) + " " + it
+                    }
+                )
             }
-        }
 
         val onDataChanged = {
             loginViewModel.loginDataChanged(
@@ -79,9 +83,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         forgotPasswordButton.setOnClickListener {
-//            val intent : Intent = Intent(RestorePasswordActivity::class.qualifiedName)
             val intent = Intent(this@LoginActivity, EmailForRestorationActivity::class.java)
-//            val intent = Intent(this@LoginActivity, RestorePasswordActivity::class.qualifiedName)
             startActivity(intent)
         }
     }

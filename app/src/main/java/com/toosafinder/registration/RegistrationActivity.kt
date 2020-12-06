@@ -14,8 +14,6 @@ import com.toosafinder.registrationModule
 import com.toosafinder.utils.ErrorObserver
 import kotlinx.android.synthetic.main.content_registration.*
 import org.koin.android.viewmodel.ext.android.getViewModel
-import org.koin.core.context.loadKoinModules
-import org.koin.core.context.unloadKoinModules
 
 class RegistrationActivity : AppCompatActivity() {
     private lateinit var registrationViewModel: RegistrationViewModel
@@ -23,8 +21,6 @@ class RegistrationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
-
-        loadKoinModules(registrationModule)
 
         registrationViewModel = getViewModel()
 
@@ -41,13 +37,12 @@ class RegistrationActivity : AppCompatActivity() {
 
         registrationViewModel.registrationFormState.observe(this@RegistrationActivity, registrationErrorObserver)
 
-        registrationViewModel.registrationResult.observe(this@RegistrationActivity) {
+        registrationViewModel.registrationResult.observe(this@RegistrationActivity) { registrationResult ->
             progressBarSending.visibility = View.INVISIBLE
-            when (it) {
-                is HTTPRes.Success -> startLoginActivity()
-                is HTTPRes.Conflict -> textErrorMessage.text =
-                    getString(R.string.error_registration) + " " + it.message
-            }
+            registrationResult.finalize (
+                onSuccess = ::startLoginActivity,
+                onError = { textErrorMessage.text = getString(R.string.error_registration) + " " + it }
+            )
         }
 
         val onDataChanged = {
@@ -78,8 +73,6 @@ class RegistrationActivity : AppCompatActivity() {
                 textFieldLogin.text.toString(), textFieldPassword.text.toString()
             )
         }
-
-        unloadKoinModules(registrationModule)
     }
 
     private fun startLoginActivity() {

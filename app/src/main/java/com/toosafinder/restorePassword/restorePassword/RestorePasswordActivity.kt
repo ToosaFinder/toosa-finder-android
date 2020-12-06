@@ -2,6 +2,7 @@ package com.toosafinder.restorePassword.restorePassword
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.toosafinder.R
 import com.toosafinder.login.LoginActivity
@@ -35,14 +36,19 @@ class RestorePasswordActivity : AppCompatActivity(){
 
         restorePasswordViewModel.restorePasswordState.observe(this@RestorePasswordActivity, restorePasswordErrorObserver)
 
-        restorePasswordViewModel.restorePasswordResult.observe(this@RestorePasswordActivity) {
-            when (it) {
-                is HTTPRes.Conflict -> textErrorMessage.text = getString(R.string.invalid_email_token)
-                is HTTPRes.Success -> startActivity(Intent(this@RestorePasswordActivity, LoginActivity::class.java))
-            }
+        restorePasswordViewModel.restorePasswordResult.observe(this@RestorePasswordActivity) { restorePasswordResult ->
+            restorePasswordResult.finalize(
+                onSuccess = {
+                    startActivity(Intent(this@RestorePasswordActivity, LoginActivity::class.java))
+                },
+                onError = {
+                    textErrorMessage.text = getString(R.string.invalid_email_token)
+                }
+            )
         }
 
         val onDataChange = {
+            Log.d(textFieldPassword.text.toString(),textFieldRepeatPassword.text.toString())
             restorePasswordViewModel.restorePasswordDataChanged(
                 textFieldPassword.text.toString(),
                 textFieldRepeatPassword.text.toString()
@@ -52,6 +58,7 @@ class RestorePasswordActivity : AppCompatActivity(){
         onDataChange()
 
         textFieldPassword.afterTextChanged { onDataChange() }
+        textFieldRepeatPassword.afterTextChanged { onDataChange() }
 
         buttonDone.setOnClickListener {
             textErrorMessage.text = getString(R.string.all_valid)

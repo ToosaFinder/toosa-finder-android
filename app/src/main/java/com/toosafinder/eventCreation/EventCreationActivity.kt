@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import co.lujun.androidtagview.TagView.OnTagClickListener
 import com.google.android.gms.maps.model.LatLng
 import com.toosafinder.R
+import com.toosafinder.security.SecuredActivity
 import kotlinx.android.synthetic.main.content_event_creation.*
 
-class EventCreationActivity : AppCompatActivity() {
-    private val location: MutableLiveData<LatLng> = MutableLiveData()
+class EventCreationActivity : SecuredActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
