@@ -13,4 +13,4 @@ fun isEmailValid(email: String): Boolean =
     email.contains(Regex(".*@.*"))
 
     // A placeholder password validation check
-fun isPasswordValid(password: String): Boolean = password.length > 5
+fun isPasswordValid(password: String): Boolean = password.length > 7

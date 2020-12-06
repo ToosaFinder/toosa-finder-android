@@ -5,16 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.toosafinder.R
-import com.toosafinder.emailForRestorationModule
 import com.toosafinder.login.LoginActivity
 import com.toosafinder.login.afterTextChanged
-import com.toosafinder.network.HTTPRes
-import com.toosafinder.restorePasswordModule
 import kotlinx.android.synthetic.main.restore_password.*
 import org.koin.android.viewmodel.ext.android.getViewModel
-import org.koin.core.context.loadKoinModules
-import org.koin.core.context.unloadKoinModules
-import java.io.IOException
 
 class RestorePasswordActivity : AppCompatActivity(){
 
@@ -23,33 +17,31 @@ class RestorePasswordActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
 
-        loadKoinModules(restorePasswordModule)
-
         setContentView(R.layout.restore_password)
 
         restorePasswordViewModel = getViewModel()
 
-        val emailToken : String = intent.data?.lastPathSegment ?: throw IOException("Ничего не прислали")
+        //TODO: Кто обработает это исключение? приложение не упадет?
+        val emailToken : String = intent.data?.lastPathSegment ?: throw NullPointerException("Ничего не прислали")
 
         restorePasswordViewModel.restorePasswordState.observe(this@RestorePasswordActivity){
-            when(it){
-                is RestorePasswordState.UnequalPasswords ->
-                    textErrorMessage.text = getString(R.string.invalid_password_unequal)
-                is RestorePasswordState.InvalidPassword ->
-                    textErrorMessage.text = getString(R.string.invalid_password_short)
-                is RestorePasswordState.Valid ->
-                    textErrorMessage.text = getString(R.string.all_valid)
+            textErrorMessage.text = when(it) {
+                is RestorePasswordState.UnequalPasswords -> getString(R.string.error_invalid_password_unequal)
+                is RestorePasswordState.InvalidPassword -> getString(R.string.error_invalid_password_short)
+                is RestorePasswordState.Valid -> getString(R.string.all_valid)
             }
+            buttonDone.isEnabled = it is RestorePasswordState.Valid
         }
 
-        restorePasswordViewModel.restorePasswordResult.observe(this@RestorePasswordActivity) {
-            when (it) {
-                is HTTPRes.Conflict -> textErrorMessage.text = getString(R.string.invalid_email_token)
-                is HTTPRes.Success -> {
-                    unloadKoinModules(restorePasswordModule)
+        restorePasswordViewModel.restorePasswordResult.observe(this@RestorePasswordActivity) { restorePasswordResult ->
+            restorePasswordResult.finalize(
+                onSuccess = {
                     startActivity(Intent(this@RestorePasswordActivity, LoginActivity::class.java))
+                },
+                onError = {
+                    textErrorMessage.text = getString(R.string.invalid_email_token)
                 }
-            }
+            )
         }
 
         val onDataChange = {
@@ -66,10 +58,9 @@ class RestorePasswordActivity : AppCompatActivity(){
         textFieldRepeatPassword.afterTextChanged { onDataChange() }
 
         buttonDone.setOnClickListener {
+            textErrorMessage.text = getString(R.string.all_valid)
             restorePasswordViewModel.registerPassword(emailToken, textFieldPassword.text.toString())
         }
-
-
     }
 
 }
