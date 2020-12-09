@@ -53,8 +53,14 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
 
         mapMainScreenViewModel = getViewModel()
 
-        if (getString(R.string.google_maps_key).isEmpty()) {
-            Toast.makeText(this, "Add your own API key in MapWithMarker/app/secure.properties as MAPS_API_KEY=YOUR_API_KEY", Toast.LENGTH_LONG).show()
+
+        mapMainScreenViewModel.mapResult.observe(this@MapMainScreenActivity){ events ->
+            events.finalize(
+                    onSuccess = :: showAllMarkers,
+                    onError = {
+                        Log.e("Error", " " + it)
+                    }
+            )
         }
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
@@ -63,17 +69,8 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
 
         fusedLocationProviderClient =  LocationServices.getFusedLocationProviderClient(this@MapMainScreenActivity)
 
-//        mapMainScreenViewModel.getEvents()
-//
-//        mapMainScreenViewModel.mapResult.observe(this@MapMainScreenActivity){ events ->
-//            events.finalize(
-//                onSuccess = :: showAllMarkers,
-//                onError = {
-//                    Log.e("Error", " " + it)
-//                }
-//            )
-//
-//        }
+
+
 
     }
 
@@ -81,39 +78,38 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
-        val latitude : Double
-        val longitude: Double
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            getLocationPermission()
-            Log.d(TAG, "after permission location listener setting")
-            showMyPosition()
-        }else {
-            Log.d(TAG, "location listener setting")
-            showMyPosition()
-        }
+        mapMainScreenViewModel.getEvents()
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            getLocationPermission()
+//            Log.d(TAG, "after permission location listener setting")
+//            showMyPosition()
+//        }else {
+//            Log.d(TAG, "location listener setting")
+//            showMyPosition()
+//        }
+//
+//        val locationRequest = LocationRequest.create();
+//        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+//        locationRequest.setInterval(20 * 1000);
+//
+//        val locationCallBack = object : LocationCallback() {
+//            override fun onLocationResult(locationResult : LocationResult){
+//                locationResult ?: return
+//                for (location in locationResult.locations){
+//                    if(location!=null)
+//                    map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(location.latitude, location.longitude)))
+//                }
+//            }
+//        }
 
-        val locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(20 * 1000);
-
-        val locationCallBack = object : LocationCallback() {
-            override fun onLocationResult(locationResult : LocationResult){
-                locationResult ?: return
-                for (location in locationResult.locations){
-                    if(location!=null)
-                    map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(location.latitude, location.longitude)))
-                }
-            }
-        }
-
-        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallBack, null)
+//        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallBack, null)
         // Add a marker in Sydney and move the camera
 //        val sydney = LatLng(-34.0, 151.0)
 //        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
