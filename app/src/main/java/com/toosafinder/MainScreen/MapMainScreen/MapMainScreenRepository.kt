@@ -1,10 +1,20 @@
 package com.toosafinder.MainScreen.MapMainScreen
 
-class MapMainScreenRepository (
-    private val dataSource: MapScreenDataSource
-){
+import com.toosafinder.api.*
+import com.toosafinder.api.events.EventRes
+import com.toosafinder.api.events.GetEventsRes
+import com.toosafinder.api.login.PasswordRestoreReq
+import com.toosafinder.utils.Option
+import com.toosafinder.utils.UnitOption
 
-    suspend fun getEvents(){
-
-    }
+class MapMainScreenRepository(
+    private val api: ApiClient
+) {
+//мб я не прав и это не должно работать
+    suspend fun getEvents() : Option<GetEventsRes, ErrorCode?>  =
+        api.get<GetEventsRes>("/event", withAuth = true)
+            .transform(
+                onSuccess = { Option.success(it) },
+                onConflict = { Option.error(ErrorCode.fromString(it.code)) }
+            )
 }

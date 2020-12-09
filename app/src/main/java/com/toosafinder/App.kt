@@ -1,6 +1,8 @@
 package com.toosafinder
 
 import android.app.Application
+import com.toosafinder.MainScreen.MapMainScreen.MapMainScreenRepository
+import com.toosafinder.MainScreen.MapMainScreen.MapMainScreenViewModel
 import com.toosafinder.api.ApiClient
 import com.toosafinder.api.httpClient
 import com.toosafinder.emailConfirmation.EmailConfirmationRepository
@@ -60,6 +62,11 @@ private val emailConfirmationModule = module {
     single { EmailConfirmationViewModel(get()) }
 }
 
+private val mapMainScreenModule = module {
+    single { MapMainScreenRepository(get()) }
+    single { MapMainScreenViewModel(get()) }
+}
+
 @KtorExperimentalAPI
 class App: Application() {
     override fun onCreate(){
@@ -73,7 +80,8 @@ class App: Application() {
                 registrationModule,
                 emailForRestorationModule,
                 emailConfirmationModule,
-                securityModule
+                securityModule,
+                mapMainScreenModule
             )
         }
     }
