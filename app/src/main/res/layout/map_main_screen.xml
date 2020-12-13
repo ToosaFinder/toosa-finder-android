@@ -22,7 +22,7 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/menu_button_round" />
+        app:srcCompat="@mipmap/menu_button" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton3"
@@ -44,7 +44,7 @@
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/settings_button" />
+        app:srcCompat="@mipmap/settings" />
 
     <ImageButton
         android:id="@+id/imageButton4"
@@ -53,9 +53,10 @@
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:background="#FFFFFF"
         app:layout_constraintEnd_toStartOf="@+id/imageButton3"
         app:layout_constraintStart_toEndOf="@+id/imageButton"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@mipmap/settings_button" />
+        tools:srcCompat="@android:drawable/ic_menu_search" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
