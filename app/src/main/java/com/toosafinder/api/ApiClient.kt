@@ -1,7 +1,10 @@
 package com.toosafinder.api
 
 import android.util.Log
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.jsonMapper
+import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import io.ktor.client.*
 import io.ktor.client.request.*
@@ -25,7 +28,11 @@ class ApiClient(
     val tokenProvider: () -> String
 ) {
 
-    val mapper = jacksonObjectMapper()
+    //val mapper = jacksonObjectMapper()
+    val mapper = jsonMapper{
+        addModule(kotlinModule())
+        addModule(JavaTimeModule())
+    }
 
     suspend inline fun <reified T> fetch(
         method: HttpMethod,

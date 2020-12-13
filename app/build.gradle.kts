@@ -43,13 +43,15 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${System.getProperty("kotlinVersion")}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 
-    implementation("com.fasterxml.jackson.core:jackson-core:2.11.2")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.2")
+    implementation("com.fasterxml.jackson.core:jackson-core:2.12.0")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.0")
+
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.0")
 
     implementation("com.android.support:multidex:2.0.1")
     //TODO: брать из мевен репо
-    //implementation(files("../libs/api-model-jvm-0.0.1.jar"))
-    implementation(files("../libs/api-model-0_0_1.jar"))
+    //implementation(files("../libs/api-model-jvm-0.0.1.jar"))jackson-datatype-jdk8
+    implementation(files("../libs/api-model-0.0.1.jar"))
 
     implementation("androidx.core:core-ktx:1.3.1")
     implementation("androidx.appcompat:appcompat:1.2.0")

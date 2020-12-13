@@ -1,6 +1,11 @@
 package com.toosafinder
 
 import android.app.Application
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.json.JsonMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
+import com.fasterxml.jackson.module.kotlin.jsonMapper
 import com.toosafinder.MainScreen.MapMainScreen.MapMainScreenRepository
 import com.toosafinder.MainScreen.MapMainScreen.MapMainScreenViewModel
 import com.toosafinder.api.ApiClient
@@ -21,8 +26,9 @@ import io.ktor.util.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
+import java.time.LocalDateTime
 
-private const val apiBaseUrl = "http://34.66.25.137"
+private const val apiBaseUrl = "http://34.68.138.148"
 
 @KtorExperimentalAPI
 private val apiModule = module {
@@ -34,6 +40,15 @@ private val apiModule = module {
                 ?: error("user session is not opened")
         }
         ApiClient(get(), apiBaseUrl, tokenProvider)
+    }
+    single {
+//        val mapper = JsonMapper.builder().addModule(JavaTimeModule())
+//        jsonMapper{
+//            addModule(JavaTimeModule())
+//        }
+//        JsonMapper.builder().findAndAddModules().build()
+//        val javaTimeModule = JavaTimeModule()
+//        javaTimeModule.addSerializer(LocalDateTime::class.java, LocalDateTimeSerializer())
     }
 }
 

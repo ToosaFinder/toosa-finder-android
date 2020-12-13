@@ -21,6 +21,6 @@ class MapMainScreenViewModel(
     val mapResult: LiveData<Option<GetEventsRes, ErrorCode?>> = _mapResult
 
     fun getEvents() = viewModelScope.launchWithErrorLogging{
-        _mapResult.value = mapMainScreenRepository.getEvents().mapSuccess { GetEventsRes(it.events) }
+        _mapResult.value = mapMainScreenRepository.getEvents()/*.mapSuccess { GetEventsRes(it.events) }*/
     }
 }

@@ -32,15 +32,14 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
         private const val DEFAULT_ZOOM = 15
 
     }
-// TODO:МБ надо вынести это в security
 
-    private var locationPermissionGranted = false
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    private var lastKnownLocation: Location? = null
     private val defaultLocation = LatLng(-33.8523341, 151.2106085)
 
     private lateinit var mapMainScreenViewModel: MapMainScreenViewModel
     private lateinit var map: GoogleMap
+    private lateinit var locationRequest : LocationRequest
+    private lateinit var  locationCallBack : LocationCallback
 
     private val TAG = "anusai"
 
@@ -79,63 +78,48 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
         map = googleMap
 
         mapMainScreenViewModel.getEvents()
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            // TODO: Consider calling
-//            //    ActivityCompat#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user grants the permission. See the documentation
-//            // for ActivityCompat#requestPermissions for more details.
-//            getLocationPermission()
-//            Log.d(TAG, "after permission location listener setting")
-//            showMyPosition()
-//        }else {
-//            Log.d(TAG, "location listener setting")
-//            showMyPosition()
-//        }
-//
-//        val locationRequest = LocationRequest.create();
-//        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-//        locationRequest.setInterval(20 * 1000);
-//
-//        val locationCallBack = object : LocationCallback() {
-//            override fun onLocationResult(locationResult : LocationResult){
-//                locationResult ?: return
-//                for (location in locationResult.locations){
-//                    if(location!=null)
-//                    map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(location.latitude, location.longitude)))
-//                }
-//            }
-//        }
 
-//        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallBack, null)
-        // Add a marker in Sydney and move the camera
-//        val sydney = LatLng(-34.0, 151.0)
-//        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-//
-//        mMap.addMarker(MarkerOptions()
-//            .position(sydney).title("Marker in Sydney")
-//            .snippet("В Сиднее много котов"))
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(20 * 1000);
 
+        locationCallBack = object : LocationCallback() {
+            override fun onLocationResult(locationResult : LocationResult?){
+                locationResult ?: return
+                for (location in locationResult.locations){
+                    if(location!=null)
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom
+                        (LatLng(location.latitude, location.longitude), DEFAULT_ZOOM.toFloat()))
+                }
+            }
+        }
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            getLocationPermission()
+        }else {
+            showMyPosition()
+        }
     }
 
     private fun showAllMarkers(eventsRes : GetEventsRes) {
         for(event in eventsRes.events){
+            Log.d(TAG,"Latitude" + event.latitude + "Longitude" + event.longitude)
             map.addMarker(MarkerOptions().position(LatLng(event.latitude.toDouble(),event.longitude.toDouble()))
                 .title(event.name))
         }
     }
 
+    //по идее catch никогда ничего не поймает, во всех местах, где используется функция есть пермишн на местоположение
     private fun showMyPosition()  =
             try {
                 fusedLocationProviderClient.lastLocation.addOnSuccessListener {
                     Log.d(TAG, "Listener set")
                     if (it != null) {
-                        map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(it.latitude, it.longitude)))
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom
+                        ((LatLng(it.latitude, it.longitude)), DEFAULT_ZOOM.toFloat()))
                     } else {
-                        map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(-34.0, 151.0)))
+                        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallBack, null)
                     }
                 }
             }
@@ -153,25 +137,24 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
         if (ContextCompat.checkSelfPermission(this.applicationContext,
                 Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) {
-            locationPermissionGranted = true
+            showMyPosition()
         } else {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
+            showMyPosition()
         }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,
                                            permissions: Array<String>,
                                            grantResults: IntArray) {
-        locationPermissionGranted = false
         when (requestCode) {
             PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
 
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.isNotEmpty() &&
                     grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d(TAG, "Permission is OK")
-                    locationPermissionGranted = true
+                    showMyPosition()
                 }
             }
         }

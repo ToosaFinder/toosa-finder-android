@@ -1,7 +1,8 @@
 package com.toosafinder.MainScreen.MapMainScreen
 
+import android.util.Log
 import com.toosafinder.api.*
-import com.toosafinder.api.events.EventRes
+import com.toosafinder.api.events.GetEventRes
 import com.toosafinder.api.events.GetEventsRes
 import com.toosafinder.api.login.PasswordRestoreReq
 import com.toosafinder.utils.Option
@@ -14,7 +15,9 @@ class MapMainScreenRepository(
     suspend fun getEvents() : Option<GetEventsRes, ErrorCode?>  =
         api.get<GetEventsRes>("/event", withAuth = true)
             .transform(
-                onSuccess = { Option.success(it) },
+                onSuccess = {
+                    Log.d("check", "URA POLUCHIL KRUTA")
+                    Option.success(it) },
                 onConflict = { Option.error(ErrorCode.fromString(it.code)) }
             )
 }
