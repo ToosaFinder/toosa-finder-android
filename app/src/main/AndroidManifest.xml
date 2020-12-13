@@ -29,6 +29,15 @@
             android:value="@string/google_maps_key" />
 
         <activity
+            android:name=".eventInfo.EventInfoActivity"
+            android:label="@string/title_activity_event_info">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".login.LoginActivity"
             android:label="@string/app_name">
             <intent-filter>

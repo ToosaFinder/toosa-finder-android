@@ -57,6 +57,8 @@
     <string name="button_cancel">Cancel</string>
     <string name="button_create">Create</string>
     <string name="button_add_tag">Add tag</string>
+    <!-- event info -->
+    <string name="title_activity_event_info">Event Info</string>
     <!-- GoogleMaps -->
     <string name="google_maps_key">AIzaSyDz858IAptxz1Xr0QX2eZWrQDzHQGtytMg</string>
 </resources>
