@@ -59,6 +59,14 @@
     <string name="button_add_tag">Add tag</string>
     <!-- event info -->
     <string name="title_activity_event_info">Event Info</string>
+    <string name="placeholder_name_and_creator_name">Name and creator name</string>
+    <string name="placeholder_event_description">Event description</string>
+    <string name="placeholder_time_and_date">Time and date</string>
+    <string name="placeholder_max_guests">Max-guests: -</string>
+    <string name="placeholder_event_location">Event location</string>
+    <string name="button_back">Back</string>
+    <string name="button_delete">Delete</string>
+    <string name="button_edit">Edit</string>
     <!-- GoogleMaps -->
     <string name="google_maps_key">AIzaSyDz858IAptxz1Xr0QX2eZWrQDzHQGtytMg</string>
 </resources>

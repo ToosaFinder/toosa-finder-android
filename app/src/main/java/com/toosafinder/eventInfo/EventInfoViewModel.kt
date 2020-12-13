@@ -9,17 +9,23 @@ class EventInfoViewModel (
     private val eventInfoRepository : EventInfoRepository
 ): ViewModel() {
 
-//    private var savedInfo: MutableMap<Int, EventRes> = mutableMapOf<Int, EventRes>()
+    private var savedInfo: MutableMap<Int, EventRes> = mutableMapOf<Int, EventRes>()
 
-    fun updateEventInfo(id : Int, nextAction : () -> Unit) = viewModelScope.launchWithErrorLogging {
-        eventInfoRepository.getInfo(id)
-    //        if (savedInfo.containsKey(id)) {
-//
-//        } else {
-//            savedInfo.put(when(eventInfoRepository.getInfo(id)) {
-//                is  ->
-//            }
+    private fun updateEventInfo(id : Int) = viewModelScope.launchWithErrorLogging {
+        eventInfoRepository.getInfo(id).finalize(
+            //если при выполнении последнего запроса EventNotFound
+            //информация о мероприятии удаляется из списка, как
+            //неактуальная
+            onSuccess = { savedInfo[id] = it },
+            onError = { savedInfo.remove(id) }
+        )
+    }
+
+    fun getEventInfo(id: Int): EventRes {
+//        if (!savedInfo.containsKey(id)) {
+            updateEventInfo(id)
 //        }
+        return savedInfo[id] ?: throw NoInfoException(id)
     }
 
 //    fun parseServerAnswer(): Unit {}
