@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import com.toosafinder.MainScreen.MapMainScreen.MapMainScreenActivity
 import com.toosafinder.R
 import com.toosafinder.registration.RegistrationActivity
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationActivity
@@ -84,16 +85,20 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this@LoginActivity, EmailForRestorationActivity::class.java)
             startActivity(intent)
         }
+
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {
         val welcome = getString(R.string.welcome)
+        Log.d("check", "UpdateWithUser")
         val displayName = model.displayName
         Toast.makeText(
                 applicationContext,
                 "$welcome $displayName",
                 Toast.LENGTH_LONG
         ).show()
+        val intent = Intent(this@LoginActivity, MapMainScreenActivity::class.java)
+        startActivity(intent)
     }
 }
 
