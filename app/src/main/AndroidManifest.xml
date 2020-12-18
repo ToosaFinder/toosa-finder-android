@@ -30,10 +30,10 @@
 
         <activity
             android:name=".eventInfo.EventInfoActivity"
-            android:label="@string/title_activity_event_info">
+            android:label="Info"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

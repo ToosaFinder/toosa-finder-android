@@ -6,9 +6,8 @@ import android.widget.Toast
 import com.toosafinder.R
 import com.toosafinder.api.events.GetEventRes
 import com.toosafinder.security.SecuredActivity
-import kotlinx.android.synthetic.main.activity_event_info2.*
 import org.koin.android.viewmodel.ext.android.getViewModel
-import kotlin.NumberFormatException
+import kotlinx.android.synthetic.main.activity_event_info.*
 
 /**
  * To switch to this activity you need to add
@@ -17,57 +16,64 @@ import kotlin.NumberFormatException
 class EventInfoActivity : SecuredActivity() {
     private lateinit var eventInfoViewModel: EventInfoViewModel
     private var eventId = -1
-
-    private final val TAG: String = "EVENT_INFO"
+//    private val tag: String = "EVENT_INFO"
+    public companion object {
+        const val eventIdIntentTag: String = "eventId"
+        const val logTag: String = "EVENT_INFO"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_event_info)
 
-        eventId = intent.getStringExtra("eventId").let {
+        eventId = intent.getStringExtra(eventIdIntentTag).let {
             try {
                 it.toString().toInt()
             } catch (exc: NullPointerException) {
                 showErrorMessage("NullPointerError(неверный вызов активити)")
-                Log.e(TAG, "Getting event exception")
+                Log.e(logTag, "Getting event exception")
             } catch (exc: NumberFormatException) {
                 showErrorMessage("ParsingIdError(хм..)")
-                Log.e(TAG, "Getting event exception")
+                Log.e(logTag, "Getting event exception")
             }
         }
-        //имхо костыльно, ничего лучше не придумал
-//        if (eventId == -1) finish()
 
         eventInfoViewModel = getViewModel()
+        eventInfoViewModel.receivedData
+            .observe(this@EventInfoActivity) { receivedData ->
+                Log.d(EventInfoActivity.logTag, "Data treating")
+                receivedData.finalize(
+                    onSuccess = {
+                        updateUI(it)
+                        Log.d(EventInfoActivity.logTag,"Successfully update info about event with ID = $eventId")
+                    },
+                    onError = {
+                        Log.d(EventInfoActivity.logTag,"Error during getting info about event with ID = $eventId")
+                        showErrorMessage("Ups! Error during loading information about this event.")
+                    })
+            }
 
         backButton.setOnClickListener {
             super.finish()
         }
 
-        setContentView(R.layout.activity_event_info2)
     }
 
     override fun onStart() {
         super.onStart()
 
-        val event: GetEventRes? = try {
-            eventInfoViewModel.getEventInfo(eventId)
-        } catch (exc: NoInfoException) {
-            showErrorMessage("An error during obtaining information")
-            null
-        }
-        Log.d(TAG, "Function \"onStart()\" event info start displaying")
+        eventInfoViewModel.getEventInfo(eventId)
+        Log.d(logTag, "Function \"onStart()\" event info start displaying")
+    }
 
-        if (event != null) {
-            eventTitle.text = "${event.name} by ${event.creator}"
-            eventDescription.text = event.description
-            for (tag in event.tags) {
-                tagView.addTag(tag)
-            }
-            eventLocation.text = "Event in ${event.address} \n (${event.latitude}, ${event.longitude})."
-            eventTime.text = "From ${event.startTime}"
-
+    private fun updateUI(event: GetEventRes) {
+        eventTitle.text = "${event.name} by ${event.creator}"
+        eventDescription.text = event.description
+        for (tag in event.tags) {
+            tagView.addTag(tag)
         }
-//        eventInfoViewModel.updateEventInfo(eventId)
+        eventLocation.text = "Event in ${event.address} \n (${event.latitude}, ${event.longitude})."
+        eventTime.text = "From ${event.startTime}"
     }
 
     private fun showErrorMessage(message: String) {

@@ -102,6 +102,7 @@ class App: Application() {
                 registrationModule,
                 emailForRestorationModule,
                 emailConfirmationModule,
+                eventInfoModule,
                 securityModule,
                 mapMainScreenModule
             )
