@@ -1,4 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?><!DOCTYPE resources [<!ENTITY action_sign_in_short "Sign in"><!ENTITY tos_url "http://google.com"><!ENTITY pp_url "http://youtube.com">]>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [
+    <!ENTITY action_sign_in_short "Sign in">
+    <!ENTITY tos_url "http://google.com">
+    <!ENTITY pp_url "http://youtube.com">
+]>
 
 <resources>
     <!-- Common strings -->
@@ -55,4 +60,6 @@
     <string name="button_create">Create</string>
     <string name="button_add_tag">Add tag</string>
     <string name="button_edit_tag">Save tag</string>
+    <!-- GoogleMaps -->
+    <string name="google_maps_key">AIzaSyDz858IAptxz1Xr0QX2eZWrQDzHQGtytMg</string>
 </resources>

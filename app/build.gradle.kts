@@ -43,12 +43,15 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${System.getProperty("kotlinVersion")}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 
-    implementation("com.fasterxml.jackson.core:jackson-core:2.11.2")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.2")
+    implementation("com.fasterxml.jackson.core:jackson-core:2.12.0")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.0")
+
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.0")
 
     implementation("com.android.support:multidex:2.0.1")
     //TODO: брать из мевен репо
-    implementation(files("../libs/api-model-0.0.2.jar"))
+    //implementation(files("../libs/api-model-jvm-0.0.1.jar"))jackson-datatype-jdk8
+    implementation(files("../libs/api-model-0.0.1.jar"))
 
     implementation("androidx.core:core-ktx:1.3.1")
     implementation("androidx.appcompat:appcompat:1.2.0")
@@ -76,9 +79,11 @@ dependencies {
     implementation("androidx.core:core-ktx:+")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
 
+    implementation ("com.google.android.libraries.maps:maps:3.1.0-beta")
+    implementation("com.google.android.gms:play-services-maps:17.0.0")
+    implementation ("com.google.maps.android:android-maps-utils-v3:1.3.1")
+
     implementation("co.lujun:androidtagview:1.1.7")
-    implementation("com.google.maps.android:android-maps-utils:2.2.0")
-    implementation("com.google.maps.android:maps-utils-ktx:2.2.0")
 
     testImplementation("junit:junit:4.13")
 
