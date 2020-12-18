@@ -2,10 +2,9 @@ package com.toosafinder.eventInfo
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import com.toosafinder.R
-import com.toosafinder.api.events.EventRes
+import com.toosafinder.api.events.GetEventRes
 import com.toosafinder.security.SecuredActivity
 import kotlinx.android.synthetic.main.activity_event_info2.*
 import org.koin.android.viewmodel.ext.android.getViewModel
@@ -36,7 +35,7 @@ class EventInfoActivity : SecuredActivity() {
             }
         }
         //имхо костыльно, ничего лучше не придумал
-        if (eventId == -1) finish()
+//        if (eventId == -1) finish()
 
         eventInfoViewModel = getViewModel()
 
@@ -50,7 +49,7 @@ class EventInfoActivity : SecuredActivity() {
     override fun onStart() {
         super.onStart()
 
-        val event: EventRes? = try {
+        val event: GetEventRes? = try {
             eventInfoViewModel.getEventInfo(eventId)
         } catch (exc: NoInfoException) {
             showErrorMessage("An error during obtaining information")

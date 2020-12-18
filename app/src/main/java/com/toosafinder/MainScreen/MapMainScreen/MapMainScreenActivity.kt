@@ -2,10 +2,17 @@ package com.toosafinder.MainScreen.MapMainScreen
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.View.inflate
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -20,6 +27,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.toosafinder.MainScreen.MapMainScreen.MapMainScreenViewModel
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.toosafinder.R
 import com.toosafinder.api.events.GetEventsRes
@@ -46,6 +54,55 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
     private lateinit var currentLocation: Location
     private val permissionCode = 101
 
+    internal inner class EventInfoWidgetAdapter : GoogleMap.InfoWindowAdapter {
+        private val window: View = layoutInflater.inflate(R.layout.event_info_window, null)
+        private val contents: View = layoutInflater.inflate(R.layout.event_info_contents, null)
+
+        override fun getInfoWindow(marker: Marker?): View {
+            if (marker != null) {
+                render(marker, window)
+            }
+            return window
+            TODO("check calling getInfoContents")
+        }
+
+        override fun getInfoContents(marker: Marker?): View {
+            if (marker != null) {
+                render(marker, window)
+            }
+            return window
+            TODO("check calling getInfoWindow")
+        }
+
+        private fun render(marker: Marker, view: View) {
+            val description: String? = marker.title
+
+            // Set the title and snippet for the custom info window
+            val title: String? = marker.title
+            val titleUi = view.findViewById<TextView>(R.id.title)
+
+            if (title != null) {
+                // Spannable string allows us to edit the formatting of the text.
+                titleUi.text = SpannableString(title).apply {
+                    setSpan(ForegroundColorSpan(Color.RED), 0, length, 0)
+                }
+            } else {
+                titleUi.text = ""
+            }
+
+            val snippet: String? = marker.snippet
+            val snippetUi = view.findViewById<TextView>(R.id.snippet)
+            if (snippet != null && snippet.length > 12) {
+                snippetUi.text = SpannableString(snippet).apply {
+                    setSpan(ForegroundColorSpan(Color.MAGENTA), 0, 10, 0)
+                    setSpan(ForegroundColorSpan(Color.BLUE), 12, snippet.length, 0)
+                }
+            } else {
+                snippetUi.text = ""
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.map_main_screen)
@@ -57,7 +114,7 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
             events.finalize(
                     onSuccess = :: showAllMarkers,
                     onError = {
-                        Log.e("Error", " " + it)
+                        Log.e("Error", it.toString())
                     }
             )
         }
@@ -76,6 +133,8 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+
+        map.setInfoWindowAdapter(EventInfoWidgetAdapter())
 
         mapMainScreenViewModel.getEvents()
 
@@ -127,13 +186,12 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
                 Log.e("Exception: %s", e.message, e)
             }
 
-
+    /**
+     * Request location permission, so that we can get the location of the
+     * device. The result of the permission request is handled by a callback,
+     * onRequestPermissionsResult.
+     */
     private fun getLocationPermission() {
-        /*
-         * Request location permission, so that we can get the location of the
-         * device. The result of the permission request is handled by a callback,
-         * onRequestPermissionsResult.
-         */
         if (ContextCompat.checkSelfPermission(this.applicationContext,
                 Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) {
