@@ -25,6 +25,26 @@ class EventInfoActivity : SecuredActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_info)
+        Log.d(EventInfoActivity.logTag, "onCreate")
+
+        eventInfoViewModel = getViewModel()
+        eventInfoViewModel.addObserver(
+            this@EventInfoActivity,
+            ::updateUI,
+                {
+                    Log.d(EventInfoActivity.logTag,"Error during getting info about event with ID = $eventId")
+                    showErrorMessage("Ups! Error during loading information about this event.")
+                })
+
+        backButton.setOnClickListener {
+            super.finish()
+        }
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(EventInfoActivity.logTag, "onStart")
 
         eventId = intent.getStringExtra(eventIdIntentTag).let {
             try {
@@ -37,33 +57,10 @@ class EventInfoActivity : SecuredActivity() {
                 Log.e(logTag, "Getting event exception")
             }
         }
+        if (eventId == -1) finish()
 
-        eventInfoViewModel = getViewModel()
-        eventInfoViewModel.receivedData
-            .observe(this@EventInfoActivity) { receivedData ->
-                Log.d(EventInfoActivity.logTag, "Data treating")
-                receivedData.finalize(
-                    onSuccess = {
-                        updateUI(it)
-                        Log.d(EventInfoActivity.logTag,"Successfully update info about event with ID = $eventId")
-                    },
-                    onError = {
-                        Log.d(EventInfoActivity.logTag,"Error during getting info about event with ID = $eventId")
-                        showErrorMessage("Ups! Error during loading information about this event.")
-                    })
-            }
-
-        backButton.setOnClickListener {
-            super.finish()
-        }
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-
+        Log.d(EventInfoActivity.logTag, "onStart(2)")
         eventInfoViewModel.getEventInfo(eventId)
-        Log.d(logTag, "Function \"onStart()\" event info start displaying")
     }
 
     private fun updateUI(event: GetEventRes) {
@@ -74,6 +71,8 @@ class EventInfoActivity : SecuredActivity() {
         }
         eventLocation.text = "Event in ${event.address} \n (${event.latitude}, ${event.longitude})."
         eventTime.text = "From ${event.startTime}"
+
+        Log.d(EventInfoActivity.logTag,"Info about event with ID = $eventId was successfully updated")
     }
 
     private fun showErrorMessage(message: String) {
