@@ -1,36 +1,32 @@
 package com.toosafinder.MainScreen.MapMainScreen
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.get
-import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.toosafinder.MainScreen.MapMainScreen.MapMainScreenViewModel
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.toosafinder.R
 import com.toosafinder.api.events.GetEventsRes
+import com.toosafinder.eventCreation.EventCreationActivity
+import kotlinx.android.synthetic.main.map_main_screen.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 
 class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
 
     companion object{
         private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
-        private const val DEFAULT_ZOOM = 15
-
+        const val DEFAULT_ZOOM = 1000
     }
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -68,7 +64,14 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
 
         fusedLocationProviderClient =  LocationServices.getFusedLocationProviderClient(this@MapMainScreenActivity)
 
-
+        buttonCreateEvent.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@MapMainScreenActivity,
+                    EventCreationActivity::class.java
+                )
+            )
+        }
 
 
     }
@@ -161,3 +164,6 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
     }
 
 }
+
+fun zoomCamera(map: GoogleMap, loc: LatLng) = map.moveCamera(CameraUpdateFactory.newLatLngZoom
+    (loc, MapMainScreenActivity.DEFAULT_ZOOM.toFloat()))

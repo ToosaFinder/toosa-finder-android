@@ -13,6 +13,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.toosafinder.MainScreen.MapMainScreen.zoomCamera
 import com.toosafinder.R
 import kotlinx.android.synthetic.main.fragment_event_creation_location_map.*
 
@@ -35,7 +36,7 @@ class EventCreationLocationMap(private val location: MutableLiveData<LatLng>) : 
         googleMap.setOnMapClickListener {
             googleMap.clear()
             googleMap.addMarker(MarkerOptions().position(it).title("Your event location"))
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(it))
+            zoomCamera(googleMap, it)
             _location = it
             buttonContinue.isEnabled = true
         }

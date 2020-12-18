@@ -27,8 +27,8 @@ class EventRepository(private val api: ApiClient) {
         participantsLimit: Int,
         startTime: java.time.LocalDateTime,
         isPublic: Boolean,
-        tags: List<String>) :
-            Option<EventCreationRes, ErrorCode?> =
+        tags: List<String>
+    ) : Option<EventCreationRes, ErrorCode?> =
         api.post<EventCreationRes>("/event", EventCreationReq(name, creator, description, address, latitude, longitude, participantsLimit, startTime, isPublic, tags), withAuth = true)
             .transform(
                 onSuccess = { Option.success(it) },

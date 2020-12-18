@@ -60,6 +60,13 @@
     <string name="button_create">Create</string>
     <string name="button_add_tag">Add tag</string>
     <string name="button_edit_tag">Save tag</string>
+    <string name="error_no_name">Please, write event name</string>
+    <string name="error_no_desc">Please, write event description</string>
+    <string name="error_no_location">Please, choose event location</string>
+    <string name="error_invalid_date">Invalid date</string>
+    <string name="error_invalid_time">Invalid time</string>
+    <string name="error_date_before">Date is overdue</string>
+    <string name="error_event_creation">Error during event creation: </string>
     <!-- GoogleMaps -->
     <string name="google_maps_key">AIzaSyDz858IAptxz1Xr0QX2eZWrQDzHQGtytMg</string>
 </resources>

@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.toosafinder.MainScreen.MapMainScreen.MapMainScreenActivity
 import com.toosafinder.R
 import com.toosafinder.eventCreation.EventCreationActivity
 import com.toosafinder.registration.RegistrationActivity
@@ -43,7 +44,6 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel.loginResult.observe(this@LoginActivity) { loginResult ->
             progressBarSending.visibility = View.INVISIBLE
-            Log.e("LoginActivity", "login error received4")
             loginResult.finalize(
                     onSuccess = ::updateUiWithUser,
                     onError = {
@@ -97,7 +97,7 @@ class LoginActivity : AppCompatActivity() {
                 "$welcome $displayName",
                 Toast.LENGTH_LONG
         ).show()
-        startActivity(Intent(this@LoginActivity, EventCreationActivity::class.java))
+        startActivity(Intent(this@LoginActivity, MapMainScreenActivity::class.java))
     }
 }
 

@@ -108,7 +108,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tagView" />
 
     <SeekBar
-        android:id="@+id/seekBar2"
+        android:id="@+id/seekBarEventSize"
         style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -155,7 +155,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView4" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/textFieldEventLocation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
@@ -168,7 +168,7 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/buttonFindLocation"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar2" />
+        app:layout_constraintTop_toBottomOf="@+id/seekBarEventSize" />
 
     <Button
         android:id="@+id/buttonFindLocation"
@@ -178,10 +178,10 @@
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:text="Find"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar2" />
+        app:layout_constraintTop_toBottomOf="@+id/seekBarEventSize" />
 
     <EditText
-        android:id="@+id/editTextDate2"
+        android:id="@+id/textFieldEventDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
@@ -190,12 +190,12 @@
         android:ems="10"
         android:hint="@string/placeholder_date"
         android:inputType="date"
-        app:layout_constraintEnd_toStartOf="@+id/editTextTime2"
+        app:layout_constraintEnd_toStartOf="@+id/textFieldEventTime"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/textFieldEventLocation" />
 
     <EditText
-        android:id="@+id/editTextTime2"
+        android:id="@+id/textFieldEventTime"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
@@ -206,8 +206,8 @@
         android:hint="@string/placeholder_time"
         android:inputType="time"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editTextDate2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintStart_toEndOf="@+id/textFieldEventDate"
+        app:layout_constraintTop_toBottomOf="@+id/textFieldEventLocation" />
 
     <TextView
         android:id="@+id/textView8"
@@ -219,16 +219,16 @@
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/font_size_big"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDate2" />
+        app:layout_constraintTop_toBottomOf="@+id/textFieldEventDate" />
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/switchIsPublic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTime2" />
+        app:layout_constraintTop_toBottomOf="@+id/textFieldEventTime" />
 
     <Button
         android:id="@+id/buttonCancelEvent"
@@ -250,6 +250,7 @@
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:backgroundTint="@color/colorDone"
+        android:enabled="false"
         android:text="@string/button_create"
         android:textSize="@dimen/font_size_normal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -276,7 +277,19 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:textColor="@color/colorError"
         android:textSize="@dimen/font_size_normal"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <ProgressBar
+        android:id="@+id/progressBarSending"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textFieldEventDate" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
