@@ -6,17 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".eventCreation.AddTagFragment">
 
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:text="@string/prompt_popular_tags"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/font_size_big"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ListView
         android:id="@+id/listViewTags"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="136dp"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="144dp"
         app:layout_constraintBottom_toTopOf="@+id/textFieldTagName"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
-
-    </ListView>
+        app:layout_constraintTop_toBottomOf="@+id/textView12"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/buttonCancel"
@@ -28,11 +45,26 @@
         app:layout_constraintEnd_toStartOf="@+id/buttonAddTag"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/textErrorMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:textColor="@color/colorError"
+        android:textSize="@dimen/font_size_normal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/textFieldTagName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <Button
         android:id="@+id/buttonAddTag"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorDone"
+        android:clickable="true"
         android:enabled="false"
         android:text="@string/button_add_tag"
         app:layout_constraintBottom_toBottomOf="parent"

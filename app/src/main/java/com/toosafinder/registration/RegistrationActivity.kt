@@ -2,15 +2,12 @@ package com.toosafinder.registration
 
 import android.content.Intent
 import android.graphics.Paint
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.toosafinder.R
 import com.toosafinder.login.LoginActivity
 import com.toosafinder.login.afterTextChanged
-import com.toosafinder.network.HTTPRes
-import com.toosafinder.registrationModule
 import com.toosafinder.utils.ErrorObserver
 import kotlinx.android.synthetic.main.content_registration.*
 import org.koin.android.viewmodel.ext.android.getViewModel

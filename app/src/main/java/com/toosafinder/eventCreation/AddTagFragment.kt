@@ -1,15 +1,25 @@
 package com.toosafinder.eventCreation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ListView
+import android.widget.*
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.LiveData
+import co.lujun.androidtagview.TagContainerLayout
 import com.toosafinder.R
+import com.toosafinder.login.afterTextChanged
+import com.toosafinder.utils.Option
 
-class AddTagFragment : DialogFragment() {
+class AddTagFragment(
+    private val viewModel: EventCreationViewModel,
+    private val tags: LiveData<MutableList<String>>,
+    private val tagView: TagContainerLayout,
+    private val editTag: Int? = null
+) : DialogFragment() {
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -18,14 +28,70 @@ class AddTagFragment : DialogFragment() {
         val view = inflater.inflate(R.layout.fragment_add_tag, container, false)
 
         val adapter = ArrayAdapter<String>(requireActivity(), android.R.layout.simple_list_item_1)
-        view.findViewById<ListView>(R.id.listViewTags).adapter = adapter
+        val tagsList = view.findViewById<ListView>(R.id.listViewTags)
+        val tagField = view.findViewById<EditText>(R.id.textFieldTagName)
+        val error = view.findViewById<TextView>(R.id.textErrorMessage)
+        val buttonAdd = view.findViewById<Button>(R.id.buttonAddTag)
+        val buttonCancel = view.findViewById<Button>(R.id.buttonCancel)
+        tagsList.adapter = adapter
+
+        viewModel.getTagsResult.observe(this, {
+            when(it) {
+                is Option.Success -> {
+                    adapter.clear()
+                    adapter.addAll(it.data)
+                }
+                is Option.Error -> {
+                    error.visibility = View.VISIBLE
+                    error.text = it.error?.toString()
+                }
+            }
+        })
+
+        tagField.afterTextChanged {
+            val tag = tagField.text.toString()
+            buttonAdd.isEnabled = when (tags.value) {
+                is MutableList<String> -> !tags.value!!.contains(tag) || editTag != null
+                else -> true
+            }
+        }
+
+        if(editTag != null) {
+            tagField.setText(tagView.getTagText(editTag))
+            buttonAdd.text = getString(R.string.button_edit_tag)
+        }
+
+        tagsList.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            tagField.setText(adapter.getItem(position))
+        }
+
+        buttonCancel.setOnClickListener {
+            close()
+        }
+
+        buttonAdd.setOnClickListener {
+            val tag = tagField.text.toString()
+            if(editTag != null) {
+                tagView.removeTag(editTag)
+            }
+            tagView.addTag(tag)
+            tags.value?.add(tag)
+            close()
+        }
+
+        viewModel.getPopularTags()
 
         return view
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onDestroyView() {
+        super.onDestroyView()
 
+        viewModel.getTagsResult.removeObservers(this)
+    }
+
+    private fun close() {
+        parentFragmentManager.beginTransaction().remove(this).commit()
     }
 
     /*class TagViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

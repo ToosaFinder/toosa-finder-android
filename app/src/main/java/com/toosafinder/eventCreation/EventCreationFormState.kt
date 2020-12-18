@@ -1,5 +1,3 @@
 package com.toosafinder.eventCreation
 
-interface EventAPI {
-
-}
+sealed class EventCreationFormState

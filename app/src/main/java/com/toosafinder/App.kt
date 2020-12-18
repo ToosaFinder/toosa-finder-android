@@ -5,6 +5,8 @@ import com.toosafinder.api.ApiClient
 import com.toosafinder.api.httpClient
 import com.toosafinder.emailConfirmation.EmailConfirmationRepository
 import com.toosafinder.emailConfirmation.EmailConfirmationViewModel
+import com.toosafinder.eventCreation.EventCreationViewModel
+import com.toosafinder.eventCreation.EventRepository
 import com.toosafinder.login.LoginRepository
 import com.toosafinder.security.UserSession
 import com.toosafinder.login.LoginViewModel
@@ -20,7 +22,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
-private const val apiBaseUrl = "http://34.66.25.137"
+private const val apiBaseUrl = "http://34.68.138.148"
 
 @KtorExperimentalAPI
 private val apiModule = module {
@@ -60,6 +62,11 @@ private val emailConfirmationModule = module {
     single { EmailConfirmationViewModel(get()) }
 }
 
+private val eventCreationModule = module {
+    single { EventRepository(get()) }
+    single { EventCreationViewModel(get()) }
+}
+
 @KtorExperimentalAPI
 class App: Application() {
     override fun onCreate(){
@@ -73,7 +80,8 @@ class App: Application() {
                 registrationModule,
                 emailForRestorationModule,
                 emailConfirmationModule,
-                securityModule
+                securityModule,
+                eventCreationModule
             )
         }
     }

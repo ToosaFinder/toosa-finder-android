@@ -16,7 +16,7 @@
     <string name="all_valid"></string>
     <string name="error_invalid_username">Not a valid username</string>
     <string name="error_invalid_password_short">Password must have at least 8 characters</string>
-    <string name="deepLinkIP">34.66.106.121</string>
+    <string name="deepLinkIP">34.68.138.148</string>
     <!-- Strings related to login -->
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">&action_sign_in_short;</string>
@@ -44,6 +44,7 @@
     <string name="prompt_size_m">M</string>
     <string name="prompt_size_l">L</string>
     <string name="prompt_size_xl">XL+</string>
+    <string name="prompt_popular_tags">Popular tags</string>
     <string name="placeholder_event_name">Your event name</string>
     <string name="placeholder_description">Description about your event</string>
     <string name="placeholder_location">Where?</string>
@@ -53,4 +54,5 @@
     <string name="button_cancel">Cancel</string>
     <string name="button_create">Create</string>
     <string name="button_add_tag">Add tag</string>
+    <string name="button_edit_tag">Save tag</string>
 </resources>

@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.toosafinder.R
+import com.toosafinder.eventCreation.EventCreationActivity
 import com.toosafinder.registration.RegistrationActivity
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationActivity
 import com.toosafinder.utils.ErrorObserver
@@ -96,6 +97,7 @@ class LoginActivity : AppCompatActivity() {
                 "$welcome $displayName",
                 Toast.LENGTH_LONG
         ).show()
+        startActivity(Intent(this@LoginActivity, EventCreationActivity::class.java))
     }
 }
 

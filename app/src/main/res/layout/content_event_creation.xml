@@ -163,6 +163,7 @@
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:autofillHints=""
         android:ems="10"
+        android:enabled="false"
         android:hint="@string/placeholder_location"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/buttonFindLocation"

@@ -48,7 +48,7 @@ dependencies {
 
     implementation("com.android.support:multidex:2.0.1")
     //TODO: брать из мевен репо
-    implementation(files("../libs/api-model-0.0.1.jar"))
+    implementation(files("../libs/api-model-0.0.2.jar"))
 
     implementation("androidx.core:core-ktx:1.3.1")
     implementation("androidx.appcompat:appcompat:1.2.0")
@@ -77,6 +77,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
 
     implementation("co.lujun:androidtagview:1.1.7")
+    implementation("com.google.maps.android:android-maps-utils:2.2.0")
+    implementation("com.google.maps.android:maps-utils-ktx:2.2.0")
 
     testImplementation("junit:junit:4.13")
 
