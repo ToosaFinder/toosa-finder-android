@@ -1,6 +1,7 @@
 package com.toosafinder.api
 
 import android.util.Log
+import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.jsonMapper
@@ -29,10 +30,7 @@ class ApiClient(
 ) {
 
     //val mapper = jacksonObjectMapper()
-    val mapper = jsonMapper{
-        addModule(kotlinModule())
-        addModule(JavaTimeModule())
-    }
+    val mapper: JsonMapper = JsonMapper.builder().findAndAddModules().build()
 
     suspend inline fun <reified T> fetch(
         method: HttpMethod,

@@ -2,17 +2,19 @@ package com.toosafinder.login
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.toosafinder.MainScreen.MapMainScreen.MapMainScreenActivity
 import com.toosafinder.R
+import com.toosafinder.eventCreation.EventCreationActivity
 import com.toosafinder.registration.RegistrationActivity
 import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationActivity
+import com.toosafinder.utils.ErrorObserver
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.progressBarSending
 import kotlinx.android.synthetic.main.activity_login.textErrorMessage
@@ -30,18 +32,18 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         loginViewModel = getViewModel()
 
-        loginViewModel.loginFormState.observe(this@LoginActivity) {
-            textErrorMessage.text = when(it) {
+        val loginErrorObserver = ErrorObserver<LoginFormState>(textErrorMessage, login, LoginFormState.Valid, {
+            when(it) {
                 is LoginFormState.InvalidLogin -> getString(R.string.error_invalid_username)
                 is LoginFormState.InvalidPassword -> getString(R.string.error_invalid_password_short)
                 is LoginFormState.Valid -> getString(R.string.all_valid)
             }
-            login.isEnabled = it is LoginFormState.Valid
-        }
+        })
+
+        loginViewModel.loginFormState.observe(this@LoginActivity, loginErrorObserver)
 
         loginViewModel.loginResult.observe(this@LoginActivity) { loginResult ->
             progressBarSending.visibility = View.INVISIBLE
-            Log.e("LoginActivity", "login error received4")
             loginResult.finalize(
                     onSuccess = ::updateUiWithUser,
                     onError = {
@@ -85,27 +87,23 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this@LoginActivity, EmailForRestorationActivity::class.java)
             startActivity(intent)
         }
-
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {
         val welcome = getString(R.string.welcome)
-        Log.d("check", "UpdateWithUser")
         val displayName = model.displayName
         Toast.makeText(
                 applicationContext,
                 "$welcome $displayName",
                 Toast.LENGTH_LONG
         ).show()
-        val intent = Intent(this@LoginActivity, MapMainScreenActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this@LoginActivity, MapMainScreenActivity::class.java))
     }
 }
 
 /**
  * Extension function to simplify setting an afterTextChanged action to EditText components.
  */
-//TODO: Можно вынести в utils
 fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
     this.addTextChangedListener(object : TextWatcher {
         override fun afterTextChanged(editable: Editable?) {
