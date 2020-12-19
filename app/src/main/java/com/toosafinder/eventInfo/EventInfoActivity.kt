@@ -8,6 +8,7 @@ import com.toosafinder.api.events.GetEventRes
 import com.toosafinder.security.SecuredActivity
 import org.koin.android.viewmodel.ext.android.getViewModel
 import kotlinx.android.synthetic.main.activity_event_info.*
+import kotlinx.android.synthetic.main.content_event_info.*
 
 /**
  * To switch to this activity you need to add
@@ -36,7 +37,11 @@ class EventInfoActivity : SecuredActivity() {
                     showErrorMessage("Ups! Error during loading information about this event.")
                 })
 
-        backButton.setOnClickListener {
+        buttonOk.setOnClickListener {
+            super.finish()
+        }
+
+        buttonCancel.setOnClickListener {
             super.finish()
         }
 
@@ -64,13 +69,17 @@ class EventInfoActivity : SecuredActivity() {
     }
 
     private fun updateUI(event: GetEventRes) {
-        eventTitle.text = "${event.name} by ${event.creator}"
-        eventDescription.text = event.description
+        textFieldEventName.text = event.name
+        textFieldEventCreator.text = event.creator
+        textFieldEventDescription.text = event.description
         for (tag in event.tags) {
             tagView.addTag(tag)
         }
-        eventLocation.text = "Event in ${event.address} \n (${event.latitude}, ${event.longitude})."
-        eventTime.text = "From ${event.startTime}"
+        textFieldEventSize.text = "Max limit ${event.participantsLimit}"
+        textViewEventLocation.text = "Event in ${event.address} \n (${event.latitude}, ${event.longitude})."
+        textFieldEventSize.text = "empty..."
+        TextViewTime.text = event.startTime.toString()
+//        textViewDate.text = event.startTime.format() toString()
 
         Log.d(EventInfoActivity.logTag,"Info about event with ID = $eventId was successfully updated")
     }
