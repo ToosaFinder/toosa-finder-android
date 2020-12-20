@@ -90,7 +90,7 @@ class EventInfoActivity : SecuredActivity() {
         }
         textFieldEventSize.text = "Max limit ${event.participantsLimit}"
         textViewEventLocation.text = "Event in ${event.address} \n (${event.latitude}, ${event.longitude})."
-        textFieldEventSize.text = "Max participants: ${event.participantsLimit}"
+        textFieldEventSize.text = event.participantsLimit.toString()
         TextViewTime.text = event.startTime.toString()
 //        textViewDate.text = event.startTime.format() toString()
 

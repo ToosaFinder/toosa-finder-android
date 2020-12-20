@@ -20,11 +20,6 @@ class EventInfoViewModel (
     private val eventInfoRepository : EventInfoRepository,
     private val eventDeletionRepository: EventDeletionRepository
 ): ViewModel() {
-
-//    private var savedInfo: MutableMap<Int, GetEventRes> = mutableMapOf<Int, GetEventRes>()
-//    private val _savedInfo = MutableLiveData<MutableMap<Int, GetEventRes>>()
-//    val savedInfo: LiveData<MutableMap<Int, GetEventRes>> = _savedInfo
-
     private val receivedData = MutableLiveData<Option<GetEventRes, GetEventErrors?>>()
 //    val receivedData: MutableLiveData<Option<GetEventRes, GetEventErrors?>> = _receivedData
     private val _deletionAnswer = MutableLiveData<UnitOption<EventDeletionErrors?>>()
@@ -79,8 +74,12 @@ class EventInfoViewModel (
             )
         }
     }
-    fun removeObserver(owner: LifecycleOwner) {
+    fun removeInfoObserver(owner: LifecycleOwner) {
         receivedData.removeObservers(owner)
+    }
+
+    fun removeDeletionObserver(owner: LifecycleOwner) {
+        deletionAnswer.removeObservers(owner)
     }
 
 }

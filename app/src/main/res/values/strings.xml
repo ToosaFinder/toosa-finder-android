@@ -82,6 +82,7 @@
     <string name="placeholder_creator_name_info">Creator name</string>
     <string name="placeholder_event_description_info">Description about event</string>
     <string name="prompt_event_location_info">Location</string>
+    <string name="prompt_event_info_time_date">Date and Time</string>
     <string name="buttonOk">Ok</string>
     <!-- GoogleMaps -->
     <string name="google_maps_key">AIzaSyDz858IAptxz1Xr0QX2eZWrQDzHQGtytMg</string>
