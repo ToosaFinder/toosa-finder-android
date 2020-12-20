@@ -33,6 +33,4 @@ class MapMainScreenViewModel(
         }
         _mapResult.value = res
     }
-
-
 }

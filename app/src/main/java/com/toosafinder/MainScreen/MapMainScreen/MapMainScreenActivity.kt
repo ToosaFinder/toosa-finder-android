@@ -3,9 +3,15 @@ package com.toosafinder.MainScreen.MapMainScreen
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+
 import android.util.Log
+import android.view.View
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
@@ -15,9 +21,11 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.toosafinder.R
 import com.toosafinder.api.events.GetEventsRes
+import com.toosafinder.eventInfo.EventInfoActivity
 import com.toosafinder.eventCreation.EventCreationActivity
 import kotlinx.android.synthetic.main.map_main_screen.*
 import org.koin.android.viewmodel.ext.android.getViewModel
@@ -39,6 +47,66 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
 
     private val TAG = "anusai"
 
+    private lateinit var currentLocation: Location
+    private val permissionCode = 101
+
+    internal inner class EventInfoWidgetAdapter : GoogleMap.InfoWindowAdapter {
+        private val window: View = layoutInflater.inflate(R.layout.event_info_window, null)
+        private val contents: View = layoutInflater.inflate(R.layout.event_info_contents, null)
+
+        override fun getInfoWindow(marker: Marker?): View {
+            if (marker != null) {
+                render(marker, window)
+            }
+            return window
+            TODO("check calling getInfoContents")
+        }
+
+        override fun getInfoContents(marker: Marker?): View {
+            if (marker != null) {
+                render(marker, window)
+            }
+            return window
+            TODO("check calling getInfoWindow")
+        }
+
+        private fun render(marker: Marker, view: View) {
+            val title: String? = marker.title
+
+            // Set the title and snippet for the custom info window
+            val titleUi = view.findViewById<TextView>(R.id.title)
+
+            if (title != null) {
+                // Spannable string allows us to edit the formatting of the text.
+                titleUi.text = SpannableString(title).apply {
+                    setSpan(ForegroundColorSpan(Color.RED), 0, length, 0)
+                }
+            } else {
+                titleUi.text = ""
+            }
+
+            val snippet: String? = marker.snippet
+            val snippetUi = view.findViewById<TextView>(R.id.snippet)
+            if (snippet != null && snippet.length > 12) {
+                snippetUi.text = SpannableString(snippet).apply {
+                    setSpan(ForegroundColorSpan(Color.MAGENTA), 0, 10, 0)
+                    setSpan(ForegroundColorSpan(Color.BLUE), 12, snippet.length, 0)
+                }
+            } else {
+                snippetUi.text = ""
+            }
+        }
+    }
+
+    internal inner class EventInfoWidgetClickListener : GoogleMap.OnInfoWindowClickListener {
+        override fun onInfoWindowClick(marker: Marker?) {
+            Log.d("EVENT_INFO", "try to go ${marker?.tag}")
+            val intent = Intent(this@MapMainScreenActivity, EventInfoActivity::class.java)
+            intent.putExtra(EventInfoActivity.eventIdIntentTag, marker?.tag.toString())
+            startActivity(intent)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.map_main_screen)
@@ -50,7 +118,7 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
             events.finalize(
                     onSuccess = :: showAllMarkers,
                     onError = {
-                        Log.e("Error", " " + it)
+                        Log.e("Error", it.toString())
                     }
             )
         }
@@ -62,7 +130,6 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
         fusedLocationProviderClient =  LocationServices.getFusedLocationProviderClient(this@MapMainScreenActivity)
 
         buttonCreateEvent.setOnClickListener {
-            Log.d(TAG,"click on knopka")
             startActivity(
                 Intent(
                     this@MapMainScreenActivity,
@@ -75,6 +142,9 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+
+        map.setInfoWindowAdapter(EventInfoWidgetAdapter())
+        map.setOnInfoWindowClickListener(EventInfoWidgetClickListener())
 
         mapMainScreenViewModel.getEvents()
 
@@ -103,7 +173,6 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
 
     override fun onResume() {
         super.onResume()
-
         mapMainScreenViewModel.getEvents()
 
         mapMainScreenViewModel.mapResult.observe(this@MapMainScreenActivity){ events ->
@@ -121,7 +190,10 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
         for(event in eventsRes.events){
             //Log.d(TAG,"Latitude" + event.latitude + "Longitude" + event.longitude)
             map.addMarker(MarkerOptions().position(LatLng(event.latitude.toDouble(),event.longitude.toDouble()))
-                .title(event.name))
+                .draggable(false)
+                .title("${event.name} by ${event.creator}")
+                .snippet( event.description))
+                .tag = event.id
         }
     }
 
