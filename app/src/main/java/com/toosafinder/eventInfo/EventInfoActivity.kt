@@ -9,6 +9,7 @@ import com.toosafinder.security.SecuredActivity
 import org.koin.android.viewmodel.ext.android.getViewModel
 import kotlinx.android.synthetic.main.activity_event_info.*
 import kotlinx.android.synthetic.main.content_event_info.*
+import org.koin.android.ext.koin.androidContext
 
 /**
  * To switch to this activity you need to add
@@ -18,7 +19,7 @@ class EventInfoActivity : SecuredActivity() {
     private lateinit var eventInfoViewModel: EventInfoViewModel
     private var eventId = -1
 //    private val tag: String = "EVENT_INFO"
-    public companion object {
+    companion object {
         const val eventIdIntentTag: String = "eventId"
         const val logTag: String = "EVENT_INFO"
     }
@@ -32,10 +33,11 @@ class EventInfoActivity : SecuredActivity() {
         eventInfoViewModel.addInfoObserver(
             this@EventInfoActivity,
             ::updateUI,
-                {
-                    Log.d(EventInfoActivity.logTag,"Error during getting info about event with ID = $eventId")
-                    showMessage("Ups! Error during loading information about this event.")
-                })
+            {
+                Log.d(EventInfoActivity.logTag,"Error during getting info about event with ID = $eventId")
+                showMessage("Ups! Error during loading information about this event.")
+            })
+
         eventInfoViewModel.addDeletionObserver(
             this@EventInfoActivity,
             {
@@ -48,17 +50,18 @@ class EventInfoActivity : SecuredActivity() {
         )
 
         buttonOk.setOnClickListener {
-            super.finish()
+            finish()
         }
 
         buttonDelete.setOnClickListener {
             eventInfoViewModel.deleteEvent(eventId)
         }
 
+        start()
     }
 
-    override fun onStart() {
-        super.onStart()
+    private fun start() {
+        //super.onStart()
         Log.d(EventInfoActivity.logTag, "onStart")
 
         eventId = intent.getStringExtra(eventIdIntentTag).let {
@@ -74,7 +77,7 @@ class EventInfoActivity : SecuredActivity() {
         }
         if (eventId == -1) finish()
 
-        Log.d(EventInfoActivity.logTag, "onStart(2)")
+        Log.d(EventInfoActivity.logTag, "onStart(2) $eventId")
         eventInfoViewModel.getEventInfo(eventId)
     }
 
@@ -87,7 +90,7 @@ class EventInfoActivity : SecuredActivity() {
         }
         textFieldEventSize.text = "Max limit ${event.participantsLimit}"
         textViewEventLocation.text = "Event in ${event.address} \n (${event.latitude}, ${event.longitude})."
-        textFieldEventSize.text = "empty..."
+        textFieldEventSize.text = "Max participants: ${event.participantsLimit}"
         TextViewTime.text = event.startTime.toString()
 //        textViewDate.text = event.startTime.format() toString()
 

@@ -100,8 +100,8 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
 
     internal inner class EventInfoWidgetClickListener : GoogleMap.OnInfoWindowClickListener {
         override fun onInfoWindowClick(marker: Marker?) {
-            Log.d("EVENT_INFO", "try to goo ${marker?.tag}")
-            val intent: Intent = Intent(this@MapMainScreenActivity, EventInfoActivity::class.java)
+            Log.d("EVENT_INFO", "try to go ${marker?.tag}")
+            val intent = Intent(this@MapMainScreenActivity, EventInfoActivity::class.java)
             intent.putExtra(EventInfoActivity.eventIdIntentTag, marker?.tag.toString())
             startActivity(intent)
         }
@@ -166,7 +166,7 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             getLocationPermission()
-        }else {
+        } else {
             showMyPosition()
         }
     }
@@ -174,24 +174,6 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
     override fun onResume() {
         super.onResume()
         mapMainScreenViewModel.getEvents()
-
-        mapMainScreenViewModel.mapResult.observe(this@MapMainScreenActivity){ events ->
-            events.finalize(
-                onSuccess = :: showAllMarkers,
-                onError = {
-                    Log.e("Error", " " + it)
-                }
-            )
-        }
-
-        buttonCreateEvent.setOnClickListener {
-            startActivity(
-                Intent(
-                    this@MapMainScreenActivity,
-                    EventCreationActivity::class.java
-                )
-            )
-        }
     }
 
     private fun showAllMarkers(eventsRes : GetEventsRes) {

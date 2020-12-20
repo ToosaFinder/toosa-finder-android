@@ -1,5 +1,6 @@
 package com.toosafinder.MainScreen.MapMainScreen
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,15 +15,14 @@ import kotlinx.coroutines.withContext
 
 class MapMainScreenViewModel(
     private val mapMainScreenRepository: MapMainScreenRepository
-) : ViewModel(){
-
+) : ViewModel() {
     private val _mapState = MutableLiveData<MapMainScreenState>()
     val mapState: LiveData<MapMainScreenState> = _mapState
 
     private val _mapResult = MutableLiveData<Option<GetEventsRes, ErrorCode?>>()
     val mapResult: LiveData<Option<GetEventsRes, ErrorCode?>> = _mapResult
 
-    fun getEvents() = viewModelScope.launchWithErrorLogging{
+    fun getEvents() = viewModelScope.launchWithErrorLogging {
         var res: Option<GetEventsRes, ErrorCode?>
         withContext(Dispatchers.IO) {
             res = mapMainScreenRepository.getEvents()/*.mapSuccess { GetEventsRes(it.events) }*/

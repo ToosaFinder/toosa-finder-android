@@ -37,7 +37,7 @@ android {
         jvmTarget = "1.8"
     }
 
-    ndkVersion = "21.3.6528147"
+    //ndkVersion = "21.3.6528147"
 }
 
 dependencies {
@@ -79,6 +79,7 @@ dependencies {
     implementation("org.koin:koin-android-ext:$koinVersion")
     implementation("androidx.core:core-ktx:+")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.2.0")
 
     implementation ("com.google.android.libraries.maps:maps:3.1.0-beta")
     implementation("com.google.android.gms:play-services-maps:17.0.0")

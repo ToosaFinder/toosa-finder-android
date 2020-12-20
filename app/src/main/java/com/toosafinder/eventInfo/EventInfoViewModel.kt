@@ -45,10 +45,14 @@ class EventInfoViewModel (
 //                Log.d(EventInfoActivity.logTag, "Bad request to ID $id")
 //            }
 //        )
-        Log.d(EventInfoActivity.logTag, "ON GET EVENT INFO")
-        receivedData.postValue(eventInfoRepository.getInfo(id))
-        Log.d(EventInfoActivity.logTag, "Data updating... (model)")
-    }
+            var res: Option<GetEventRes, GetEventErrors?>
+            withContext(Dispatchers.IO) {
+                Log.d(EventInfoActivity.logTag, "ON GET EVENT INFO")
+                res = eventInfoRepository.getInfo(id)
+                Log.d(EventInfoActivity.logTag, "Data updating... (model)")
+            }
+            receivedData.value = res
+        }
 
     fun deleteEvent(id: Int) = viewModelScope.launchWithErrorLogging {
         var res: UnitOption<EventDeletionErrors?>
@@ -75,4 +79,8 @@ class EventInfoViewModel (
             )
         }
     }
+    fun removeObserver(owner: LifecycleOwner) {
+        receivedData.removeObservers(owner)
+    }
+
 }
