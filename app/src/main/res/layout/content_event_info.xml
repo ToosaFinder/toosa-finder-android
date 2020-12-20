@@ -112,6 +112,7 @@
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:padding="@dimen/fab_margin"
         android:minHeight="@dimen/activity_vertical_margin"
+        android:background="@color/design_default_color_background"
         app:container_enable_drag="false"
         app:horizontal_interval="@dimen/fab_margin"
         app:layout_constraintStart_toStartOf="parent"
@@ -174,6 +175,18 @@
         app:layout_constraintBottom_toBottomOf="@id/textViewTwo"/>
 
     <TextView
+        android:id="@+id/textViewThree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="@string/prompt_event_info_time_date"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/font_size_big"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTwo" />
+
+    <TextView
         android:id="@+id/textViewDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -184,7 +197,7 @@
         android:hint="@string/placeholder_date"
         app:layout_constraintEnd_toStartOf="@+id/TextViewTime"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewEventLocation" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewThree" />
 
     <TextView
         android:id="@+id/TextViewTime"
@@ -198,7 +211,7 @@
         android:hint="@string/placeholder_time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textViewDate"
-        app:layout_constraintTop_toBottomOf="@+id/textViewEventLocation" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewThree" />
 
     <TextView
         android:id="@+id/textView8"
@@ -206,6 +219,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="@dimen/topOfButton"
         android:text="@string/prompt_publicity"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/font_size_big"
@@ -214,15 +228,16 @@
 
 
     <Button
-        android:id="@+id/buttonCancel"
+        android:id="@+id/buttonDelete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:background="@android:color/holo_red_light"
-        android:text="@string/button_cancel"
+        android:text="@string/button_delete"
         android:textSize="@dimen/font_size_normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonOk"
+        app:layout_constraintTop_toBottomOf="@id/textView8"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -236,7 +251,8 @@
         android:textSize="@dimen/font_size_normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonCancel" />
+        app:layout_constraintTop_toBottomOf="@id/textView8"
+        app:layout_constraintStart_toEndOf="@+id/buttonDelete" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

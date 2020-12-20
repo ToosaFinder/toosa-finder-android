@@ -1,7 +1,6 @@
 package com.toosafinder.eventCreation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +31,7 @@ class AddTagFragment(
         val tagField = view.findViewById<EditText>(R.id.textFieldTagName)
         val error = view.findViewById<TextView>(R.id.textErrorMessage)
         val buttonAdd = view.findViewById<Button>(R.id.buttonAddTag)
-        val buttonCancel = view.findViewById<Button>(R.id.buttonCancel)
+        val buttonCancel = view.findViewById<Button>(R.id.buttonDelete)
         tagsList.adapter = adapter
 
         viewModel.getTagsResult.observe(this, {
