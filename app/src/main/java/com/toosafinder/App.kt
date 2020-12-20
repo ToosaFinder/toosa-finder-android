@@ -7,6 +7,8 @@ import com.toosafinder.api.ApiClient
 import com.toosafinder.api.httpClient
 import com.toosafinder.emailConfirmation.EmailConfirmationRepository
 import com.toosafinder.emailConfirmation.EmailConfirmationViewModel
+import com.toosafinder.eventInfo.EventInfoRepository
+import com.toosafinder.eventInfo.EventInfoViewModel
 import com.toosafinder.eventCreation.EventCreationViewModel
 import com.toosafinder.eventCreation.EventRepository
 import com.toosafinder.login.LoginRepository
@@ -58,6 +60,11 @@ private val emailForRestorationModule = module {
     single { EmailForRestorationViewModel(get()) }
 }
 
+private val eventInfoModule = module {
+    single { EventInfoRepository(get()) }
+    single { EventInfoViewModel(get()) }
+}
+
 private val restorePasswordModule = module {
     single { RestorePasswordRepository(get()) }
     single { RestorePasswordViewModel(get()) }
@@ -96,6 +103,7 @@ class App: Application() {
                 registrationModule,
                 emailForRestorationModule,
                 emailConfirmationModule,
+                eventInfoModule,
                 securityModule,
                 mapMainScreenModule,
                 eventCreationModule
