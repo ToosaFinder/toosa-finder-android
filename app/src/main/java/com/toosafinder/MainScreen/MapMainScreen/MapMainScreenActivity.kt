@@ -70,10 +70,9 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
         }
 
         private fun render(marker: Marker, view: View) {
-            val description: String? = marker.title
+            val title: String? = marker.title
 
             // Set the title and snippet for the custom info window
-            val title: String? = marker.title
             val titleUi = view.findViewById<TextView>(R.id.title)
 
             if (title != null) {
@@ -167,7 +166,8 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
             Log.d(TAG,"Latitude" + event.latitude + "Longitude" + event.longitude)
             map.addMarker(MarkerOptions().position(LatLng(event.latitude.toDouble(),event.longitude.toDouble()))
                 .draggable(false)
-                .title(event.name))
+                .title("${event.name} by ${event.creator}")
+                .snippet( event.description))
                 .tag = event.id
         }
     }
