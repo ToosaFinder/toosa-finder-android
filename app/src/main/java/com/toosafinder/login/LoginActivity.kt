@@ -90,11 +90,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {
-        val welcome = getString(R.string.welcome)
         val displayName = model.displayName
         Toast.makeText(
                 applicationContext,
-                "$welcome $displayName",
+                "Welcome $displayName!",
                 Toast.LENGTH_LONG
         ).show()
         startActivity(Intent(this@LoginActivity, MapMainScreenActivity::class.java))

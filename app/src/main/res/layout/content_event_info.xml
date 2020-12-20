@@ -214,12 +214,12 @@
 
 
     <Button
-        android:id="@+id/buttonCancel"
+        android:id="@+id/buttonDelete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:background="@android:color/holo_red_light"
-        android:text="@string/button_cancel"
+        android:text="@string/button_delete"
         android:textSize="@dimen/font_size_normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonOk"
@@ -236,7 +236,7 @@
         android:textSize="@dimen/font_size_normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonCancel" />
+        app:layout_constraintStart_toEndOf="@+id/buttonDelete" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
