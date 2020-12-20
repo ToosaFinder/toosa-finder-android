@@ -9,6 +9,8 @@ import com.toosafinder.login.LoggedInUserView
 import com.toosafinder.utils.Option
 import com.toosafinder.utils.launchWithErrorLogging
 import com.toosafinder.utils.mapSuccess
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class EventInfoViewModel (
     private val eventInfoRepository : EventInfoRepository
@@ -36,10 +38,14 @@ class EventInfoViewModel (
 //                Log.d(EventInfoActivity.logTag, "Bad request to ID $id")
 //            }
 //        )
-        Log.d(EventInfoActivity.logTag, "ON GET EVENT INFO")
-        receivedData.postValue(eventInfoRepository.getInfo(id))
-        Log.d(EventInfoActivity.logTag, "Data updating... (model)")
-    }
+            var res: Option<GetEventRes, GetEventErrors?>
+            withContext(Dispatchers.IO) {
+                Log.d(EventInfoActivity.logTag, "ON GET EVENT INFO")
+                res = eventInfoRepository.getInfo(id)
+                Log.d(EventInfoActivity.logTag, "Data updating... (model)")
+            }
+            receivedData.value = res
+        }
 
     fun addObserver(owner: LifecycleOwner, successHandler: (GetEventRes) -> Unit, errorHandler: (GetEventErrors?) -> Unit) {
         receivedData.observe(owner) { data->
@@ -48,6 +54,10 @@ class EventInfoViewModel (
                 onError = errorHandler
             )
         }
+    }
+
+    fun removeObserver(owner: LifecycleOwner) {
+        receivedData.removeObservers(owner)
     }
 
 //    fun getEventInfo(id: Int): GetEventRes {

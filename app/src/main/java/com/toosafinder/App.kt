@@ -62,7 +62,7 @@ private val emailForRestorationModule = module {
 
 private val eventInfoModule = module {
     single { EventInfoRepository(get()) }
-    single { EventInfoViewModel(get()) }
+    factory { EventInfoViewModel(get()) }
 }
 
 private val restorePasswordModule = module {
@@ -87,7 +87,7 @@ private val mapMainScreenModule = module {
 
 private val eventCreationModule = module {
     single { EventRepository(get()) }
-    single { EventCreationViewModel(get()) }
+    factory { EventCreationViewModel(get()) }
 }
 
 @KtorExperimentalAPI
