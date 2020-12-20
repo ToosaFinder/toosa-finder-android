@@ -26,14 +26,15 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.toosafinder.R
 import com.toosafinder.api.events.GetEventsRes
 import com.toosafinder.eventInfo.EventInfoActivity
+import com.toosafinder.eventCreation.EventCreationActivity
+import kotlinx.android.synthetic.main.map_main_screen.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 
 class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
 
     companion object{
         private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
-        private const val DEFAULT_ZOOM = 15
-
+        const val DEFAULT_ZOOM = 1000
     }
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -127,6 +128,17 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
         mapFragment?.getMapAsync(this@MapMainScreenActivity)
 
         fusedLocationProviderClient =  LocationServices.getFusedLocationProviderClient(this@MapMainScreenActivity)
+
+        buttonCreateEvent.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@MapMainScreenActivity,
+                    EventCreationActivity::class.java
+                )
+            )
+        }
+
+
     }
 
 
@@ -189,12 +201,13 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
                 Log.e("Exception: %s", e.message, e)
             }
 
-    /**
-     * Request location permission, so that we can get the location of the
-     * device. The result of the permission request is handled by a callback,
-     * onRequestPermissionsResult.
-     */
+
     private fun getLocationPermission() {
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
         if (ContextCompat.checkSelfPermission(this.applicationContext,
                 Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) {
@@ -222,3 +235,6 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
     }
 
 }
+
+fun zoomCamera(map: GoogleMap, loc: LatLng) = map.moveCamera(CameraUpdateFactory.newLatLngZoom
+    (loc, MapMainScreenActivity.DEFAULT_ZOOM.toFloat()))

@@ -21,7 +21,7 @@
     <string name="all_valid"></string>
     <string name="error_invalid_username">Not a valid username</string>
     <string name="error_invalid_password_short">Password must have at least 8 characters</string>
-    <string name="deepLinkIP">34.66.106.121</string>
+    <string name="deepLinkIP">34.68.138.148</string>
     <!-- Strings related to login -->
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">&action_sign_in_short;</string>
@@ -40,7 +40,7 @@
     <string name="error_no_agreement">Please agree to Terms of Services and Privacy Policy</string>
     <string name="error_registration">Error during registration: </string>
     <!-- event creation -->
-    <string name="title_activity_event_creation">EventCreation</string>
+    <string name="title_activity_event_creation">Event Creation</string>
     <string name="prompt_event_name">Name</string>
     <string name="prompt_description">Description</string>
     <string name="prompt_tags">Tags</string>
@@ -49,14 +49,24 @@
     <string name="prompt_size_m">M</string>
     <string name="prompt_size_l">L</string>
     <string name="prompt_size_xl">XL+</string>
+    <string name="prompt_popular_tags">Popular tags</string>
     <string name="placeholder_event_name">Your event name</string>
     <string name="placeholder_description">Description about your event</string>
     <string name="placeholder_location">Where?</string>
     <string name="placeholder_date">Date</string>
     <string name="placeholder_time">Time</string>
+    <string name="placeholder_add_tag">Tag name</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_create">Create</string>
     <string name="button_add_tag">Add tag</string>
+    <string name="button_edit_tag">Save tag</string>
+    <string name="error_no_name">Please, write event name</string>
+    <string name="error_no_desc">Please, write event description</string>
+    <string name="error_no_location">Please, choose event location</string>
+    <string name="error_invalid_date">Invalid date</string>
+    <string name="error_invalid_time">Invalid time</string>
+    <string name="error_date_before">Date is overdue</string>
+    <string name="error_event_creation">Error during event creation: </string>
     <!-- event info -->
     <string name="title_activity_event_info">Event Info</string>
     <string name="placeholder_name_and_creator_name">Name and creator name</string>
@@ -68,11 +78,11 @@
     <string name="button_delete">Delete</string>
     <string name="button_edit">Edit</string>
     <string name="prompt_event_size">Size</string>
-    <!-- GoogleMaps -->
-    <string name="google_maps_key">AIzaSyDz858IAptxz1Xr0QX2eZWrQDzHQGtytMg</string>
     <string name="prompt_event_creator">Creator</string>
     <string name="placeholder_creator_name_info">Creator name</string>
     <string name="placeholder_event_description_info">Description about event</string>
     <string name="prompt_event_location_info">Location</string>
     <string name="buttonOk">Ok</string>
+    <!-- GoogleMaps -->
+    <string name="google_maps_key">AIzaSyDz858IAptxz1Xr0QX2eZWrQDzHQGtytMg</string>
 </resources>

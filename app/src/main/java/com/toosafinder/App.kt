@@ -1,11 +1,6 @@
 package com.toosafinder
 
 import android.app.Application
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.json.JsonMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
-import com.fasterxml.jackson.module.kotlin.jsonMapper
 import com.toosafinder.MainScreen.MapMainScreen.MapMainScreenRepository
 import com.toosafinder.MainScreen.MapMainScreen.MapMainScreenViewModel
 import com.toosafinder.api.ApiClient
@@ -14,6 +9,8 @@ import com.toosafinder.emailConfirmation.EmailConfirmationRepository
 import com.toosafinder.emailConfirmation.EmailConfirmationViewModel
 import com.toosafinder.eventInfo.EventInfoRepository
 import com.toosafinder.eventInfo.EventInfoViewModel
+import com.toosafinder.eventCreation.EventCreationViewModel
+import com.toosafinder.eventCreation.EventRepository
 import com.toosafinder.login.LoginRepository
 import com.toosafinder.security.UserSession
 import com.toosafinder.login.LoginViewModel
@@ -28,7 +25,6 @@ import io.ktor.util.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
-import java.time.LocalDateTime
 
 private const val apiBaseUrl = "http://34.68.138.148"
 
@@ -89,6 +85,11 @@ private val mapMainScreenModule = module {
     single { MapMainScreenViewModel(get()) }
 }
 
+private val eventCreationModule = module {
+    single { EventRepository(get()) }
+    single { EventCreationViewModel(get()) }
+}
+
 @KtorExperimentalAPI
 class App: Application() {
     override fun onCreate(){
@@ -104,7 +105,8 @@ class App: Application() {
                 emailConfirmationModule,
                 eventInfoModule,
                 securityModule,
-                mapMainScreenModule
+                mapMainScreenModule,
+                eventCreationModule
             )
         }
     }
