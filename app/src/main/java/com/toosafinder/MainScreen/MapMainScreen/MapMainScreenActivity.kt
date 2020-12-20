@@ -72,8 +72,6 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
                 )
             )
         }
-
-
     }
 
 
@@ -84,7 +82,7 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
 
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(20 * 1000);
+        //locationRequest.setInterval(20 * 1000);
 
         locationCallBack = object : LocationCallback() {
             override fun onLocationResult(locationResult : LocationResult?){
@@ -102,6 +100,29 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
             getLocationPermission()
         }else {
             showMyPosition()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapMainScreenViewModel.getEvents()
+
+        mapMainScreenViewModel.mapResult.observe(this@MapMainScreenActivity){ events ->
+            events.finalize(
+                onSuccess = :: showAllMarkers,
+                onError = {
+                    Log.e("Error", " " + it)
+                }
+            )
+        }
+
+        buttonCreateEvent.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@MapMainScreenActivity,
+                    EventCreationActivity::class.java
+                )
+            )
         }
     }
 
