@@ -37,15 +37,6 @@ private val apiModule = module {
         }
         ApiClient(get(), apiBaseUrl, tokenProvider)
     }
-    single {
-//        val mapper = JsonMapper.builder().addModule(JavaTimeModule())
-//        jsonMapper{
-//            addModule(JavaTimeModule())
-//        }
-//        JsonMapper.builder().findAndAddModules().build()
-//        val javaTimeModule = JavaTimeModule()
-//        javaTimeModule.addSerializer(LocalDateTime::class.java, LocalDateTimeSerializer())
-    }
 }
 
 private val loginModule = module {
@@ -80,7 +71,7 @@ private val mapMainScreenModule = module {
 
 private val eventCreationModule = module {
     single { EventRepository(get()) }
-    single { EventCreationViewModel(get()) }
+    factory { EventCreationViewModel(get()) }
 }
 
 @KtorExperimentalAPI

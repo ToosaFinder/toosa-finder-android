@@ -39,9 +39,6 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
 
     private val TAG = "anusai"
 
-    private lateinit var currentLocation: Location
-    private val permissionCode = 101
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.map_main_screen)
@@ -65,6 +62,7 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
         fusedLocationProviderClient =  LocationServices.getFusedLocationProviderClient(this@MapMainScreenActivity)
 
         buttonCreateEvent.setOnClickListener {
+            Log.d(TAG,"click on knopka")
             startActivity(
                 Intent(
                     this@MapMainScreenActivity,
@@ -105,6 +103,7 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
 
     override fun onResume() {
         super.onResume()
+
         mapMainScreenViewModel.getEvents()
 
         mapMainScreenViewModel.mapResult.observe(this@MapMainScreenActivity){ events ->
@@ -115,20 +114,12 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
                 }
             )
         }
-
-        buttonCreateEvent.setOnClickListener {
-            startActivity(
-                Intent(
-                    this@MapMainScreenActivity,
-                    EventCreationActivity::class.java
-                )
-            )
-        }
     }
 
     private fun showAllMarkers(eventsRes : GetEventsRes) {
+        map.clear()
         for(event in eventsRes.events){
-            Log.d(TAG,"Latitude" + event.latitude + "Longitude" + event.longitude)
+            //Log.d(TAG,"Latitude" + event.latitude + "Longitude" + event.longitude)
             map.addMarker(MarkerOptions().position(LatLng(event.latitude.toDouble(),event.longitude.toDouble()))
                 .title(event.name))
         }

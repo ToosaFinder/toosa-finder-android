@@ -18,6 +18,7 @@ class MapMainScreenRepository(
                 onSuccess = {
                     Log.d("check", "URA POLUCHIL KRUTA")
                     Option.success(it) },
-                onConflict = { Option.error(ErrorCode.fromString(it.code)) }
+                onConflict = {
+                    Option.error(ErrorCode.fromString(it.code)) }
             )
 }
