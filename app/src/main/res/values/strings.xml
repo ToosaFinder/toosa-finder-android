@@ -21,7 +21,7 @@
     <string name="all_valid"></string>
     <string name="error_invalid_username">Not a valid username</string>
     <string name="error_invalid_password_short">Password must have at least 8 characters</string>
-    <string name="deepLinkIP">35.222.255.162</string>
+    <string name="deepLinkIP">34.70.200.159</string>
     <!-- Strings related to login -->
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">&action_sign_in_short;</string>
@@ -31,7 +31,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="email_not_found">User not found</string>
     <string name="invalid_email_token">Email token not valid</string>
-    <string name="error_login">Error during login: </string>
+    <string name="error_login">Wrong login or password</string>
     <!-- registration -->
     <string name="prompt_agreement">I agree to the <a href="&tos_url;">Terms of Services</a> and <a href="&pp_url;">Privacy Policy</a></string>
     <string name="account_question">Have an Account? &action_sign_in_short;</string>

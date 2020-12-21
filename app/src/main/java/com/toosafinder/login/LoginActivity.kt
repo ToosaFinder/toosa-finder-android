@@ -50,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
                     onError = {
                         Log.i("LoginActivity", "login error received")
                         textErrorMessage.visibility = VISIBLE
-                        textErrorMessage.text = getString(R.string.error_login) + " " + it
+                        textErrorMessage.text = getString(R.string.error_login)
                     }
                 )
             }
