@@ -6,9 +6,11 @@ import android.widget.Toast
 import com.toosafinder.R
 import com.toosafinder.api.events.GetEventRes
 import com.toosafinder.security.SecuredActivity
+import com.toosafinder.security.UserSession
 import org.koin.android.viewmodel.ext.android.getViewModel
 import kotlinx.android.synthetic.main.activity_event_info.*
 import kotlinx.android.synthetic.main.content_event_info.*
+import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
 
 /**
@@ -93,6 +95,8 @@ class EventInfoActivity : SecuredActivity() {
         textFieldEventSize.text = event.participantsLimit.toString()
         TextViewTime.text = event.startTime.toString()
 //        textViewDate.text = event.startTime.format() toString()
+
+        buttonDelete.isEnabled = event.creator == getKoin().get<UserSession>().user()?.name
 
         Log.d(EventInfoActivity.logTag,"Info about event with ID = $eventId was successfully updated")
     }
