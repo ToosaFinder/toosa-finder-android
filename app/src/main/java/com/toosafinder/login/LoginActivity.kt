@@ -1,18 +1,25 @@
 package com.toosafinder.login
 
-import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.Button
+import android.view.View.VISIBLE
 import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.toosafinder.MainScreen.MapMainScreen.MapMainScreenActivity
 import com.toosafinder.R
+import com.toosafinder.eventCreation.EventCreationActivity
+import com.toosafinder.registration.RegistrationActivity
+import com.toosafinder.restorePassword.emailForRestoration.EmailForRestorationActivity
+import com.toosafinder.utils.ErrorObserver
+import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.progressBarSending
+import kotlinx.android.synthetic.main.activity_login.textErrorMessage
+import kotlinx.android.synthetic.main.content_registration.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 
 
@@ -24,30 +31,29 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_login)
-
-        val username = findViewById<EditText>(R.id.username)
-        val password = findViewById<EditText>(R.id.password)
-        val login = findViewById<Button>(R.id.login)
-        val loading = findViewById<ProgressBar>(R.id.loading)
-
         loginViewModel = getViewModel()
 
-        loginViewModel.loginFormState.observe(this@LoginActivity) { loginState ->
-            when(loginState){
-                is LoginFormState.Valid -> login.isEnabled = true
-                is LoginFormState.Invalid -> getString(loginState.error)
+        val loginErrorObserver = ErrorObserver<LoginFormState>(textErrorMessage, login, LoginFormState.Valid, {
+            when(it) {
+                is LoginFormState.InvalidLogin -> getString(R.string.error_invalid_username)
+                is LoginFormState.InvalidPassword -> getString(R.string.error_invalid_password_short)
+                is LoginFormState.Valid -> getString(R.string.all_valid)
             }
-        }
+        })
+
+        loginViewModel.loginFormState.observe(this@LoginActivity, loginErrorObserver)
 
         loginViewModel.loginResult.observe(this@LoginActivity) { loginResult ->
-            when(loginResult){
-                is LoginResult.Success -> updateUiWithUser(loginResult.loggedInUserView)
-                is LoginResult.Error -> showLoginFailed(loginResult.error)
+            progressBarSending.visibility = View.INVISIBLE
+            loginResult.finalize(
+                    onSuccess = ::updateUiWithUser,
+                    onError = {
+                        Log.i("LoginActivity", "login error received")
+                        textErrorMessage.visibility = VISIBLE
+                        textErrorMessage.text = getString(R.string.error_login)
+                    }
+                )
             }
-            setResult(Activity.RESULT_OK)
-            //Complete and destroy login activity once successful
-            finish()
-        }
 
         val onDataChanged = {
             loginViewModel.loginDataChanged(
@@ -56,42 +62,44 @@ class LoginActivity : AppCompatActivity() {
             )
         }
 
+        onDataChanged()
+
         username.afterTextChanged { onDataChanged() }
 
         password.apply {
             afterTextChanged { onDataChanged() }
 
-            setOnEditorActionListener { _, actionId, _ ->
-                when (actionId) {
-                    EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
-                                username.text.toString(),
-                                password.text.toString()
-                        )
-                }
-                false
-            }
-
             login.setOnClickListener {
-                loading.visibility = View.VISIBLE
+                progressBarSending.visibility = View.VISIBLE
+                textErrorMessage.text = getString(R.string.all_valid)
                 loginViewModel.login(username.text.toString(), password.text.toString())
             }
+        }
+
+        signUpButton.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@LoginActivity,
+                    RegistrationActivity::class.java
+                )
+            )
+        }
+
+        forgotPasswordButton.setOnClickListener {
+            val intent = Intent(this@LoginActivity, EmailForRestorationActivity::class.java)
+            startActivity(intent)
         }
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {
-        val welcome = getString(R.string.welcome)
         val displayName = model.displayName
-        // TODO : действия после успешного логина
         Toast.makeText(
                 applicationContext,
-                "$welcome $displayName",
+                "Welcome $displayName!",
                 Toast.LENGTH_LONG
         ).show()
+        startActivity(Intent(this@LoginActivity, MapMainScreenActivity::class.java))
     }
-
-    private fun showLoginFailed(@StringRes errorString: Int) =
-        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
 }
 
 /**
