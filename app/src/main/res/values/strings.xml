@@ -10,7 +10,7 @@
     <string name="app_name">Toosa Finder</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <string name="prompt_login">Login</string>
+    <string name="prompt_login">Login or email</string>
     <string name="prompt_password_confirmation">Password confirmation</string>
     <string name="placeholder_email">Your email address</string>
     <string name="placeholder_login">Your login (optional)</string>
