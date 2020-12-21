@@ -11,6 +11,7 @@ import com.toosafinder.eventInfo.EventInfoRepository
 import com.toosafinder.eventInfo.EventInfoViewModel
 import com.toosafinder.eventCreation.EventCreationViewModel
 import com.toosafinder.eventCreation.EventRepository
+import com.toosafinder.eventDeletion.EventDeletionRepository
 import com.toosafinder.login.LoginRepository
 import com.toosafinder.security.UserSession
 import com.toosafinder.login.LoginViewModel
@@ -53,7 +54,8 @@ private val emailForRestorationModule = module {
 
 private val eventInfoModule = module {
     single { EventInfoRepository(get()) }
-    factory { EventInfoViewModel(get()) }
+    single { EventDeletionRepository(get()) }
+    factory { EventInfoViewModel(get(), get()) }
 }
 
 private val restorePasswordModule = module {

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.MutableLiveData
 
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
@@ -54,13 +53,13 @@ class EventCreationLocationMap(private val location: MutableLiveData<LatLng>) : 
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
-        buttonCancel.setOnClickListener {
+        buttonDelete.setOnClickListener {
             parentFragmentManager.beginTransaction().remove(this).commit()
         }
         buttonContinue.setOnClickListener {
             location.value = _location
             Log.d("NEK", location.value.toString())
-            buttonCancel.callOnClick()
+            buttonDelete.callOnClick()
         }
     }
 }

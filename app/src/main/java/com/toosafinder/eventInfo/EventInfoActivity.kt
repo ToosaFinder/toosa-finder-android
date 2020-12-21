@@ -30,12 +30,22 @@ class EventInfoActivity : SecuredActivity() {
         Log.d(EventInfoActivity.logTag, "onCreate")
 
         eventInfoViewModel = getViewModel()
-        eventInfoViewModel.addObserver(
+        eventInfoViewModel.addInfoObserver(
             this@EventInfoActivity,
             ::updateUI,
             {
                 Log.d(EventInfoActivity.logTag,"Error during getting info about event with ID = $eventId")
-                showErrorMessage("Ups! Error during loading information about this event.")
+                showMessage("Ups! Error during loading information about this event.")
+            })
+
+        eventInfoViewModel.addDeletionObserver(
+            this@EventInfoActivity,
+            {
+                showMessage("Event was successfully deleted!")
+                finish()
+            },
+            {
+                showMessage(it.toString())
             }
         )
 
@@ -43,8 +53,8 @@ class EventInfoActivity : SecuredActivity() {
             finish()
         }
 
-        buttonCancel.setOnClickListener {
-            finish()
+        buttonDelete.setOnClickListener {
+            eventInfoViewModel.deleteEvent(eventId)
         }
 
         start()
@@ -58,10 +68,10 @@ class EventInfoActivity : SecuredActivity() {
             try {
                 it.toString().toInt()
             } catch (exc: NullPointerException) {
-                showErrorMessage("NullPointerError(неверный вызов активити)")
+                showMessage("NullPointerError(неверный вызов активити)")
                 Log.e(logTag, "Getting event exception")
             } catch (exc: NumberFormatException) {
-                showErrorMessage("ParsingIdError(хм..)")
+                showMessage("ParsingIdError(хм..)")
                 Log.e(logTag, "Getting event exception")
             }
         }
@@ -80,14 +90,14 @@ class EventInfoActivity : SecuredActivity() {
         }
         textFieldEventSize.text = "Max limit ${event.participantsLimit}"
         textViewEventLocation.text = "Event in ${event.address} \n (${event.latitude}, ${event.longitude})."
-        textFieldEventSize.text = "Max participants: ${event.participantsLimit}"
+        textFieldEventSize.text = event.participantsLimit.toString()
         TextViewTime.text = event.startTime.toString()
 //        textViewDate.text = event.startTime.format() toString()
 
         Log.d(EventInfoActivity.logTag,"Info about event with ID = $eventId was successfully updated")
     }
 
-    private fun showErrorMessage(message: String) {
+    private fun showMessage(message: String) {
         Toast.makeText(
             applicationContext,
             message,

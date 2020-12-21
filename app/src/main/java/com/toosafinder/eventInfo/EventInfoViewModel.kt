@@ -3,25 +3,27 @@ package com.toosafinder.eventInfo
 import android.util.Log
 import androidx.lifecycle.*
 import com.toosafinder.api.ErrorCode
+import com.toosafinder.api.events.EventDeletionErrors
 import com.toosafinder.api.events.GetEventErrors
 import com.toosafinder.api.events.GetEventRes
+import com.toosafinder.api.events.GetEventsRes
+import com.toosafinder.eventDeletion.EventDeletionRepository
 import com.toosafinder.login.LoggedInUserView
 import com.toosafinder.utils.Option
+import com.toosafinder.utils.UnitOption
 import com.toosafinder.utils.launchWithErrorLogging
 import com.toosafinder.utils.mapSuccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class EventInfoViewModel (
-    private val eventInfoRepository : EventInfoRepository
+    private val eventInfoRepository : EventInfoRepository,
+    private val eventDeletionRepository: EventDeletionRepository
 ): ViewModel() {
-
-//    private var savedInfo: MutableMap<Int, GetEventRes> = mutableMapOf<Int, GetEventRes>()
-//    private val _savedInfo = MutableLiveData<MutableMap<Int, GetEventRes>>()
-//    val savedInfo: LiveData<MutableMap<Int, GetEventRes>> = _savedInfo
-
     private val receivedData = MutableLiveData<Option<GetEventRes, GetEventErrors?>>()
 //    val receivedData: MutableLiveData<Option<GetEventRes, GetEventErrors?>> = _receivedData
+    private val _deletionAnswer = MutableLiveData<UnitOption<EventDeletionErrors?>>()
+    val deletionAnswer: LiveData<UnitOption<EventDeletionErrors?>> = _deletionAnswer
 
     fun getEventInfo(id : Int) = viewModelScope.launchWithErrorLogging {
 //        eventInfoRepository.getInfo(id).finalize(
@@ -47,7 +49,15 @@ class EventInfoViewModel (
             receivedData.value = res
         }
 
-    fun addObserver(owner: LifecycleOwner, successHandler: (GetEventRes) -> Unit, errorHandler: (GetEventErrors?) -> Unit) {
+    fun deleteEvent(id: Int) = viewModelScope.launchWithErrorLogging {
+        var res: UnitOption<EventDeletionErrors?>
+        withContext(Dispatchers.IO) {
+            res = eventDeletionRepository.deleteEvent(id)/*.mapSuccess { GetEventsRes(it.events) }*/
+        }
+        _deletionAnswer.value = res
+    }
+
+    fun addInfoObserver(owner: LifecycleOwner, successHandler: (GetEventRes) -> Unit, errorHandler: (GetEventErrors?) -> Unit) {
         receivedData.observe(owner) { data->
             data.finalize(
                 onSuccess = successHandler,
@@ -56,18 +66,20 @@ class EventInfoViewModel (
         }
     }
 
-    fun removeObserver(owner: LifecycleOwner) {
+    fun addDeletionObserver(owner: LifecycleOwner, successHandler: () -> Unit, errorHandler: (EventDeletionErrors?) -> Unit) {
+        deletionAnswer.observe(owner) { data->
+            data.finalize(
+                onSuccess = successHandler,
+                onError = errorHandler
+            )
+        }
+    }
+    fun removeInfoObserver(owner: LifecycleOwner) {
         receivedData.removeObservers(owner)
     }
 
-//    fun getEventInfo(id: Int): GetEventRes {
-//        updateEventInfo(id)
-//        val retVal: GetEventRes? = savedInfo[id]
-//        Log.d(EventInfoActivity.logTag, "Event got if \"getEventInfo()\" function $retVal, ID = $id")
-//        Log.d(EventInfoActivity.logTag, savedInfo.toString())
+    fun removeDeletionObserver(owner: LifecycleOwner) {
+        deletionAnswer.removeObservers(owner)
+    }
 
-//        return savedInfo[id] ?: throw NoInfoException(id)
-//    }
-
-//    fun parseServerAnswer(): Unit {}
 }
