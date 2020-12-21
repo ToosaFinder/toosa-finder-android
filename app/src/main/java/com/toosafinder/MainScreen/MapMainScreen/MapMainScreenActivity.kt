@@ -72,26 +72,16 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
 
         private fun render(marker: Marker, view: View) {
             val title: String? = marker.title
-
-            // Set the title and snippet for the custom info window
             val titleUi = view.findViewById<TextView>(R.id.title)
 
-            if (title != null) {
-                // Spannable string allows us to edit the formatting of the text.
-                titleUi.text = SpannableString(title).apply {
-                    setSpan(ForegroundColorSpan(Color.RED), 0, length, 0)
-                }
-            } else {
-                titleUi.text = ""
-            }
+            titleUi.text = title?:""
 
             val snippet: String? = marker.snippet
             val snippetUi = view.findViewById<TextView>(R.id.snippet)
-            if (snippet != null && snippet.length > 12) {
-                snippetUi.text = SpannableString(snippet).apply {
-                    setSpan(ForegroundColorSpan(Color.MAGENTA), 0, 10, 0)
-                    setSpan(ForegroundColorSpan(Color.BLUE), 12, snippet.length, 0)
-                }
+            if (snippet != null) {
+                snippetUi.text =
+                    if (snippet.length > 50) snippet.dropLast(snippet.length - 50) + "..."
+                    else snippet
             } else {
                 snippetUi.text = ""
             }
@@ -183,7 +173,7 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
             map.addMarker(MarkerOptions().position(LatLng(event.latitude.toDouble(),event.longitude.toDouble()))
                 .draggable(false)
                 .title("${event.name} by ${event.creator}")
-                .snippet( event.description))
+                .snippet(event.description))
                 .tag = event.id
         }
     }
