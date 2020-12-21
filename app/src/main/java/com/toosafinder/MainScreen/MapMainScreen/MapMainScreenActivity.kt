@@ -166,7 +166,7 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             getLocationPermission()
-        }else {
+        } else {
             showMyPosition()
         }
     }
@@ -174,15 +174,6 @@ class MapMainScreenActivity :  FragmentActivity(), OnMapReadyCallback {
     override fun onResume() {
         super.onResume()
         mapMainScreenViewModel.getEvents()
-
-        mapMainScreenViewModel.mapResult.observe(this@MapMainScreenActivity){ events ->
-            events.finalize(
-                onSuccess = :: showAllMarkers,
-                onError = {
-                    Log.e("Error", " " + it)
-                }
-            )
-        }
     }
 
     private fun showAllMarkers(eventsRes : GetEventsRes) {

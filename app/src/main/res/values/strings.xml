@@ -50,6 +50,7 @@
     <string name="prompt_size_l">L</string>
     <string name="prompt_size_xl">XL+</string>
     <string name="prompt_popular_tags">Popular tags</string>
+    <string name="prompt_close_event_creation">Are you sure to exit event creation?</string>
     <string name="placeholder_event_name">Your event name</string>
     <string name="placeholder_description">Description about your event</string>
     <string name="placeholder_location">Where?</string>

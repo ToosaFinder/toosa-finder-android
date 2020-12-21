@@ -1,11 +1,14 @@
 package com.toosafinder.eventCreation
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.lujun.androidtagview.TagView.OnTagClickListener
@@ -20,6 +23,7 @@ import kotlinx.android.synthetic.main.content_event_creation.*
 import kotlinx.android.synthetic.main.content_event_creation.textErrorMessage
 import org.koin.android.ext.android.getKoin
 import org.koin.android.viewmodel.ext.android.getViewModel
+import java.lang.IllegalStateException
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -118,14 +122,14 @@ class EventCreationActivity : SecuredActivity() {
         }
 
         buttonCancelEvent.setOnClickListener {
-            startMainActivity()
+            supportFragmentManager.beginTransaction().add(CloseDialog(this), "Close Dialog").commit()
         }
 
         eventCreationViewModel.eventCreationResult.observe(this@EventCreationActivity) {
             progressBarSending.visibility = View.INVISIBLE
             buttonCreateEvent.isEnabled = true
             it.finalize (
-                onSuccess = { startMainActivity() },
+                onSuccess = { finish() },
                 onError = {
                     textErrorMessage.visibility = View.VISIBLE
                     textErrorMessage.text = getString(R.string.error_event_creation) + " " + it
@@ -135,14 +139,5 @@ class EventCreationActivity : SecuredActivity() {
 
         eventCreationViewModel.eventCreationFormState.observe(this@EventCreationActivity, eventCreationErrorObserver)
     }
-
-    private fun startMainActivity() =
-        /*startActivity(
-            Intent(
-                this@EventCreationActivity,
-                MapMainScreenActivity::class.java
-            )
-        )*/
-        finish()
 
 }
