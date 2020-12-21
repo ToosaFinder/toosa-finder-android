@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.View.VISIBLE
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -48,6 +49,7 @@ class LoginActivity : AppCompatActivity() {
                     onSuccess = ::updateUiWithUser,
                     onError = {
                         Log.i("LoginActivity", "login error received")
+                        textErrorMessage.visibility = VISIBLE
                         textErrorMessage.text = getString(R.string.error_login) + " " + it
                     }
                 )
