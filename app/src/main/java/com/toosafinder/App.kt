@@ -27,7 +27,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
-private const val apiBaseUrl = "http://34.67.197.88"
+private const val apiBaseUrl = "http://34.68.138.148"
 
 @KtorExperimentalAPI
 private val apiModule = module {

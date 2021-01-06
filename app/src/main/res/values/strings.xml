@@ -21,7 +21,7 @@
     <string name="all_valid"></string>
     <string name="error_invalid_username">Not a valid username</string>
     <string name="error_invalid_password_short">Password must have at least 8 characters</string>
-    <string name="deepLinkIP">34.70.200.159</string>
+    <string name="deepLinkIP">34.222.255.162</string>
     <!-- Strings related to login -->
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">&action_sign_in_short;</string>

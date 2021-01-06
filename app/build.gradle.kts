@@ -37,7 +37,7 @@ android {
         jvmTarget = "1.8"
     }
 
-    ndkVersion = "21.3.6528147"
+    //ndkVersion = "21.3.6528147"
 }
 
 dependencies {
