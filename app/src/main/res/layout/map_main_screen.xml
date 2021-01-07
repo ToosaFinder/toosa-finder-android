@@ -14,17 +14,6 @@
         tools:context="com.example.mapwithmarker.MapsMarkerActivity"
         tools:layout_editor_absoluteX="-26dp" />
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="59dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/menu_button" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/buttonCreateEvent"
         android:layout_width="wrap_content"
@@ -37,30 +26,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/maps_btn_zoom_up_pressed" />
-
-    <ImageButton
-        android:id="@+id/imageButton3"
-        android:layout_width="59dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/settings"
-        tools:visibility="gone" />
-
-    <ImageButton
-        android:id="@+id/imageButton4"
-        android:layout_width="0dp"
-        android:layout_height="53dp"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:background="#FFFFFF"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton3"
-        app:layout_constraintStart_toEndOf="@+id/imageButton"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@android:drawable/ic_menu_search"
-        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
